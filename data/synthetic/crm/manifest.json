@@ -1,0 +1,18 @@
+{
+  "company_name": "BlueOak Home Services",
+  "seed": 20260907,
+  "period": {
+    "start_date": "2025-01-01",
+    "end_date": "2026-06-30"
+  },
+  "targets": {
+    "customers": 9000,
+    "leads": 12000
+  },
+  "generated": {
+    "customers": 9000
+  },
+  "files": {
+    "customers": "data/synthetic/crm/ground_truth/customers.parquet"
+  }
+}
