@@ -1,0 +1,25 @@
+[project]
+name = "freelance-data-portfolio"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "duckdb>=1.5.5",
+    "faker>=40.38.0",
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.3",
+    "pandas>=3.0.5",
+    "plotly>=7.0.0",
+    "polars>=1.44.1",
+    "pyarrow>=25.0.1",
+    "pydantic>=2.13.5",
+    "requests>=2.34.2",
+    "scipy>=1.18.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "mypy>=2.3.1",
+    "pytest>=9.1.1",
+    "ruff>=0.16.6",
+]
