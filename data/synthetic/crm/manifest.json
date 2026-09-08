@@ -13,14 +13,28 @@
     "customers": 9000,
     "salespeople": 4,
     "leads": 11957,
-    "estimates": 6612,
-    "jobs": 3138
+    "estimates": 6614,
+    "jobs": 3132,
+    "crm_export": {
+      "records": 12639,
+      "corruptions": 10074
+    }
   },
   "files": {
     "customers": "data/synthetic/crm/ground_truth/customers.parquet",
     "salespeople": "data/synthetic/crm/ground_truth/salespeople.parquet",
     "leads": "data/synthetic/crm/ground_truth/leads.parquet",
     "estimates": "data/synthetic/crm/ground_truth/estimates.parquet",
-    "jobs": "data/synthetic/crm/ground_truth/jobs.parquet"
+    "jobs": "data/synthetic/crm/ground_truth/jobs.parquet",
+    "crm_leads": "data/synthetic/crm/raw_exports/crm_leads.csv",
+    "crm_corruption_log": "data/synthetic/crm/ground_truth/crm_corruption_log.parquet",
+    "crm_observation_map": "data/synthetic/crm/ground_truth/crm_observation_map.parquet"
+  },
+  "corruption_rates": {
+    "phone_format": 0.7,
+    "malformed_phone": 0.03,
+    "malformed_email": 0.02,
+    "missing_source": 0.04,
+    "duplicate_record": 0.06
   }
 }

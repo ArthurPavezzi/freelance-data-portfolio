@@ -152,10 +152,10 @@ def _sample_repeat_gap(
     """
     Sample the time between genuine customer inquiries.
 
-    Genuine repeat leads must occur at least 14 days after the previous
-    inquiry. Additional waiting time follows a Gamma distribution,
-    producing a right-skewed pattern with most returns occurring after
-    several weeks or months.
+    Genuine repeat leads occur at least 14 days after the previous
+    inquiry. Additional waiting time follows a Gamma distribution.
+    The resulting interval is rounded to whole minutes to match
+    realistic CRM timestamp precision.
     """
     minimum_days = 14
 
@@ -164,8 +164,17 @@ def _sample_repeat_gap(
         scale=55.0,
     )
 
+    total_minutes = round(
+        (
+            minimum_days
+            + float(additional_days)
+        )
+        * 24
+        * 60
+    )
+
     return timedelta(
-        days=minimum_days + float(additional_days)
+        minutes=total_minutes
     )
 
 
