@@ -34,6 +34,19 @@ SERVICES = {
     "Minor Remodeling": 0.12,
 }
 
+META_CAMPAIGNS = {
+    "Meta | Home Refresh": None,
+    "Meta | Seasonal Promo": {
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+    },
+    "Meta | Free Estimate": None,
+}
+
 MONTH_WEIGHTS = {
     1: 0.75,
     2: 0.85,
@@ -181,20 +194,26 @@ def _sample_repeat_gap(
 def _campaign_for_source(
     source: str,
     service: str,
+    created_at: datetime,
     rng: np.random.Generator,
 ) -> str:
-    """Generate a plausible marketing campaign label."""
     if source == "Google Ads":
         return f"Search | {service}"
 
     if source == "Facebook Ads":
+        eligible_campaigns = [
+            campaign
+            for campaign, active_months
+            in META_CAMPAIGNS.items()
+            if (
+                active_months is None
+                or created_at.month in active_months
+            )
+        ]
+
         return str(
             rng.choice(
-                [
-                    "Meta | Home Refresh",
-                    "Meta | Seasonal Promo",
-                    "Meta | Free Estimate",
-                ]
+                eligible_campaigns
             )
         )
 
@@ -348,6 +367,7 @@ def generate_leads(
             campaign = _campaign_for_source(
                 source,
                 service,
+                created_at,
                 rng,
             )
 

@@ -10,6 +10,7 @@ from .marketing import generate_leads
 from .funnel import generate_funnel
 from .corruptions import corrupt_crm_leads
 from .marketing_export import TRACKABLE_SOURCES, generate_marketing_export
+from .marketing_spend import generate_marketing_spend
 
 OUTPUT_DIR = Path("data/synthetic/crm")
 GROUND_TRUTH_DIR = OUTPUT_DIR / "ground_truth"
@@ -56,6 +57,14 @@ def main() -> None:
         config,
     )
 
+    (
+        marketing_spend,
+        marketing_spend_truth,
+    ) = generate_marketing_spend(
+        leads,
+        config,
+    )
+
     customers_path = GROUND_TRUTH_DIR / "customers.parquet"
     salespeople_path = GROUND_TRUTH_DIR / "salespeople.parquet"
     leads_path = GROUND_TRUTH_DIR / "leads.parquet"
@@ -67,6 +76,8 @@ def main() -> None:
     marketing_leads_path = RAW_EXPORTS_DIR / "marketing_leads.csv"
     marketing_corruption_log_path = GROUND_TRUTH_DIR / "marketing_corruption_log.parquet"
     marketing_observation_map_path = GROUND_TRUTH_DIR / "marketing_observation_map.parquet"
+    marketing_spend_path = RAW_EXPORTS_DIR / "marketing_spend.csv"
+    marketing_spend_truth_path = GROUND_TRUTH_DIR / "marketing_spend_truth.parquet"
     
     customers.write_parquet(customers_path)
     salespeople.write_parquet(salespeople_path)
@@ -79,6 +90,8 @@ def main() -> None:
     marketing_leads.write_csv(marketing_leads_path)
     marketing_corruption_log.write_parquet(marketing_corruption_log_path)    
     marketing_observation_map.write_parquet(marketing_observation_map_path)
+    marketing_spend.write_csv(marketing_spend_path)
+    marketing_spend_truth.write_parquet(marketing_spend_truth_path)
 
     omitted_crm_leads = (
         crm_corruption_log
@@ -173,6 +186,29 @@ def main() -> None:
                     marketing_corruption_log.height
                 ),
             },
+            "marketing_performance": {
+                "rows": (
+                    marketing_spend.height
+                ),
+                "total_spend": round(
+                    float(
+                        marketing_spend[
+                            "spend"
+                        ].sum()
+                    ),
+                    2,
+                ),
+                "platform_conversions": int(
+                    marketing_spend[
+                        "platform_conversions"
+                    ].sum()
+                ),
+                "ground_truth_paid_leads": int(
+                    marketing_spend_truth[
+                        "ground_truth_leads"
+                    ].sum()
+                ),
+            },
         },
         "files": {
             "customers": str(customers_path),
@@ -197,6 +233,12 @@ def main() -> None:
             ),
             "marketing_observation_map": str(
                 marketing_observation_map_path
+            ),
+            "marketing_spend": str(
+                marketing_spend_path
+            ),
+            "marketing_spend_truth": str(
+                marketing_spend_truth_path
             ),
         },
         "corruption_rates": {
