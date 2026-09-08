@@ -11,10 +11,16 @@
   },
   "generated": {
     "customers": 9000,
-    "leads": 11957
+    "salespeople": 4,
+    "leads": 11957,
+    "estimates": 6612,
+    "jobs": 3138
   },
   "files": {
     "customers": "data/synthetic/crm/ground_truth/customers.parquet",
-    "leads": "data/synthetic/crm/ground_truth/leads.parquet"
+    "salespeople": "data/synthetic/crm/ground_truth/salespeople.parquet",
+    "leads": "data/synthetic/crm/ground_truth/leads.parquet",
+    "estimates": "data/synthetic/crm/ground_truth/estimates.parquet",
+    "jobs": "data/synthetic/crm/ground_truth/jobs.parquet"
   }
 }

@@ -6,6 +6,7 @@ from pathlib import Path
 from .config import SimulationConfig
 from .customers import generate_customers
 from .marketing import generate_leads
+from .funnel import generate_funnel
 
 
 OUTPUT_DIR = Path("data/synthetic/crm")
@@ -19,13 +20,29 @@ def main() -> None:
     GROUND_TRUTH_DIR.mkdir(parents=True, exist_ok=True)
 
     customers = generate_customers(config)
-    leads = generate_leads(customers, config)
+    
+    base_leads = generate_leads(
+        customers,
+        config,
+    )
+    
+    salespeople, leads, estimates, jobs = generate_funnel(
+        base_leads,
+        customers,
+        config,
+    )
 
     customers_path = GROUND_TRUTH_DIR / "customers.parquet"
+    salespeople_path = GROUND_TRUTH_DIR / "salespeople.parquet"
     leads_path = GROUND_TRUTH_DIR / "leads.parquet"
+    estimates_path = GROUND_TRUTH_DIR / "estimates.parquet"
+    jobs_path = GROUND_TRUTH_DIR / "jobs.parquet"
     
     customers.write_parquet(customers_path)
+    salespeople.write_parquet(salespeople_path)
     leads.write_parquet(leads_path)
+    estimates.write_parquet(estimates_path)
+    jobs.write_parquet(jobs_path)
 
     manifest = {
         "company_name": config.company_name,
@@ -40,11 +57,17 @@ def main() -> None:
         },
         "generated": {
             "customers": customers.height,
+            "salespeople": salespeople.height,
             "leads": leads.height,
+            "estimates": estimates.height,
+            "jobs": jobs.height,
         },
         "files": {
             "customers": str(customers_path),
+            "salespeople": str(salespeople_path),
             "leads": str(leads_path),
+            "estimates": str(estimates_path),
+            "jobs": str(jobs_path),
         },
     }
 
