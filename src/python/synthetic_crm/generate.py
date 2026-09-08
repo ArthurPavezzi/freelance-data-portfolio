@@ -9,7 +9,7 @@ from .customers import generate_customers
 from .marketing import generate_leads
 from .funnel import generate_funnel
 from .corruptions import corrupt_crm_leads
-
+from .marketing_export import TRACKABLE_SOURCES, generate_marketing_export
 
 OUTPUT_DIR = Path("data/synthetic/crm")
 GROUND_TRUTH_DIR = OUTPUT_DIR / "ground_truth"
@@ -46,6 +46,16 @@ def main() -> None:
         config,
     )
 
+    (
+        marketing_leads,
+        marketing_corruption_log,
+        marketing_observation_map,
+    ) = generate_marketing_export(
+        leads,
+        customers,
+        config,
+    )
+
     customers_path = GROUND_TRUTH_DIR / "customers.parquet"
     salespeople_path = GROUND_TRUTH_DIR / "salespeople.parquet"
     leads_path = GROUND_TRUTH_DIR / "leads.parquet"
@@ -54,6 +64,9 @@ def main() -> None:
     crm_leads_path = RAW_EXPORTS_DIR / "crm_leads.csv"
     corruption_log_path = GROUND_TRUTH_DIR / "crm_corruption_log.parquet"
     observation_map_path = GROUND_TRUTH_DIR / "crm_observation_map.parquet"
+    marketing_leads_path = RAW_EXPORTS_DIR / "marketing_leads.csv"
+    marketing_corruption_log_path = GROUND_TRUTH_DIR / "marketing_corruption_log.parquet"
+    marketing_observation_map_path = GROUND_TRUTH_DIR / "marketing_observation_map.parquet"
     
     customers.write_parquet(customers_path)
     salespeople.write_parquet(salespeople_path)
@@ -63,6 +76,9 @@ def main() -> None:
     crm_leads.write_csv(crm_leads_path)
     crm_corruption_log.write_parquet(corruption_log_path)
     crm_observation_map.write_parquet(observation_map_path)
+    marketing_leads.write_csv(marketing_leads_path)
+    marketing_corruption_log.write_parquet(marketing_corruption_log_path)    
+    marketing_observation_map.write_parquet(marketing_observation_map_path)
 
     omitted_crm_leads = (
         crm_corruption_log
@@ -71,6 +87,39 @@ def main() -> None:
             == "missing_crm_lead"
         )
         .height
+    )
+
+    trackable_true_leads = (
+        leads
+        .filter(
+            pl.col("source").is_in(
+                list(TRACKABLE_SOURCES)
+            )
+        )
+        .height
+    )
+    
+    marketing_observed_true_leads = (
+        marketing_observation_map[
+            "ground_truth_lead_id"
+        ]
+        .drop_nulls()
+        .n_unique()
+    )
+    
+    marketing_noise_records = (
+        marketing_observation_map
+        .filter(
+            pl.col("ground_truth_lead_id")
+            .is_null()
+        )
+        .height
+    )
+    
+    marketing_duplicate_records = (
+        marketing_observation_map[
+            "is_duplicate"
+        ].sum()
     )
 
     manifest = {
@@ -104,6 +153,26 @@ def main() -> None:
                             crm_corruption_log.height
                         ),
                     },
+            "marketing_export": {
+                "records": (
+                    marketing_leads.height
+                ),
+                "trackable_true_leads": (
+                    trackable_true_leads
+                ),
+                "observed_true_leads": (
+                    marketing_observed_true_leads
+                ),
+                "duplicate_records": (
+                    marketing_duplicate_records
+                ),
+                "noise_records": (
+                    marketing_noise_records
+                ),
+                "corruptions": (
+                    marketing_corruption_log.height
+                ),
+            },
         },
         "files": {
             "customers": str(customers_path),
@@ -119,6 +188,15 @@ def main() -> None:
             ),
             "crm_observation_map": str(
                 observation_map_path
+            ),
+            "marketing_leads": str(
+                marketing_leads_path
+            ),
+            "marketing_corruption_log": str(
+                marketing_corruption_log_path
+            ),
+            "marketing_observation_map": str(
+                marketing_observation_map_path
             ),
         },
         "corruption_rates": {

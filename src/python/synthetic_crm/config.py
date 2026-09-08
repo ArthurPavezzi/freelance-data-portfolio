@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class SimulationConfig:
     seed: int = 20260907
-
+    company_name: str = "BlueOak Home Services"
     start_date: str = "2025-01-01"
     end_date: str = "2026-06-30"
 
@@ -23,4 +23,11 @@ class SimulationConfig:
     malformed_email_rate: float = 0.02
     missing_crm_lead_rate: float = 0.015
 
-    company_name: str = "BlueOak Home Services"
+    # Marketing-system observation noise
+    marketing_duplicate_rate: float = 0.03
+    marketing_phone_format_rate: float = 0.55
+    marketing_name_variant_rate: float = 0.08
+    marketing_missing_email_rate: float = 0.015
+    marketing_missing_phone_rate: float = 0.025
+    marketing_test_record_rate: float = 0.005
+    marketing_spam_record_rate: float = 0.01

@@ -20,6 +20,14 @@
       "observed_true_leads": 11778,
       "omitted_true_leads": 179,
       "corruptions": 11767
+    },
+    "marketing_export": {
+      "records": 8749,
+      "trackable_true_leads": 8972,
+      "observed_true_leads": 8381,
+      "duplicate_records": 241,
+      "noise_records": 127,
+      "corruptions": 5418
     }
   },
   "files": {
@@ -30,7 +38,10 @@
     "jobs": "data/synthetic/crm/ground_truth/jobs.parquet",
     "crm_leads": "data/synthetic/crm/raw_exports/crm_leads.csv",
     "crm_corruption_log": "data/synthetic/crm/ground_truth/crm_corruption_log.parquet",
-    "crm_observation_map": "data/synthetic/crm/ground_truth/crm_observation_map.parquet"
+    "crm_observation_map": "data/synthetic/crm/ground_truth/crm_observation_map.parquet",
+    "marketing_leads": "data/synthetic/crm/raw_exports/marketing_leads.csv",
+    "marketing_corruption_log": "data/synthetic/crm/ground_truth/marketing_corruption_log.parquet",
+    "marketing_observation_map": "data/synthetic/crm/ground_truth/marketing_observation_map.parquet"
   },
   "corruption_rates": {
     "phone_format": 0.7,
