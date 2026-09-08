@@ -122,6 +122,7 @@ def test_duplicate_records_share_ground_truth_lead() -> None:
         target_customers=100,
         target_leads=130,
         duplicate_rate=1.0,
+        missing_crm_lead_rate=0.0,
     )
 
     customers = generate_customers(
@@ -195,3 +196,113 @@ def test_corruption_is_reproducible() -> None:
         assert first_df.equals(
             second_df
         )
+        
+
+def test_missing_crm_leads_are_not_observed() -> None:
+    config = SimulationConfig(
+        target_customers=500,
+        target_leads=700,
+        missing_crm_lead_rate=0.20,
+    )
+
+    customers = generate_customers(
+        config
+    )
+
+    base_leads = generate_leads(
+        customers,
+        config,
+    )
+
+    _, leads, _, _ = generate_funnel(
+        base_leads,
+        customers,
+        config,
+    )
+
+    _, log, mapping = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
+    )
+
+    omitted = set(
+        log
+        .filter(
+            pl.col("corruption_type")
+            == "missing_crm_lead"
+        )["ground_truth_lead_id"]
+        .to_list()
+    )
+
+    observed = set(
+        mapping[
+            "ground_truth_lead_id"
+        ].to_list()
+    )
+
+    assert omitted
+    assert omitted.isdisjoint(observed)
+
+
+def test_source_aliases_are_logged() -> None:
+    config = SimulationConfig(
+        target_customers=200,
+        target_leads=250,
+        missing_crm_lead_rate=0.0,
+        missing_source_rate=0.0,
+        source_alias_rate=1.0,
+    )
+
+    customers = generate_customers(config)
+    base_leads = generate_leads(customers, config)
+
+    _, leads, _, _ = generate_funnel(
+        base_leads,
+        customers,
+        config,
+    )
+
+    _, log, _ = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
+    )
+
+    aliases = log.filter(
+        pl.col("corruption_type")
+        == "source_alias"
+    )
+
+    assert aliases.height == leads.height
+
+
+def test_missing_contact_fields_are_logged() -> None:
+    config = SimulationConfig(
+        target_customers=200,
+        target_leads=250,
+        missing_phone_rate=1.0,
+        malformed_phone_rate=0.0,
+        phone_format_rate=0.0,
+        missing_email_rate=1.0,
+        malformed_email_rate=0.0,
+        missing_crm_lead_rate=0.0,
+    )
+
+    customers = generate_customers(config)
+    base_leads = generate_leads(customers, config)
+
+    _, leads, _, _ = generate_funnel(
+        base_leads,
+        customers,
+        config,
+    )
+
+    crm, _, _ = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
+    )
+
+    assert crm["phone"].null_count() == crm.height
+    assert crm["email"].null_count() == crm.height

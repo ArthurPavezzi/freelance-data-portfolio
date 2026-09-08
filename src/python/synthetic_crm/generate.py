@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import polars as pl
 from pathlib import Path
 
 from .config import SimulationConfig
@@ -63,6 +64,15 @@ def main() -> None:
     crm_corruption_log.write_parquet(corruption_log_path)
     crm_observation_map.write_parquet(observation_map_path)
 
+    omitted_crm_leads = (
+        crm_corruption_log
+        .filter(
+            pl.col("corruption_type")
+            == "missing_crm_lead"
+        )
+        .height
+    )
+
     manifest = {
         "company_name": config.company_name,
         "seed": config.seed,
@@ -82,6 +92,14 @@ def main() -> None:
             "jobs": jobs.height,
             "crm_export": {
                         "records": crm_leads.height,
+                        "observed_true_leads": (
+                            crm_observation_map[
+                                "ground_truth_lead_id"
+                            ].n_unique()
+                        ),
+                        "omitted_true_leads": (
+                            omitted_crm_leads
+                        ),
                         "corruptions": (
                             crm_corruption_log.height
                         ),
@@ -107,14 +125,26 @@ def main() -> None:
             "phone_format": (
                 config.phone_format_rate
             ),
+            "source_alias": (
+                config.source_alias_rate
+            ),
+            "missing_phone": (
+                config.missing_phone_rate
+            ),
             "malformed_phone": (
                 config.malformed_phone_rate
+            ),
+            "missing_email": (
+                config.missing_email_rate
             ),
             "malformed_email": (
                 config.malformed_email_rate
             ),
             "missing_source": (
                 config.missing_source_rate
+            ),
+            "missing_crm_lead": (
+                config.missing_crm_lead_rate
             ),
             "duplicate_record": (
                 config.duplicate_rate

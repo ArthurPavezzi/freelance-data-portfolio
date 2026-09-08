@@ -27,6 +27,65 @@ CRM_COLUMNS = [
     "funnel_stage",
 ]
 
+SOURCE_ALIASES = {
+    "Google Ads": [
+        "Google",
+        "Google PPC",
+        "GAds",
+        "Paid Search",
+    ],
+    "Facebook Ads": [
+        "Facebook",
+        "Meta Ads",
+        "FB Ads",
+        "Paid Social",
+    ],
+    "Organic Search": [
+        "Organic",
+        "SEO",
+        "Google Organic",
+    ],
+    "Referral": [
+        "Referral",
+        "Customer Referral",
+        "Ref",
+    ],
+    "Partner": [
+        "Partner",
+        "Partner Referral",
+        "Strategic Partner",
+    ],
+    "Direct": [
+        "Direct",
+        "Website Direct",
+        "Call In",
+    ],
+}
+
+
+def _alias_source(
+    source: str,
+    rng: np.random.Generator,
+) -> str:
+    """Return a plausible non-canonical CRM label for a lead source."""
+    aliases = SOURCE_ALIASES.get(source)
+
+    if not aliases:
+        return source
+
+    alternatives = [
+        alias
+        for alias in aliases
+        if alias != source
+    ]
+
+    if not alternatives:
+        return source
+
+    return str(
+        rng.choice(alternatives)
+    )
+
 
 def _format_phone(
     phone: str,
@@ -360,7 +419,7 @@ def corrupt_crm_leads(
 
     def log_corruption(
         *,
-        crm_record_id: str,
+        crm_record_id: str | None,
         lead_id: str,
         field: str,
         corruption_type: str,
@@ -407,6 +466,25 @@ def corrupt_crm_leads(
             customer_id
         ]
 
+        # ------------------------------------------------------------
+        # Lead entirely missing from CRM
+        # ------------------------------------------------------------
+
+        if (
+            rng.random()
+            < config.missing_crm_lead_rate
+        ):
+            log_corruption(
+                crm_record_id=None,
+                lead_id=lead_id,
+                field="record",
+                corruption_type="missing_crm_lead",
+                original_value=lead_id,
+                corrupted_value=None,
+            )
+
+            continue
+
         crm_record_id = next_crm_id()
 
         row: dict[str, Any] = {
@@ -446,65 +524,68 @@ def corrupt_crm_leads(
         }
 
         # ------------------------------------------------------------
-        # Actual phone corruption
+        # Phone quality / representation
         # ------------------------------------------------------------
 
-        if (
-            row["phone"] is not None
-            and rng.random()
-            < config.malformed_phone_rate
-        ):
-            original = str(
-                row["phone"]
-            )
-
-            corrupted = _corrupt_phone(
-                original,
-                rng,
-            )
-
-            row["phone"] = corrupted
-
-            log_corruption(
-                crm_record_id=crm_record_id,
-                lead_id=lead_id,
-                field="phone",
-                corruption_type=(
-                    "malformed_phone"
-                ),
-                original_value=original,
-                corrupted_value=corrupted,
-            )
-
-        # ------------------------------------------------------------
-        # Phone representation noise
-        # ------------------------------------------------------------
-
-        if (
-            row["phone"] is not None
-            and rng.random()
-            < config.phone_format_rate
-        ):
-            current_phone = str(
-                row["phone"]
-            )
-
-            digits = "".join(
-                char
-                for char in current_phone
-                if char.isdigit()
-            )
+        if row["phone"] is not None:
+            phone_draw = rng.random()
 
             if (
-                len(digits) == 11
-                and digits.startswith("1")
+                phone_draw
+                < config.missing_phone_rate
             ):
-                digits = digits[1:]
+                original = str(
+                    row["phone"]
+                )
 
-            # Only apply US formatting when we still have 10 digits.
-            if len(digits) == 10:
+                row["phone"] = None
+
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="phone",
+                    corruption_type="missing_phone",
+                    original_value=original,
+                    corrupted_value=None,
+                )
+
+            elif (
+                phone_draw
+                < (
+                    config.missing_phone_rate
+                    + config.malformed_phone_rate
+                )
+            ):
+                original = str(
+                    row["phone"]
+                )
+
+                corrupted = _corrupt_phone(
+                    original,
+                    rng,
+                )
+
+                row["phone"] = corrupted
+
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="phone",
+                    corruption_type="malformed_phone",
+                    original_value=original,
+                    corrupted_value=corrupted,
+                )
+
+            elif (
+                rng.random()
+                < config.phone_format_rate
+            ):
+                original = str(
+                    row["phone"]
+                )
+
                 formatted = _format_phone(
-                    digits,
+                    original,
                     rng,
                 )
 
@@ -514,87 +595,130 @@ def corrupt_crm_leads(
                     crm_record_id=crm_record_id,
                     lead_id=lead_id,
                     field="phone",
-                    corruption_type=(
-                        "phone_format"
-                    ),
-                    original_value=(
-                        current_phone
-                    ),
+                    corruption_type="phone_format",
+                    original_value=original,
                     corrupted_value=formatted,
                 )
 
         # ------------------------------------------------------------
-        # Email typo
+        # Email quality
         # ------------------------------------------------------------
 
-        if (
-            row["email"] is not None
-            and rng.random()
-            < config.malformed_email_rate
-        ):
-            original = str(
-                row["email"]
-            )
+        if row["email"] is not None:
+            email_draw = rng.random()
 
-            corrupted = _corrupt_email(
-                original,
-                rng,
-            )
+            if (
+                email_draw
+                < config.missing_email_rate
+            ):
+                original = str(
+                    row["email"]
+                )
 
-            row["email"] = corrupted
+                row["email"] = None
 
-            log_corruption(
-                crm_record_id=crm_record_id,
-                lead_id=lead_id,
-                field="email",
-                corruption_type=(
-                    "malformed_email"
-                ),
-                original_value=original,
-                corrupted_value=corrupted,
-            )
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="email",
+                    corruption_type="missing_email",
+                    original_value=original,
+                    corrupted_value=None,
+                )
+
+            elif (
+                email_draw
+                < (
+                    config.missing_email_rate
+                    + config.malformed_email_rate
+                )
+            ):
+                original = str(
+                    row["email"]
+                )
+
+                corrupted = _corrupt_email(
+                    original,
+                    rng,
+                )
+
+                row["email"] = corrupted
+
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="email",
+                    corruption_type="malformed_email",
+                    original_value=original,
+                    corrupted_value=corrupted,
+                )
 
         # ------------------------------------------------------------
-        # Missing source
+        # Source quality / representation
         # ------------------------------------------------------------
 
-        if (
-            row["source"] is not None
-            and rng.random()
-            < config.missing_source_rate
-        ):
-            original = str(
-                row["source"]
-            )
+        if row["source"] is not None:
+            source_draw = rng.random()
 
-            row["source"] = None
+            if (
+                source_draw
+                < config.missing_source_rate
+            ):
+                original = str(
+                    row["source"]
+                )
 
-            log_corruption(
-                crm_record_id=crm_record_id,
-                lead_id=lead_id,
-                field="source",
-                corruption_type=(
-                    "missing_source"
-                ),
-                original_value=original,
-                corrupted_value=None,
-            )
+                row["source"] = None
+
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="source",
+                    corruption_type="missing_source",
+                    original_value=original,
+                    corrupted_value=None,
+                )
+
+            elif (
+                source_draw
+                < (
+                    config.missing_source_rate
+                    + config.source_alias_rate
+                )
+            ):
+                original = str(
+                    row["source"]
+                )
+
+                aliased = _alias_source(
+                    original,
+                    rng,
+                )
+
+                row["source"] = aliased
+
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field="source",
+                    corruption_type="source_alias",
+                    original_value=original,
+                    corrupted_value=aliased,
+                )
+
+        # ------------------------------------------------------------
+        # Store original CRM observation
+        # ------------------------------------------------------------
 
         crm_rows.append(row)
-
+        
         mapping_rows.append(
             {
                 "crm_record_id": crm_record_id,
-                "ground_truth_lead_id": (
-                    lead_id
-                ),
-                "ground_truth_customer_id": (
-                    customer_id
-                ),
+                "ground_truth_lead_id": lead_id,
+                "ground_truth_customer_id": customer_id,
                 "is_duplicate": False,
-                "duplicate_of_crm_record_id": (
-                    None
-                ),
+                "duplicate_of_crm_record_id": None,
             }
         )
 

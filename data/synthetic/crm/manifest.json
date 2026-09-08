@@ -16,8 +16,10 @@
     "estimates": 6614,
     "jobs": 3132,
     "crm_export": {
-      "records": 12639,
-      "corruptions": 10074
+      "records": 12499,
+      "observed_true_leads": 11778,
+      "omitted_true_leads": 179,
+      "corruptions": 11767
     }
   },
   "files": {
@@ -32,9 +34,13 @@
   },
   "corruption_rates": {
     "phone_format": 0.7,
+    "source_alias": 0.12,
+    "missing_phone": 0.02,
     "malformed_phone": 0.03,
+    "missing_email": 0.025,
     "malformed_email": 0.02,
     "missing_source": 0.04,
+    "missing_crm_lead": 0.015,
     "duplicate_record": 0.06
   }
 }
