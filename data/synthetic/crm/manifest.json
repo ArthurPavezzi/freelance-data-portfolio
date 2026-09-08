@@ -10,9 +10,11 @@
     "leads": 12000
   },
   "generated": {
-    "customers": 9000
+    "customers": 9000,
+    "leads": 11957
   },
   "files": {
-    "customers": "data/synthetic/crm/ground_truth/customers.parquet"
+    "customers": "data/synthetic/crm/ground_truth/customers.parquet",
+    "leads": "data/synthetic/crm/ground_truth/leads.parquet"
   }
 }

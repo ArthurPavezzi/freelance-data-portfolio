@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .config import SimulationConfig
 from .customers import generate_customers
+from .marketing import generate_leads
 
 
 OUTPUT_DIR = Path("data/synthetic/crm")
@@ -18,9 +19,13 @@ def main() -> None:
     GROUND_TRUTH_DIR.mkdir(parents=True, exist_ok=True)
 
     customers = generate_customers(config)
+    leads = generate_leads(customers, config)
 
     customers_path = GROUND_TRUTH_DIR / "customers.parquet"
+    leads_path = GROUND_TRUTH_DIR / "leads.parquet"
+    
     customers.write_parquet(customers_path)
+    leads.write_parquet(leads_path)
 
     manifest = {
         "company_name": config.company_name,
@@ -35,9 +40,11 @@ def main() -> None:
         },
         "generated": {
             "customers": customers.height,
+            "leads": leads.height,
         },
         "files": {
             "customers": str(customers_path),
+            "leads": str(leads_path),
         },
     }
 
@@ -53,6 +60,7 @@ def main() -> None:
     print(f"Period: {config.start_date} → {config.end_date}")
     print()
     print(f"Customers: {customers.height:,}")
+    print(f"Leads: {leads.height:,}")
 
 
 if __name__ == "__main__":

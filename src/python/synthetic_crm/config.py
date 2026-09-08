@@ -10,6 +10,7 @@ class SimulationConfig:
 
     target_customers: int = 9_000
     target_leads: int = 12_000
+    lead_censoring_adjustment: float = 1.45
 
     duplicate_rate: float = 0.06
     missing_source_rate: float = 0.04
