@@ -63,6 +63,133 @@ SOURCE_ALIASES = {
 }
 
 
+def _corrupt_name(
+    name: str,
+    rng: np.random.Generator,
+) -> str:
+    if len(name) < 4:
+        return name
+
+    variants: list[str] = []
+
+    parts = name.split()
+
+    # Drop a character.
+    idx = int(
+        rng.integers(
+            1,
+            len(name) - 1,
+        )
+    )
+
+    variants.append(
+        name[:idx]
+        + name[idx + 1:]
+    )
+
+    # Swap adjacent characters.
+    idx = int(
+        rng.integers(
+            0,
+            len(name) - 1,
+        )
+    )
+
+    chars = list(name)
+
+    chars[idx], chars[idx + 1] = (
+        chars[idx + 1],
+        chars[idx],
+    )
+
+    variants.append(
+        "".join(chars)
+    )
+
+    # Initial + surname.
+    if len(parts) >= 2:
+        variants.append(
+            f"{parts[0][0]}. "
+            f"{' '.join(parts[1:])}"
+        )
+
+    return str(
+        rng.choice(variants)
+    )
+
+
+def _corrupt_zip(
+    zip_code: str,
+    rng: np.random.Generator,
+) -> str:
+    digits = list(
+        str(zip_code)
+    )
+
+    if len(digits) != 5:
+        return str(zip_code)
+
+    corruption = str(
+        rng.choice(
+            [
+                "swap",
+                "replace",
+                "drop",
+            ]
+        )
+    )
+
+    if corruption == "swap":
+        idx = int(
+            rng.integers(
+                0,
+                4,
+            )
+        )
+
+        digits[idx], digits[idx + 1] = (
+            digits[idx + 1],
+            digits[idx],
+        )
+
+        return "".join(digits)
+
+    if corruption == "replace":
+        idx = int(
+            rng.integers(
+                0,
+                5,
+            )
+        )
+
+        original = digits[idx]
+
+        alternatives = [
+            str(x)
+            for x in range(10)
+            if str(x) != original
+        ]
+
+        digits[idx] = str(
+            rng.choice(
+                alternatives
+            )
+        )
+
+        return "".join(digits)
+
+    idx = int(
+        rng.integers(
+            0,
+            5,
+        )
+    )
+
+    del digits[idx]
+
+    return "".join(digits)
+
+    
 def _alias_source(
     source: str,
     rng: np.random.Generator,
@@ -392,6 +519,10 @@ def corrupt_crm_leads(
         config.seed + 3
     )
 
+    hard_rng = np.random.default_rng(
+        config.seed + 30
+    )
+
     customer_lookup = {
         row["customer_id"]: row
         for row in customers.iter_rows(
@@ -704,6 +835,86 @@ def corrupt_crm_leads(
                     corruption_type="source_alias",
                     original_value=original,
                     corrupted_value=aliased,
+                )
+
+        if (
+            hard_rng.random()
+            < config.crm_hard_identity_rate
+        ):
+            selected_fields: list[str] = []
+        
+            # Exact email matching must fail.
+            if row["email"] is not None:
+                selected_fields.append(
+                    "email"
+                )
+        
+            # Exact phone matching must fail.
+            if row["phone"] is not None:
+                selected_fields.append(
+                    "phone"
+                )
+        
+            # Break the name + ZIP fallback.
+            secondary_fields = [
+                field
+                for field in [
+                    "name",
+                    "zip_code",
+                ]
+                if row[field] is not None
+            ]
+        
+            if secondary_fields:
+                selected_fields.append(
+                    str(
+                        hard_rng.choice(
+                            secondary_fields
+                        )
+                    )
+                )
+        
+            for field in selected_fields:
+                original = row[field]
+        
+                if field == "name":
+                    corrupted = _corrupt_name(
+                        str(original),
+                        hard_rng,
+                    )
+        
+                elif field == "email":
+                    corrupted = _corrupt_email(
+                        str(original),
+                        hard_rng,
+                    )
+        
+                elif field == "phone":
+                    corrupted = _corrupt_phone(
+                        str(original),
+                        hard_rng,
+                    )
+        
+                elif field == "zip_code":
+                    corrupted = _corrupt_zip(
+                        str(original),
+                        hard_rng,
+                    )
+        
+                else:
+                    continue
+        
+                row[field] = corrupted
+        
+                log_corruption(
+                    crm_record_id=crm_record_id,
+                    lead_id=lead_id,
+                    field=field,
+                    corruption_type=(
+                        "hard_identity_corruption"
+                    ),
+                    original_value=original,
+                    corrupted_value=corrupted,
                 )
 
         # ------------------------------------------------------------

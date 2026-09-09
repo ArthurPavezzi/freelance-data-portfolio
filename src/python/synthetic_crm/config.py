@@ -13,7 +13,8 @@ class SimulationConfig:
     lead_censoring_adjustment: float = 1.45
 
     duplicate_rate: float = 0.06
-    
+
+    # CRM noise
     missing_source_rate: float = 0.04
     source_alias_rate: float = 0.12
     phone_format_rate: float = 0.70
@@ -22,7 +23,8 @@ class SimulationConfig:
     missing_email_rate: float = 0.025
     malformed_email_rate: float = 0.02
     missing_crm_lead_rate: float = 0.015
-
+    crm_hard_identity_rate: float = 0.04
+    
     # Marketing-system observation noise
     marketing_duplicate_rate: float = 0.03
     marketing_phone_format_rate: float = 0.55

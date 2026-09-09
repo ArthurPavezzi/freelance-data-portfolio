@@ -19,7 +19,7 @@
       "records": 12499,
       "observed_true_leads": 11778,
       "omitted_true_leads": 179,
-      "corruptions": 11767
+      "corruptions": 13146
     },
     "marketing_export": {
       "records": 8749,

@@ -306,3 +306,71 @@ def test_missing_contact_fields_are_logged() -> None:
 
     assert crm["phone"].null_count() == crm.height
     assert crm["email"].null_count() == crm.height
+
+def test_hard_identity_corruption_affects_multiple_fields() -> None:
+    config = SimulationConfig(
+        target_customers=100,
+        target_leads=150,
+    
+        duplicate_rate=0.0,
+        missing_source_rate=0.0,
+        source_alias_rate=0.0,
+    
+        missing_phone_rate=0.0,
+        malformed_phone_rate=0.0,
+        phone_format_rate=0.0,
+    
+        missing_email_rate=0.0,
+        malformed_email_rate=0.0,
+    
+        missing_crm_lead_rate=0.0,
+    
+        crm_hard_identity_rate=1.0,
+    )
+
+    customers = generate_customers(
+        config
+    )
+
+    base_leads = generate_leads(
+        customers,
+        config,
+    )
+
+    _, leads, _, _ = generate_funnel(
+        base_leads,
+        customers,
+        config,
+    )
+
+    _, corruption_log, _ = (
+        corrupt_crm_leads(
+            leads,
+            customers,
+            config,
+        )
+    )
+
+    hard = corruption_log.filter(
+        pl.col("corruption_type")
+        == "hard_identity_corruption"
+    )
+
+    assert hard.height > 0
+
+    per_record = (
+        hard
+        .group_by("crm_record_id")
+        .agg(
+            pl.col("field")
+            .n_unique()
+            .alias("n_fields")
+        )
+    )
+
+    assert (
+        per_record[
+            "n_fields"
+        ].min()
+        >= 2
+    )
