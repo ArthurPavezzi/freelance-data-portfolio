@@ -15,11 +15,13 @@ dependencies = [
     "rapidfuzz>=3.14.6",
     "requests>=2.34.2",
     "scipy>=1.18.1",
+    "xlrd>=2.0.2",
 ]
 
 [dependency-groups]
 dev = [
     "ipykernel>=7.3.0",
+    "jupytext>=1.19.5",
     "mypy>=2.3.1",
     "pytest>=9.1.1",
     "ruff>=0.16.6",
