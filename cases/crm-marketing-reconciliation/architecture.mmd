@@ -1,0 +1,25 @@
+flowchart TD
+    A[Raw CRM export] --> N[Normalization]
+    B[Marketing lead export] --> N
+    C[Marketing spend export] --> K[Business KPI layer]
+
+    N --> E[Deterministic exact matching]
+    E --> F[Fuzzy candidate generation]
+    F --> R[Confidence thresholds]
+    R -->|Auto-match| G[Connected-component clustering]
+    R -->|Ambiguous| H[Manual review queue]
+
+    G --> L[Unified lead ledger]
+    L --> T[Triage]
+    T --> D[Within-system singleton deduplication]
+    D --> U[Reconstructed acquisition universe]
+    U --> K
+
+    K --> O[Client-facing reconciliation reports]
+
+    X[Hidden synthetic ground truth] -. evaluation only .-> V[Internal validation]
+    U -. benchmark .-> V
+    V --> M[Recall, entity validity, attribution & KPI error]
+
+    classDef truth stroke-dasharray: 5 5;
+    class X,V,M truth;

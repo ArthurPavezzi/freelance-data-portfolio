@@ -1,0 +1,3 @@
+channel,spend,platform_conversions,crm_confirmed_leads,reconstructed_leads,hidden_true_leads,platform_cpl,crm_confirmed_cpl,reconstructed_cpl,hidden_true_cpl,platform_cpl_error_pct,reconstructed_cpl_error_pct
+Facebook Ads,150231.89,1989,1745,1820,1823,75.53,86.09,82.54,82.41,-8.3459,0.1648
+Google Ads,445174.2,3608,3345,3449,3458,123.39,133.09,129.07,128.74,-4.1574,0.2609
