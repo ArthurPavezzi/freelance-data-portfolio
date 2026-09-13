@@ -1,0 +1,1026 @@
+system,record_id,timestamp,name,email,phone,zip_code,source,campaign,service
+crm,CRM0010466,2025-01-01T16:52:00.000000,Bethany Park,bethanypark@example.com,726 594 9498,78232,Direct,Direct,Interior Painting
+crm,CRM0005630,2025-01-02T13:10:00.000000,Christopher Warren,cwarrren@example.org,7262 06 9016,8240,Direct,Direct,Drywall Repair
+crm,CRM0002849,2025-01-09T12:12:00.000000,Thomas Avila,thomasavila@example.net,+1 (210) 269-9699,78213,,Customer Referral,Cabinet Painting
+crm,CRM0000619,2025-01-09T13:41:00.000000,Jennifer Williams,jennifer.williams11@example.org,+1 (210) 490-3837,78201,Organic Search,Organic Search,Drywall Repair
+crm,CRM0010413,2025-01-10T10:35:00.000000,Holly Rodriguez,hollyrodriguez@example.net,2109295441,78213,,Local Contractor,Cabinet Painting
+crm,CRM0009728,2025-01-11T11:39:00.000000,Jason Olsen,jason.olsen49@example.net,(726) 963-0771,78240,Organic Search,Organic Search,Exterior Painting
+crm,CRM0011386,2025-01-12T06:49:00.000000,Douglas Butler,douglasbutler@example.net,+1 210 923 1491,78209,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008709,2025-01-12T08:26:00.000000,Melissa Garrison,melissa.garrison6250@example.net,2105282547,78230,Direct,Direct,Minor Remodeling
+crm,CRM0003665,2025-01-12T10:45:00.000000,Barry Mason,barrymason@example.com,+1 (210) 686-1354,78232,Direct,Direct,Minor Remodeling
+crm,CRM0006023,2025-01-14T10:09:00.000000,Jason Clarke,jason.clarke50@example.com,2103996492,78217,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0008054,2025-01-14T22:48:00.000000,Mark Jones,markjones@example.net,7266974494,78213,,Realtor Network,Exterior Painting
+crm,CRM0003768,2025-01-15T17:30:00.000000,Devin Cooper,dcooper@example.net,(726) 966-4646,78209,,Local Contractor,Interior Painting
+crm,CRM0012096,2025-01-16T12:18:00.000000,todd smith,,(210) 975-8166,78216,,Realtor Network,Exterior Painting
+crm,CRM0012095,2025-01-16T12:18:00.000000,Todd Smith,,(210) 975-8166,78216,,Realtor Network,Exterior Painting
+crm,CRM0005790,2025-01-18T14:31:00.000000,Jacob Bradley,jacobbradley@example.org,+1 210 860 0668,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0009713,2025-01-24T15:00:00.000000,Donna Sanchez,donnasanchez@example.com,7267679032,78228,Facebook Ads,Meta | Free Estimate,Drywall Repair
+crm,CRM0005786,2025-01-24T17:33:00.000000,Vicki Perry,vickiperry@example.net,+1 (726) 323-8083,78232,Direct,Direct,Interior Painting
+crm,CRM0007220,2025-01-25T09:50:00.000000,Cheryl Pruitt,cherylpruitt@example.com,7263275531,78209,Direct,Direct,Minor Remodeling
+crm,CRM0002187,2025-01-27T11:55:00.000000,Allison Smith,allisonsmith@example.org,+1 210 890 8899,78209,Direct,Direct,Drywall Repair
+crm,CRM0000501,2025-01-27T19:32:00.000000,Scott Yates,syates@example.org,7264947178,78216,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+crm,CRM0011616,2025-01-31T19:24:00.000000,Daniel Gonzalez,daniel.gonzalez@example.net,+1 (210) 970-6083,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0003423,2025-02-04T11:58:00.000000,Nicholas Hawkins,,+1 210 414 1751,78213,Direct,Direct,Drywall Repair
+crm,CRM0003422,2025-02-04T11:58:00.000000,Nicholas Hawkins,,+1 210 414 1751,78213,Direct,Direct,Drywall Repair
+crm,CRM0010700,2025-02-04T18:11:00.000000,Jason Burton,jasonburton@example.org,726 296 3512,78230,Direct,Direct,Drywall Repair
+crm,CRM0000623,2025-02-04T20:47:00.000000,J. Arroyo,,26-230-9462,78209,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0007275,2025-02-05T08:00:00.000000,Haley Garcia,hgarcia@example.com,726-534-2136,78209,Direct,Direct,Drywall Repair
+crm,CRM0001406,2025-02-07T06:19:00.000000,Lauren Brown,lauren.brown@example.org,7269147900,78213,Organic Search,Organic Search,Interior Painting
+crm,CRM0007016,2025-02-07T14:47:00.000000,Matthew Montes,mmontes@example.org,2106821250,78209,Organic Search,Organic Search,Exterior Painting
+crm,CRM0003212,2025-02-08T09:21:00.000000,Michael Morales,mmorales@example.net,+1 (210) 787-6587,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0005525,2025-02-10T02:38:00.000000,Nicholas Nguyen,nicholas.nguyen@example.net,2109253856,78201,Direct,Direct,Interior Painting
+crm,CRM0002302,2025-02-10T07:50:00.000000,Michael Martin,mmartin@example.org,210 926 3061,78209,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0006478,2025-02-11T20:54:00.000000,Reginald Foster,,210 370 3770,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0006854,2025-02-13T03:31:00.000000,Donna Glover,donnaglover@example.com,+1 (210) 201-0729,78230,,Organic Search,Drywall Repair
+crm,CRM0011513,2025-02-13T18:39:00.000000,Sean Willis,seanwillis@example.org,(726) 987-2222,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0012323,2025-02-13T20:42:00.000000,Candace Murphy,candace.murphy@example.net,210 810 6929,78216,,Realtor Network,Cabinet Painting
+crm,CRM0005895,2025-02-14T17:47:00.000000,Alicia Hoover,alicia.hoover@example.org,2106259392,78217,,Organic Search,Drywall Repair
+crm,CRM0003051,2025-02-19T09:13:00.000000,Abigail Bird,abigailbird@example.org,210-657-1028,78201,Direct,Direct,Cabinet Painting
+crm,CRM0004221,2025-02-19T12:40:00.000000,Edward Huynh,edward.huynh10@example.com,+1 210 774 2159,78240,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0011098,2025-02-20T14:34:00.000000,Melanie Young,melanieyoung@example.net,210-399-9987,78230,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0007204,2025-02-25T13:23:00.000000,Thomas Carroll,tcarroll@example.net,2102221676,78228,,Customer Referral,Drywall Repair
+crm,CRM0007188,2025-02-27T11:41:00.000000,Michael Stephenson,mstephenson@example.com,+1 726 267 0973,78232,Direct,Direct,Drywall Repair
+crm,CRM0001630,2025-02-27T15:31:00.000000,Michael Rodriguez,Mrodriguez@example.com,+1 210 419 8563,78216,Organic Search,Organic Search,Drywall Repair
+crm,CRM0001629,2025-02-27T15:31:00.000000,Michael Rodriguez,mrodriguez@example.com,+1 210 419 8563,78216,Organic Search,Organic Search,Drywall Repair
+crm,CRM0010822,2025-02-27T17:49:00.000000,Janet Smith,janet.smith@example.org,+1 (210) 414-9328,78228,Direct,Direct,Minor Remodeling
+crm,CRM0002125,2025-03-03T16:29:00.000000,Kayla Clark,kaylaclark@example.net,+1 (726) 295-4027,78232,Direct,Direct,Interior Painting
+crm,CRM0010141,2025-03-04T06:03:00.000000,Donald Sanders,donald.sanders@example.com,2104907164,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0006757,2025-03-05T20:22:00.000000,Allen Valentine,alllen.valentine@example.net,(210) 554-7815,78240,Direct,Direct,Minor Remodeling
+crm,CRM0005947,2025-03-06T12:30:00.000000,Robert Fowler,robert.fowler@example.org,+1 (210) 502-1524,78230,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0006924,2025-03-06T16:18:00.000000,Shannon Stone,sstone@example.net,726 571 5145,78230,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0000061,2025-03-07T10:15:00.000000,Garrett Garcia,garrettgarcia@example.org,210 318 3205,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0012284,2025-03-08T13:42:00.000000,Sheri Rodriguez,sherirodriguez@example.com,(210) 346-9383,78228,Facebook Ads,Meta | Free Estimate,Interior Painting
+crm,CRM0005963,2025-03-08T20:40:00.000000,Stephen Wells,swells@example.net,726-801-5196,78229,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008449,2025-03-10T07:55:00.000000,Kimberly Lara,kimberly.lara42@example.org,7269815482,78201,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0009867,2025-03-10T15:14:00.000000,Jocelyn Waters,jocelyn.waters@example.com,(210) 522-7757,78201,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008479,2025-03-11T20:09:00.000000,Todd Vargas,toddvargas@example.com,+1 726 349 4816,78201,Organic Search,Organic Search,Interior Painting
+crm,CRM0008160,2025-03-12T04:18:00.000000,Elizabeth Knight,eknight@example.org,7264195080,78240,,Realtor Network,Cabinet Painting
+crm,CRM0008213,2025-03-13T06:07:00.000000,John Bean,johnbean@example.com,+1 726 456 4689,78228,Direct,Direct,Exterior Painting
+crm,CRM0011285,2025-03-13T09:40:00.000000,Robert Phelps,robert.phelps8113@example.net,(210) 801-0543,78228,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0003714,2025-03-16T04:13:00.000000,Stephanie Mcmillan,stephanie.mcmillan49@example.com,726 996 8605,78229,,Customer Referral,Cabinet Painting
+crm,CRM0002789,2025-03-17T02:54:00.000000,David Freeman,david.freeman24@example.net,726 436 6526,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0007705,2025-03-18T22:30:00.000000,Lisa Ryan,lisa.ryan@example.org,2106153296,78229,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0002392,2025-03-19T09:01:00.000000,Dale Hanson,dale.hanson@example.org,+1 210 870 0089,78229,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0007259,2025-03-21T05:00:00.000000,Eric Olson,eolson@example.com,+1 726 722 3304,78216,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008338,2025-03-21T06:40:00.000000,Karla Simmons,ksimmons@example.org,2105369490,78216,Direct,Direct,Exterior Painting
+crm,CRM0008100,2025-03-21T16:31:00.000000,Jesse Dean,jessedean@example.net,7267442575,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0005890,2025-03-22T20:17:00.000000,Shelia Ross,shelia.ross65@example.org,(726) 949-9604,78240,,Customer Referral,Drywall Repair
+crm,CRM0012438,2025-03-26T18:49:00.000000,Dustin Wilson,dustin.wilson54@example.com,(726) 286-3302,78240,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0006034,2025-03-27T00:26:00.000000,Shawn Cook,scook@example.org,726-739-3114,78230,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005828,2025-03-28T19:11:00.000000,JAMES MITCHELL,james.mitchell@example.com,+1 726 654 4600,78216,Direct,Direct,Drywall Repair
+crm,CRM0005827,2025-03-28T19:11:00.000000,James Mitchell,james.mitchell@example.com,+1 726 654 4600,78216,Direct,Direct,Drywall Repair
+crm,CRM0007659,2025-03-29T16:14:00.000000,Alicia Robinson,alicia.robinson@example.net,(726) 522-3117,78230,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0001069,2025-03-29T18:46:00.000000,Melissa Sheppard,melissa.sheppard@example.org,(210) 320-2673,78232,Direct,Direct,Cabinet Painting
+crm,CRM0004308,2025-03-30T16:10:00.000000,Doris Wilson,doris.wilson26@example.com,+1 (726) 289-0638,78209,Direct,Direct,Cabinet Painting
+crm,CRM0003148,2025-03-31T09:36:00.000000,Joe Lee,joelee@example.org,+1 210 893 2250,78216,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0001103,2025-03-31T13:39:00.000000,Tammy Burton,tammyb.urton28@example.net,+1 (726) 508-426,75230,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0006073,2025-03-31T14:27:00.000000,Elizabeth Shepherd,eshepherd@example.net,726-517-1554,78213,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+crm,CRM0005453,2025-04-01T03:21:00.000000,Maria Williams,mwilliams@example.net,+1 210 556 0494,78216,Direct,Direct,Exterior Painting
+crm,CRM0006575,2025-04-01T12:17:00.000000,Melanie Thomas,melaniethomas@example.org,726 968 2892,78229,,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0004239,2025-04-04T04:20:00.000000,Ricky Bradley,ricky.bradley@example.com,+1 (210) 881-7500,78229,,Realtor Network,Minor Remodeling
+crm,CRM0010657,2025-04-05T07:37:00.000000,Daniel Johnson,daniel.johnson31@example.net,7266990725,78213,Direct,Direct,Interior Painting
+crm,CRM0010564,2025-04-06T02:19:00.000000,Jon Marshall,,+1 726 688 8706,78232,,Local Contractor,Cabinet Painting
+crm,CRM0001797,2025-04-06T18:07:00.000000,Donna Young,dyoung@example.org,726-302-7305,78213,Direct,Direct,Cabinet Painting
+crm,CRM0005172,2025-04-07T12:55:00.000000,Julie Lane,julie.lane@example.org,726-803-2597,78240,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0007018,2025-04-07T23:08:00.000000,James Brewer,james.brewer4@example.com,+1 (210) 497-9310,78217,,Customer Referral,Interior Painting
+crm,CRM0006367,2025-04-09T04:17:00.000000,Kristen Baker,kristen.baker69@example.com,(726) 946-7576,78216,Direct,Direct,Cabinet Painting
+crm,CRM0000299,2025-04-09T05:15:00.000000,Stephanie Rich,srich@example.org,+1 726 219 6506,78201,Direct,Direct,Cabinet Painting
+crm,CRM0000300,2025-04-09T05:15:00.000000,Stephanie Rich,srich@example.org,+1 (726) 219-6506,78201,Direct,Direct,Cabinet Painting
+crm,CRM0010185,2025-04-10T00:14:00.000000,Ashley Johnson,ashleyjohnson@example.com,+1 210 220 2164,78213,Organic Search,Organic Search,Interior Painting
+crm,CRM0006380,2025-04-10T07:17:00.000000,Todd Blake,tblake@example.org,2109719942,78201,Direct,Direct,Minor Remodeling
+crm,CRM0006381,2025-04-10T07:17:00.000000,Todd Blake,tblake@example.org,2109719942,78201,Direct,Direct,Minor Remodeling
+crm,CRM0008080,2025-04-10T10:20:00.000000,Matthew Trujillo,matthew.trujillo@example.com,2104296960,78240,Direct,Direct,Exterior Painting
+crm,CRM0000990,2025-04-10T10:29:00.000000,William Berry,william.berry66@example.net,2109084962,78217,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0010208,2025-04-10T20:47:00.000000,Anthony Ramos,anthony.ramos81@example.org,2107371088,78209,,Customer Referral,Drywall Repair
+crm,CRM0011117,2025-04-11T11:09:00.000000,James Reed,jreed@example.com,+1 (210) 882-7218,78232,Direct,Direct,Drywall Repair
+crm,CRM0002677,2025-04-11T15:06:00.000000,Janice Cox,jcox@example.net,+1 726 206 3979,78201,,Local Contractor,Drywall Repair
+crm,CRM0002676,2025-04-11T15:06:00.000000,Janice Cox,jcox@example.net,726-206-3979,78201,,Local Contractor,Drywall Repair
+crm,CRM0005582,2025-04-12T16:24:00.000000,Timothy Davis,tiomthy.davis58@example.org,+1 1726) 676-9228,7201,Direct,Direct,Drywall Repair
+crm,CRM0009013,2025-04-12T19:30:00.000000,Nancy Duke,nancyduke@example.net,+1 210 259 6495,78217,,Customer Referral,Exterior Painting
+crm,CRM0008184,2025-04-14T03:33:00.000000,William Daniels,wdaniels@example.org,7268626869,78232,Direct,Direct,Interior Painting
+crm,CRM0001492,2025-04-14T10:03:00.000000,Matthew Mathews,mmathews@example.net,,78240,,Customer Referral,Interior Painting
+crm,CRM0001493,2025-04-14T10:03:00.000000,Matthew Mathews,Mmathews@example.net,,78240,,Customer Referral,Interior Painting
+crm,CRM0004538,2025-04-15T04:12:00.000000,James White,jameswhite@example.net,+1 (726) 684-0674,78217,Direct,Direct,Minor Remodeling
+crm,CRM0000458,2025-04-15T13:13:00.000000,Jesus Parker,jesusparker@example.net,+1 (726) 560-8027,78209,Organic Search,Organic Search,Drywall Repair
+crm,CRM0009994,2025-04-15T14:45:00.000000,Yolanda Robinson,yolandarobinson@example.com,(726) 322-4204,78216,Direct,Direct,Minor Remodeling
+crm,CRM0002311,2025-04-17T11:26:00.000000,Natasha Boyd,nboyd@example.org,+1 (726) 917-0972,78216,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0004269,2025-04-17T13:38:00.000000,Kevin Williams,kevin.williams@example.org,+1 726 494 3995,78217,Direct,Direct,Exterior Painting
+crm,CRM0010953,2025-04-17T14:01:00.000000,Shelby Rivera,shelby.rivera@example.org,2105364021,78217,Organic Search,Organic Search,Exterior Painting
+crm,CRM0006559,2025-04-17T14:22:00.000000,Megan Christensen,meganchristensen@example.net,+1 726 651 2757,78201,Facebook Ads,Meta | Home Refresh,Minor Remodeling
+crm,CRM0004373,2025-04-19T16:40:00.000000,Taylor Guzman,taylor.guzman@example.org,+1 (210) 594-0686,78209,Direct,Direct,Drywall Repair
+crm,CRM0000399,2025-04-21T15:42:00.000000,Mark Mitchell,mmitchell@example.net,7266595199,78209,Direct,Direct,Exterior Painting
+crm,CRM0006791,2025-04-21T21:45:00.000000,Alexander Robinson,alexanderrobinson@example.com,+1 (726) 865-4538,78201,Organic Search,Organic Search,Interior Painting
+crm,CRM0008600,2025-04-22T17:28:00.000000,Emily Harris,eharris@example.net,726-495-7121,78230,,Customer Referral,Drywall Repair
+crm,CRM0008587,2025-04-22T23:49:00.000000,William Robertson,wrobertson@example.org,210 490 5993,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0011489,2025-04-24T15:23:00.000000,Michael Costa,michaelcosta@example.com,+1 (726) 619-1520,78217,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008144,2025-04-24T16:58:00.000000,Amanda Crawford,,210 335 2676,78240,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0001229,2025-04-25T23:22:00.000000,Mark Weaver,mark.weaver18@example.net,(210) 703-6336,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0008103,2025-04-26T11:34:00.000000,Joseph Ali,joseph.ali65@example.org,+1 210 354 7183,78209,Direct,Direct,Interior Painting
+crm,CRM0000506,2025-04-26T20:20:00.000000,Joseph Hernandez,jhernandez@example.org,2106426785,78201,Direct,Direct,Exterior Painting
+crm,CRM0010058,2025-04-29T06:00:00.000000,Stephanie Rose,stephanie.rose@example.org,2106288835,78213,Direct,Direct,Exterior Painting
+crm,CRM0001159,2025-04-29T16:22:00.000000,Renee Green,rneee.green@example.com,7262666819,7821,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0000529,2025-04-29T17:56:00.000000,Jeremy Thomas,jeremythomas@example.org,7269459213,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0006640,2025-04-30T13:06:00.000000,Hannah Williams,hwilliams@example.net,7266212312,78201,Direct,Direct,Cabinet Painting
+crm,CRM0006639,2025-04-30T13:06:00.000000,Hannah Williams,hwilliams@example.net,7266212312,78201,Direct,Direct,Cabinet Painting
+crm,CRM0010654,2025-04-30T21:25:00.000000,Deborah Jackson,deborahjackson@example.com,(726) 730-2768,78209,Direct,Direct,Cabinet Painting
+crm,CRM0004298,2025-05-01T18:06:00.000000,Alexis Stewart,alexis.stewart8@example.com,+1 726 557 6363,78201,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0000100,2025-05-03T13:01:00.000000,Ellen Benitez,ellen.benitez37@example.net,(210) 866-6116,78232,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0000099,2025-05-03T13:01:00.000000,Ellen Benitez,ellen.benitez37@example.net,210 866 6116,78232,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0001791,2025-05-04T13:28:00.000000,William Dunn,william.dunn@example.net,7264069128,78209,Direct,Direct,Minor Remodeling
+crm,CRM0000126,2025-05-06T10:50:00.000000,Sarah Roberts,sarah.roberts@example.net,7269735005,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0003069,2025-05-06T13:28:00.000000,Aaron Farmer,aaron.farmer@example.org,2109565664,78201,Direct,Direct,Drywall Repair
+crm,CRM0006260,2025-05-06T20:27:00.000000,Matthew Thompson,matthew.thompson@example.net,+1 (210) 578-3156,78217,Direct,Direct,Minor Remodeling
+crm,CRM0002757,2025-05-08T01:29:00.000000,Nathaniel Horton,nathanielhorton@example.com,+1 (210) 382-4878,78201,,Customer Referral,Minor Remodeling
+crm,CRM0002782,2025-05-08T02:45:00.000000,Paula Johnson,pjohnson@example.org,7269116855,78232,Direct,Direct,Interior Painting
+crm,CRM0002783,2025-05-08T02:45:00.000000,Paula Johnson,Pjohnson@example.org,7269116855,78232,Direct,Direct,Interior Painting
+crm,CRM0004809,2025-05-08T11:14:00.000000,Judy Jones,judy.jones@example.com,+1 (726) 253-1508,78217,Organic Search,Organic Search,Exterior Painting
+crm,CRM0001105,2025-05-08T14:15:00.000000,Michael Gentry,mgentry@example.com,210-588-6384,78228,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0001048,2025-05-09T13:02:00.000000,Stephanie Williams,stephaniewilliams@example.com,,78229,,Local Contractor,Interior Painting
+crm,CRM0007593,2025-05-09T14:18:00.000000,Clayton Cooper,claytoncooper@example.net,+1 (726) 734-8972,78216,Organic Search,Organic Search,Exterior Painting
+crm,CRM0011081,2025-05-09T17:16:00.000000,Donald Richard,donald.richard@example.net,+1 210 507 4833,78213,Direct,Direct,Cabinet Painting
+crm,CRM0005992,2025-05-11T21:04:00.000000,Kim Davis,kim.davis82@example.org,(210) 695-0549,78213,Direct,Direct,Cabinet Painting
+crm,CRM0012103,2025-05-12T02:28:00.000000,Jose Duncan,jose.duncan21@example.org,210-410-5584,78201,,Customer Referral,Interior Painting
+crm,CRM0004099,2025-05-13T12:04:00.000000,Bryan Kramer,bryan.kramer@example.net,7267022158,78217,Direct,Direct,Drywall Repair
+crm,CRM0004602,2025-05-13T14:30:00.000000,Jonathan Leon,jleon@example.com,2106193763,78229,Direct,Direct,Drywall Repair
+crm,CRM0009770,2025-05-13T15:56:00.000000,Rebecca Jones,rebecca.jones7009@example.net,210 671 5936,78228,Facebook Ads,Meta | Home Refresh,Drywall Repair
+crm,CRM0006532,2025-05-15T11:52:00.000000,Jacqueline Robbins,jacquelinerobbins@example.org,+1 (210) 788-8443,78240,Direct,Direct,Interior Painting
+crm,CRM0001037,2025-05-16T20:46:00.000000,Larry Wells,larry.wells6@example.net,(210) 410-1228,78229,Direct,Direct,Interior Painting
+crm,CRM0008503,2025-05-16T22:55:00.000000,Lauren Hudson,lauren.hudson54@example.com,7264882585,78240,,Customer Referral,Cabinet Painting
+crm,CRM0009574,2025-05-19T08:12:00.000000,Michael Christian,michael.christian45@example.org,+1 (726) 361-8326,78216,Direct,Direct,Interior Painting
+crm,CRM0009818,2025-05-19T16:31:00.000000,Crystal Black,crystal.black54@example.net,2104213946,78217,Direct,Direct,Exterior Painting
+crm,CRM0010552,2025-05-19T19:31:00.000000,Mary Brown,mary.brown7574@example.net,7204793112,78232,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0009014,2025-05-20T13:45:00.000000,Nancy Duke,nancyduke@example.net,+1 210 259 6495,78217,Direct,Direct,Exterior Painting
+crm,CRM0004228,2025-05-20T15:28:00.000000,Rebecca Phelps,rebecca.phelps@example.com,+1 726 704 8587,78232,Direct,Direct,Exterior Painting
+crm,CRM0001370,2025-05-21T05:04:00.000000,Cassandra Taylor,cassandra.taylor@example.org,726 433 2728,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0003691,2025-05-21T15:07:00.000000,B. Jones,brendan.jjones10@example.net,2108735963,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0011168,2025-05-21T17:32:00.000000,Shannon Lopez,slopez@example.net,210742852,78201,,Property Manager,Minor Remodeling
+crm,CRM0010856,2025-05-22T12:20:00.000000,Paige Taylor,paige.taylor@example.net,210-949-5192,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0011058,2025-05-22T21:57:00.000000,Thomas Mccormick,thomasmccormick@example.com,(726) 462-3010,78230,,Customer Referral,Exterior Painting
+crm,CRM0004050,2025-05-23T08:11:00.000000,Tamara Love,tamara.love@example.net,+1 210 228 2185,78217,Organic Search,Organic Search,Drywall Repair
+crm,CRM0006490,2025-05-23T16:38:00.000000,Brian Morris,brianmorris@example.net,7262938866,78216,Organic Search,Organic Search,Exterior Painting
+crm,CRM0003851,2025-05-24T02:11:00.000000,Ryan Jones,ryan.jones48@example.org,210-949-7353,78209,Direct,Direct,Cabinet Painting
+crm,CRM0011363,2025-05-24T07:17:00.000000,Cynthia Kelly,cynthiakelly@example.net,2109139645,78213,Direct,Direct,Exterior Painting
+crm,CRM0002908,2025-05-26T09:52:00.000000,John Pierce,jpierce@example.net,+1 (726) 299-3866,78230,Direct,Direct,Interior Painting
+crm,CRM0011104,2025-05-26T13:12:00.000000,Jonathan Sanders,jsanders@example.com,2106661785,78232,Direct,Direct,Cabinet Painting
+crm,CRM0005151,2025-05-26T13:27:00.000000,Regina Nelson,rnelson@example.org,7265903871,78229,,Customer Referral,Interior Painting
+crm,CRM0008611,2025-05-27T16:21:00.000000,Ryan Mccann,ryan.mccann39@example.org,726-944-2249,78216,,Local Contractor,Exterior Painting
+crm,CRM0001034,2025-05-28T13:49:00.000000,Rachel Reed,rachel.reed34@example.org,2104279240,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0010455,2025-05-30T18:00:00.000000,John Turner,john.turner80@example.net,+1 726 605 7642,78240,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0005124,2025-05-31T04:07:00.000000,Jorge Wood,jorgewood@example.com,+1 726 233 0241,78229,Direct,Direct,Exterior Painting
+crm,CRM0006986,2025-06-01T08:07:00.000000,Caleb Bennett,caleb.bennett15@example.com,726-350-4574,78209,Organic Search,Organic Search,Drywall Repair
+crm,CRM0007907,2025-06-02T18:42:00.000000,Sarah Hernandez,sarahhernandez@example.net,210-670-2887,78209,Direct,Direct,Exterior Painting
+crm,CRM0003997,2025-06-06T00:57:00.000000,Michelle Rogers,michelle.rogers68@example.com,7262734981,78209,Direct,Direct,Exterior Painting
+crm,CRM0001975,2025-06-06T01:52:00.000000,Lisa Becker,lisabecker@example.org,+1 726 325 9701,78216,Direct,Direct,Minor Remodeling
+crm,CRM0006498,2025-06-06T12:35:00.000000,Nathan Smith,nsmith@example.com,210 863 4699,78229,Direct,Direct,Minor Remodeling
+crm,CRM0006522,2025-06-08T16:20:00.000000,Melissa Kelly,mkelly@example.net,210 221 2805,78201,Direct,Direct,Cabinet Painting
+crm,CRM0010504,2025-06-09T12:53:00.000000,David Mitchell,david.mitchell29@example.org,+1 (726) 291-5936,78209,Direct,Direct,Exterior Painting
+crm,CRM0007478,2025-06-10T08:50:00.000000,Stacey Smith,stacey.smith5381@example.net,7264536407,78229,,Realtor Network,Minor Remodeling
+crm,CRM0000956,2025-06-10T15:28:00.000000,Eric King,eking@example.com,7267018220,78209,,Organic Search,Interior Painting
+crm,CRM0011086,2025-06-11T05:34:00.000000,Preston Warner,pwarner@example.com,210 773 8518,78240,Organic Search,Organic Search,Exterior Painting
+crm,CRM0001097,2025-06-11T11:55:00.000000,Regina Cameron,regina.cameron@example.com,+1 726 544 1154,78230,,Customer Referral,Minor Remodeling
+crm,CRM0001427,2025-06-11T18:58:00.000000,Donna Hays,Dhays@example.org,(210) 742-3862,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0001426,2025-06-11T18:58:00.000000,Donna Hays,dhays@example.org,(210) 742-3862,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0010322,2025-06-11T21:00:00.000000,Travis Ross,tross@example.net,2109949862,78240,Direct,Direct,Exterior Painting
+crm,CRM0004810,2025-06-12T08:02:00.000000,Judy Jones,judy.jones@example.com,(726) 253-1508,78217,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0001511,2025-06-12T16:04:00.000000,Christopher Reyes,christopher.reyes@example.org,+1 210 503 8712,78216,Direct,Direct,Interior Painting
+crm,CRM0010709,2025-06-13T01:31:00.000000,Tanya Morrison,tanya.morrison@example.org,7263921985,78216,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0008526,2025-06-13T15:08:00.000000,Mary Stewart,mary.stewart@example.org,2106675862,78240,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0006564,2025-06-13T17:25:00.000000,Antonio Avery,antonio.avery34@example.org,(726) 452-9075,78201,Organic Search,Organic Search,Exterior Painting
+crm,CRM0003670,2025-06-13T19:18:00.000000,Christina Smith,christina.smith@example.net,726 413 9100,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0010561,2025-06-13T22:32:00.000000,Jeremy Lyons,jeremy.lyons84@example.org,+1 (726) 795-3105,78217,Organic Search,Organic Search,Interior Painting
+crm,CRM0012189,2025-06-15T15:18:00.000000,John Thompson,johnthompson@example.com,7264990849,78232,Direct,Direct,Drywall Repair
+crm,CRM0010875,2025-06-16T17:07:00.000000,Peggy Hughes,,7264077621,78232,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+crm,CRM0002038,2025-06-16T22:54:00.000000,Jonathan Conley,jonathan.conley43@example.net,(726) 445-8957,78217,,Organic Search,Drywall Repair
+crm,CRM0005912,2025-06-17T13:15:00.000000,Jerome Turner,jerometurner@example.com,7266276427,78201,Direct,Direct,Drywall Repair
+crm,CRM0011757,2025-06-17T18:16:00.000000,Eric Williams,eric.williams8455@example.net,7264437301,78217,Direct,Direct,Exterior Painting
+crm,CRM0005367,2025-06-18T17:47:00.000000,James Bradley,james.bradley43@example.net,(210) 728-3730,78230,Direct,Direct,Interior Painting
+crm,CRM0005215,2025-06-20T00:20:00.000000,Debra Brandt,debra.brandt@example.org,7262175464,78228,Direct,Direct,Minor Remodeling
+crm,CRM0011207,2025-06-23T05:00:00.000000,Sean Miller,sean.miller@example.com,726-320-9856,78201,Direct,Direct,Exterior Painting
+crm,CRM0007839,2025-06-23T19:23:00.000000,Ryan Brooks,ryanbrooks@example.net,+1 (210) 897-2491,78232,,Customer Referral,Cabinet Painting
+crm,CRM0012268,2025-06-24T13:02:00.000000,Stephanie Cox,stephanie.cox36@example.com,726-874-1407,78228,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0011044,2025-06-25T12:06:00.000000,Brian Reed,brianreed@example.org,(726) 631-0298,78216,,Customer Referral,Exterior Painting
+crm,CRM0005166,2025-06-25T13:10:00.000000,Catherine Zimmerman,catherine.zimmerman40@example.net,,78229,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0005167,2025-06-25T13:10:00.000000,Catherine Zimmerman,Catherine.zimmerman40@example.net,,78229,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0007240,2025-06-26T13:14:00.000000,Chad Rubio,chad.rubio86@example.org,+1 (210) 615-4973,78209,Direct,Direct,Drywall Repair
+crm,CRM0005338,2025-06-26T17:13:00.000000,Peggy Smith,peggy.smith89@example.org,210 707 4691,78216,,Property Manager,Exterior Painting
+crm,CRM0008922,2025-06-28T00:55:00.000000,Angela Torres,angelatorres@example.com,+1 726 235 3621,78201,,Customer Referral,Cabinet Painting
+crm,CRM0009806,2025-06-28T08:22:00.000000,Jessica Webster,jessica.webster@example.org,726 651 7020,78217,,Customer Referral,Cabinet Painting
+crm,CRM0004010,2025-06-28T11:04:00.000000,Sarah Fowler,sarahfowler@example.org,7264238972,78229,Direct,Direct,Minor Remodeling
+crm,CRM0001223,2025-06-28T13:46:00.000000,Luke Whitney,lukewhitney@example.net,7269304719,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0003460,2025-06-29T04:02:00.000000,Emily Setvens,eilystevens@example.net,+1 (21)0 904-4320,78201,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0004177,2025-06-30T01:43:00.000000,Lorraine Clark,lclark@example.net,(726) 503-5359,78229,,Organic Search,Exterior Painting
+crm,CRM0008062,2025-07-01T14:28:00.000000,Amy Beasley,amy.beasleyw2@example.org,(210) 408-3696,78230,Facebook Ads,Meta | Home Refresh,Minor Remodeling
+crm,CRM0000539,2025-07-02T07:05:00.000000,Samantha Christensen,schristensen@example.com,(726) 877-2401,78240,Direct,Direct,Cabinet Painting
+crm,CRM0010813,2025-07-02T09:04:00.000000,Deborah Hutchinson,deborah.hutchinson1@example.org,210-209-0426,78216,Direct,Direct,Interior Painting
+crm,CRM0010812,2025-07-02T09:04:00.000000,Deborah Hutchinson,deborah.hutchinson1@example.org,(210) 209-0426,78216,Direct,Direct,Interior Painting
+crm,CRM0001827,2025-07-02T10:00:00.000000,Alexis Brown,alexcs.brown@example.org,210537806,78286,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0001802,2025-07-02T15:28:00.000000,David Garcia,davidgarcia@example.org,726 474 4096,78240,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0001923,2025-07-03T09:00:00.000000,Eric Thomas,eric.thomas44@example.org,+1 210 901 5644,78230,,Local Contractor,Drywall Repair
+crm,CRM0009317,2025-07-03T17:27:00.000000,Sydney Prince,sydneyprince@example.com,,78217,Organic Search,Organic Search,Exterior Painting
+crm,CRM0002255,2025-07-06T08:56:00.000000,Emma Charles,emma.charles67@example.org,+1 (726) 331-3974,78201,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0003316,2025-07-06T10:56:00.000000,Connie Burton,connie.buron50@example.com,2103261376,78201,Direct,Direct,Drywall Repair
+crm,CRM0001551,2025-07-07T12:58:00.000000,Robert Henderson,rhenderson@example.com,(210) 206-5550,78228,,Customer Referral,Interior Painting
+crm,CRM0006563,2025-07-07T14:41:00.000000,Thomas Peterson,thomas.peterson@example.org,+1 726 499 0332,78213,,Direct,Interior Painting
+crm,CRM0003983,2025-07-07T20:03:00.000000,William Coleman,williamcoleman@example.net,7264704939,78229,Direct,Direct,Interior Painting
+crm,CRM0011950,2025-07-08T08:31:00.000000,Victoria Johnson,victoria.johnson58@example.net,+1 (210) 751-1893,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0007904,2025-07-08T17:07:00.000000,Richard Curry,richardcurry@example.com,7262376707,78229,,Customer Referral,Exterior Painting
+crm,CRM0007905,2025-07-08T17:07:00.000000,Richard Curry,richardcurry@example.com,(726) 237-6707,78229,,Customer Referral,Exterior Painting
+crm,CRM0000948,2025-07-09T00:24:00.000000,Joseph Allen,jallen@example.org,210 484 7254,78232,Direct,Direct,Exterior Painting
+crm,CRM0009435,2025-07-10T18:49:00.000000,Matthew Cervantes,matthew.cervantes65@example.com,210-827-0070,78216,Direct,Direct,Cabinet Painting
+crm,CRM0012106,2025-07-11T11:11:00.000000,Tracey Collier,tcollier@example.net,+1 (726) 900-5624,78209,,Customer Referral,Interior Painting
+crm,CRM0005323,2025-07-11T16:28:00.000000,Barbara Gray,barbara.gray@example.com,(726) 512-9832,78217,Direct,Direct,Exterior Painting
+crm,CRM0009760,2025-07-11T23:59:00.000000,Nathaniel Thompson,nathaniel.thompson42@example.org,2109601301,78240,Direct,Direct,Cabinet Painting
+crm,CRM0012246,2025-07-12T03:24:00.000000,Jennifer Myers,jmyers@example.com,7268760660,78216,Direct,Direct,Minor Remodeling
+crm,CRM0003018,2025-07-12T15:01:00.000000,Amber Peters,amberpeters@example.com,2105838447,78216,Direct,Direct,Exterior Painting
+crm,CRM0007984,2025-07-13T04:54:00.000000,Angela Walker,angela.walker@example.net,2102725436,78232,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0003686,2025-07-14T07:05:00.000000,Tiffany Williams,tiffany.williams2653@example.com,2104532610,78232,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0001933,2025-07-14T09:31:00.000000,Thomas Young,thomas.young7@example.net,7268149812,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0003318,2025-07-14T18:49:00.000000,Paul Johnson,paul.johnson2386@example.org,7268761856,78209,Direct,Direct,Exterior Painting
+crm,CRM0007311,2025-07-14T23:26:00.000000,Peggy Thompson,peggy.thompson15@example.net,7267065148,78228,,Direct,Minor Remodeling
+crm,CRM0011644,2025-07-15T15:13:00.000000,Christopher Singleton,christopher.singleton50@example.com,(726) 662-1557,78228,,Local Contractor,Exterior Painting
+crm,CRM0011002,2025-07-15T18:37:00.000000,William Phelps,williamphelps@example.com,+1 210 853 8877,78201,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0009538,2025-07-16T03:54:00.000000,Katherine Brown,katherinebrown@example.org,+1 (726) 246-9704,78232,Direct,Direct,Exterior Painting
+crm,CRM0008092,2025-07-16T07:57:00.000000,David Bell,david.bell@example.net,210-945-0247,78201,Direct,Direct,Minor Remodeling
+crm,CRM0012298,2025-07-17T03:58:00.000000,Donna Henderson,donnahenderson@example.org,2109042278,78228,Direct,Direct,Minor Remodeling
+crm,CRM0006644,2025-07-17T22:19:00.000000,Julia Morrison,julia.morrison@example.com,726-751-1651,78240,,Organic Search,Exterior Painting
+crm,CRM0005417,2025-07-19T10:03:00.000000,Mary Butler,marybutler@example.com,(726) 267-7046,78217,Direct,Direct,Cabinet Painting
+crm,CRM0007758,2025-07-23T20:51:00.000000,Kimberly George,kimberly.george@example.com,210 583 7501,78201,Direct,Direct,Exterior Painting
+crm,CRM0000433,2025-07-23T20:59:00.000000,Kimberly Collins,kcollins@example.org,210 359 8569,78213,,Customer Referral,Exterior Painting
+crm,CRM0012371,2025-07-24T18:04:00.000000,James Ryan,Jamesryan@example.com,210-800-7972,78228,Direct,Direct,Cabinet Painting
+crm,CRM0012370,2025-07-24T18:04:00.000000,James Ryan,jamesryan@example.com,210-800-7972,78228,Direct,Direct,Cabinet Painting
+crm,CRM0011915,2025-07-25T17:33:00.000000,Steve White,swhite@example.com,2108202567,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0000111,2025-07-26T01:10:00.000000,Joseph Stokes,josephstokes@example.org,726-710-9189,78229,Direct,Direct,Exterior Painting
+crm,CRM0005661,2025-07-27T00:16:00.000000,Jenny Robinson,jenny.hobinson@example.com,726-413-4873,78229,Organic Search,Organic Search,Drywall Repair
+crm,CRM0001114,2025-07-28T13:23:00.000000,Corey Murphy,coreymurphy@example.org,726 609 4165,78228,Direct,Direct,Cabinet Painting
+crm,CRM0007587,2025-07-30T08:12:00.000000,Thomas Hogan,thomashogan@example.org,+1 210 334 1288,78232,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0011652,2025-07-30T11:30:00.000000,Linda Mcgee,linda.mcgee8378@example.org,(210) 287-5874,78230,Organic Search,Organic Search,Interior Painting
+crm,CRM0000533,2025-08-01T22:24:00.000000,Robert Golden,robert.golden@example.com,210 739 0653,78201,Direct,Direct,Drywall Repair
+crm,CRM0007149,2025-08-02T09:01:00.000000,Gary King,garyking@example.com,7267700869,78228,,Customer Referral,Interior Painting
+crm,CRM0009092,2025-08-02T11:08:00.000000,Jonathan Armstrong,jonathanarmstrongg@example.org,2103083471,78929,Organic Search,Organic Search,Interior Painting
+crm,CRM0007225,2025-08-03T09:15:00.000000,Megan Moses,megan.moses11@example.org,7269300171,78216,,Customer Referral,Exterior Painting
+crm,CRM0010060,2025-08-03T17:39:00.000000,Kristi White,kristiwhiet@example.com,276-795-8372,7828,Organic Search,Organic Search,Interior Painting
+crm,CRM0011889,2025-08-04T06:22:00.000000,Latoya Bell,latoya.bell@example.org,2105539753,78213,Direct,Direct,Interior Painting
+crm,CRM0006396,2025-08-04T10:52:00.000000,Adam Ball,Adam.ball96@example.net,2106772906,78213,Direct,Direct,Drywall Repair
+crm,CRM0006395,2025-08-04T10:52:00.000000,Adam Ball,adam.ball96@example.net,2106772906,78213,Direct,Direct,Drywall Repair
+crm,CRM0009023,2025-08-04T18:22:00.000000,Ryan Martin,ryanmartin@example.org,210-861-5428,78216,Direct,Direct,Drywall Repair
+crm,CRM0009443,2025-08-05T10:12:00.000000,Karen Oconnell,karen.oconnell@example.org,+1 726 604 3029,78217,Direct,Direct,Interior Painting
+crm,CRM0011943,2025-08-05T20:29:00.000000,Ann Lawrence,,2108825043,78213,Direct,Direct,Minor Remodeling
+crm,CRM0002467,2025-08-06T11:22:00.000000,Joseph Nelson,joseph.nelson@example.org,726-904-6319,78232,Direct,Direct,Drywall Repair
+crm,CRM0011564,2025-08-06T21:24:00.000000,Jose Day,joseday@example.org,+1 (726) 951-6764,78228,Direct,Direct,Interior Painting
+crm,CRM0011995,2025-08-07T15:38:00.000000,Travis Mathews,travis.mathews@example.net,+1 726 218 4096,78213,Direct,Direct,Minor Remodeling
+crm,CRM0002150,2025-08-08T03:20:00.000000,Amanda Hall,amanda.hall78@example.net,2109739064,78240,Direct,Direct,Interior Painting
+crm,CRM0001215,2025-08-08T13:13:00.000000,Jamie Jones,jamie.jones95@example.net,+1 210 201 7115,78230,Direct,Direct,Interior Painting
+crm,CRM0008085,2025-08-10T09:19:00.000000,Tiffany Powell,tiffany.powell@example.org,726 842 7821,78240,Organic Search,Organic Search,Interior Painting
+crm,CRM0010891,2025-08-10T12:49:00.000000,Michele Massey,michelemassey@example.org,(210) 992-4587,78201,,Customer Referral,Drywall Repair
+crm,CRM0000646,2025-08-10T18:10:00.000000,Lawrence Jones,lawrence.jones@example.net,+1 210 876 2117,78232,,Customer Referral,Interior Painting
+crm,CRM0011030,2025-08-10T21:17:00.000000,Christopher Mcmahon,christopher.mcmahon89@example.com,(726) 385-1565,78216,Direct,Direct,Exterior Painting
+crm,CRM0003349,2025-08-11T22:19:00.000000,George Mitchell,georgemitchell@example.net,+1 (210) 668-3210,78240,,Local Contractor,Interior Painting
+crm,CRM0012404,2025-08-12T13:18:00.000000,Pamela Adams,pamela.adams@example.com,210-298-2461,78240,Direct,Direct,Interior Painting
+crm,CRM0007589,2025-08-13T15:42:00.000000,Tiffany Chandler,tiffany.chandler@example.org,726-236-4920,78213,Organic Search,Organic Search,Exterior Painting
+crm,CRM0010740,2025-08-14T18:56:00.000000,Melanie Ayala,melanie.ayala96@example.net,2107643063,78217,Direct,Direct,Cabinet Painting
+crm,CRM0004571,2025-08-15T22:23:00.000000,Andre Santiago,andre.santiago9@example.org,210-402-5129,78213,,Local Contractor,Cabinet Painting
+crm,CRM0003927,2025-08-18T01:14:00.000000,James Ballard,jballard@example.net,726 579 0964,78230,,Customer Referral,Cabinet Painting
+crm,CRM0002831,2025-08-19T10:25:00.000000,Robert Mitchell,robertmitchell@example.net,726 956 6624,78232,Organic Search,Organic Search,Interior Painting
+crm,CRM0003467,2025-08-20T14:06:00.000000,Robert Randall,robertrandall@example.org,726-919-6971,78229,Direct,Direct,Exterior Painting
+crm,CRM0010796,2025-08-20T14:08:00.000000,David Erickson,derickson@example.org,210 998 3231,78216,Direct,Direct,Minor Remodeling
+crm,CRM0012426,2025-08-22T10:44:00.000000,Jeremy Becker,jeremy.becker@example.net,210 240 2288,78209,Direct,Direct,Exterior Painting
+crm,CRM0009292,2025-08-23T13:25:00.000000,John Oconnor,johnoconnor@example.com,726 495 1078,78216,Direct,Direct,Exterior Painting
+crm,CRM0009602,2025-08-26T12:42:00.000000,Rebecca Cunningham,rebecca.cunningham84@example.com,2107964211,78228,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0003455,2025-08-27T14:55:00.000000,Mary Vang,mvang@example.org,+1 (726) 847-3402,78209,,Organic Search,Exterior Painting
+crm,CRM0000409,2025-08-27T20:31:00.000000,Tiffany Jackson,tiffanyjackson@example.com,+1 210 326 1675,78232,Direct,Direct,Drywall Repair
+crm,CRM0002380,2025-08-28T14:54:00.000000,Christopher Warner,christopherwarner@example.org,210-721-9797,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0005509,2025-08-28T16:01:00.000000,Brenda Johnson,,+1 (726) 414-8872,78240,Direct,Direct,Minor Remodeling
+crm,CRM0010667,2025-08-28T20:05:00.000000,Claudia Scott,claudia.scott@example.com,+1 210 696 4937,78230,Direct,Direct,Interior Painting
+crm,CRM0006210,2025-08-29T00:19:00.000000,Rebecca Wade,rwade@example.net,+1 726 522 1020,78201,Direct,Direct,Exterior Painting
+crm,CRM0001004,2025-08-29T20:29:00.000000,James Allen,jamesallen@example.com,7263478341,78230,Direct,Direct,Exterior Painting
+crm,CRM0002009,2025-08-30T12:30:00.000000,Tamym Robinson,tammy.rbinson33@example.org,210-877-8367,78209,Direct,Direct,Interior Painting
+crm,CRM0010605,2025-09-01T09:48:00.000000,William Todd,williamtodd@example.org,+1 726 599 1588,78201,Direct,Direct,Exterior Painting
+crm,CRM0009179,2025-09-01T11:43:00.000000,Nicholas Alvarado,nicholas.alvarado57@example.net,+1 (210) 807-4105,78240,,Property Manager,Drywall Repair
+crm,CRM0005546,2025-09-02T08:39:00.000000,Ryan Nguyen,rnguyen@example.net,210-963-6077,78201,Direct,Direct,Interior Painting
+crm,CRM0005547,2025-09-02T08:39:00.000000,Ryan Nguyen,Rnguyen@example.net,210-963-6077,78201,Direct,Direct,Interior Painting
+crm,CRM0006938,2025-09-02T16:06:00.000000,John Lee,john.lee5@example.org,(210) 965-4261,78240,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008685,2025-09-04T01:05:00.000000,Daniel Cardenas,daniel.cardenas@example.com,7266877740,78228,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0000397,2025-09-04T13:01:00.000000,Alexis Coleman,acoleman@example.net,2105322663,78216,Direct,Direct,Interior Painting
+crm,CRM0000246,2025-09-04T14:59:00.000000,Ashley Rodriguez,ashley.rodriguez@example.org,(210) 407-1976,78240,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0005331,2025-09-04T20:44:00.000000,James Callahan,james.callahan@example.net,210 753 9039,78240,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0005332,2025-09-04T20:44:00.000000,James Callahan,james.callahan@example.net,+1 (210) 753-9039,78240,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0003160,2025-09-05T00:48:00.000000,Wayne Lopez,wlopez@example.net,+1 726 926 5207,78232,Organic Search,Organic Search,Interior Painting
+crm,CRM0007715,2025-09-05T12:15:00.000000,Jose Ortiz,jose.ortiz@example.com,726 258 2326,78217,Direct,Direct,Exterior Painting
+crm,CRM0012393,2025-09-06T04:29:00.000000,Beth Kelly,beth.kelly@example.net,7269445965,78217,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0007777,2025-09-06T09:43:00.000000,Maria Finley,mfinley@example.org,726 230 4845,78229,Direct,Direct,Cabinet Painting
+crm,CRM0007634,2025-09-07T13:21:00.000000,Natalie Ellison,natalie.ellison@example.com,726 541 1764,78228,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0007223,2025-09-09T12:39:00.000000,Patricia Green,patricia.green@example.org,+1 210 305 3771,78240,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+crm,CRM0004741,2025-09-09T15:58:00.000000,Susan Perkins,susan.perkins@example.org,210-931-8873,78201,Direct,Direct,Minor Remodeling
+crm,CRM0004258,2025-09-10T16:05:00.000000,Catherine Gomez,catherine.gomez83@example.com,+1 (210) 405-3473,78213,Direct,Direct,Exterior Painting
+crm,CRM0004259,2025-09-10T16:05:00.000000,CATHERINE GOMEZ,catherine.gomez83@example.com,+1 (210) 405-3473,78213,Direct,Direct,Exterior Painting
+crm,CRM0008761,2025-09-11T11:51:00.000000,Tyler Sanders,tsanders@example.com,,78232,Direct,Direct,Cabinet Painting
+crm,CRM0007708,2025-09-11T21:10:00.000000,Brandon Jones,bjones@example.net,2108320659,78217,Direct,Direct,Exterior Painting
+crm,CRM0000190,2025-09-12T18:24:00.000000,Gregory Stevens,gregory.stevens@example.net,726 811 5841,78213,,Customer Referral,Cabinet Painting
+crm,CRM0008448,2025-09-15T08:10:00.000000,Herbert Barrett,hbarrett@example.com,2105925225,78217,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0007468,2025-09-15T12:02:00.000000,Erika Garcia,erikagarcia@example.org,726 794 8760,78230,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0001164,2025-09-16T07:47:00.000000,Norman Mclaughlin,nmclaughlin@example.org,(726) 631-9927,78213,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0002509,2025-09-17T17:36:00.000000,Robert Johnson,robert.johnson@example.com,2103286617,78213,Direct,Direct,Interior Painting
+crm,CRM0004691,2025-09-18T15:38:00.000000,James Scott,james.scott73@example.net,2102821193,78229,Direct,Direct,Exterior Painting
+crm,CRM0003864,2025-09-20T22:37:00.000000,Nicole Jackson,njackson@example.com,2106381629,78240,Direct,Direct,Exterior Painting
+crm,CRM0010683,2025-09-22T14:20:00.000000,Saah Mayer,sarah.maye2r4@example.com,260-494-4329,78209,Direct,Direct,Minor Remodeling
+crm,CRM0001747,2025-09-24T11:06:00.000000,John Dominguez,jdominguez@example.net,+1 (210) 505-0137,78209,Direct,Direct,Exterior Painting
+crm,CRM0010786,2025-09-24T12:12:00.000000,Debra Johnson,djohnson@example.net,2106438470,78230,Direct,Direct,Drywall Repair
+crm,CRM0011573,2025-09-25T13:19:00.000000,Lisa Miller,lisa.miller8317@example.com,726 262 9265,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0001539,2025-09-26T12:05:00.000000,Walter Rivas,walter.rivas@example.org,210 552 4237,78217,Direct,Direct,Interior Painting
+crm,CRM0007238,2025-09-28T19:01:00.000000,Jeffrey Beasley,jbeasley@example.com,(726) 285-8153,78201,Organic Search,Organic Search,Interior Painting
+crm,CRM0000883,2025-09-29T07:10:00.000000,Austin Robinson,austinrobinson@example.net,+1 210 378 4736,78216,Direct,Direct,Exterior Painting
+crm,CRM0010701,2025-09-29T11:00:00.000000,Katie Sexton,katiesexton@example.org,,78228,Facebook Ads,Meta | Home Refresh,Drywall Repair
+crm,CRM0007454,2025-09-30T06:02:00.000000,Chris Miranda,chris.miranda46@example.org,+1 (726) 226-5891,78232,,Customer Referral,Drywall Repair
+crm,CRM0007453,2025-09-30T06:02:00.000000,Chris Miranda,chris.miranda46@example.org,(726) 226-5891,78232,,Customer Referral,Drywall Repair
+crm,CRM0004700,2025-09-30T20:26:00.000000,Christopher Gomez,christophergomez@example.net,7263568978,78209,Direct,Direct,Interior Painting
+crm,CRM0012450,2025-10-01T05:56:00.000000,David Smith,,2109772042,78209,Direct,Direct,Minor Remodeling
+crm,CRM0011729,2025-10-01T16:47:00.000000,Pamela Phillips,pamela.phillips@example.net,+1 726 608 4856,78201,Direct,Direct,Minor Remodeling
+crm,CRM0009860,2025-10-02T13:44:00.000000,Paul Bender,paul.bender@example.org,(210) 278-3590,78216,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0002030,2025-10-03T07:21:00.000000,Jamie Reynolds,jamie.reynolds93@example.com,726-902-2761,78240,Direct,Direct,Interior Painting
+crm,CRM0008923,2025-10-03T15:10:00.000000,Angela Torres,angelatorres@example.com,7262353621,78201,Direct,Direct,Drywall Repair
+crm,CRM0010462,2025-10-04T14:31:00.000000,Wendy Rodriguez,wendy.rodriguez7511@example.net,+1 210 828 4677,78230,,Customer Referral,Drywall Repair
+crm,CRM0005971,2025-10-04T14:45:00.000000,Beth Leon,beth.leon@example.org,(210) 204-6144,78232,,Property Manager,Minor Remodeling
+crm,CRM0011835,2025-10-06T05:07:00.000000,Theodore Beltran,tbeltran@example.org,2109206221,78228,Direct,Direct,Cabinet Painting
+crm,CRM0006521,2025-10-06T05:41:00.000000,Hannah Mueller,hmueller@example.net,+1 (210) 570-1379,78216,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0009587,2025-10-06T13:54:00.000000,John Munoz,john.munoz5@example.net,(210) 454-1740,78217,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0006540,2025-10-06T14:14:00.000000,Joshua Collins,joshua.collins@example.net,726-399-8272,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0007953,2025-10-07T01:39:00.000000,Anthony Ponce,anthony.ponce@example.org,2108402286,78216,Direct,Direct,Exterior Painting
+crm,CRM0000887,2025-10-09T04:53:00.000000,Michael Williams,michaelwilliams@example.net,+1 (726) 687-4099,78209,Direct,Direct,Exterior Painting
+crm,CRM0008735,2025-10-09T11:26:00.000000,Alison Barrett,alison.barrett@example.com,726-489-2179,78228,Organic Search,Organic Search,Drywall Repair
+crm,CRM0005072,2025-10-09T22:33:00.000000,Sharon Mccarthy,sharon.mccarthy46@example.net,+1 (726) 752-2176,78209,Direct,Direct,Interior Painting
+crm,CRM0007860,2025-10-10T05:10:00.000000,Kenneth Lin,kenneth.lin@example.com,2104825702,78213,Direct,Direct,Interior Painting
+crm,CRM0007861,2025-10-10T05:10:00.000000,kenneth lin,kenneth.lin@example.com,2104825702,78213,Direct,Direct,Interior Painting
+crm,CRM0001228,2025-10-10T15:30:00.000000,Deborah Mckenzie,dmckenzie@example.org,2108611693,78232,Direct,Direct,Exterior Painting
+crm,CRM0007835,2025-10-10T23:52:00.000000,Michael Marshall,michael.marshall@example.org,726 976 8630,78217,Direct,Direct,Interior Painting
+crm,CRM0012339,2025-10-11T10:25:00.000000,Mercedes Peterson,mercedes.peterson22@example.net,+1 726 236 0555,78213,Direct,Direct,Exterior Painting
+crm,CRM0003464,2025-10-13T08:41:00.000000,Bridget Bennett,bbennett@example.net,210 947 2971,78217,Organic Search,Organic Search,Interior Painting
+crm,CRM0011697,2025-10-13T17:54:00.000000,Steven Harrell,steven.harrell@example.com,210-397-5260,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0007581,2025-10-14T14:17:00.000000,Robert Hernandez,robert.hernandez@example.net,(210) 393-3756,78216,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0008606,2025-10-14T15:59:00.000000,Heather Lewis,hlewis@example.com,2106612126,78240,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0007857,2025-10-15T16:34:00.000000,Meagan Clark,mclark@example.com,+1 210 980 6510,78240,Organic Search,Organic Search,Drywall Repair
+crm,CRM0010153,2025-10-15T18:07:00.000000,Jacqueline Dunn,jdunn@example.com,2103729502,78228,,Organic Search,Exterior Painting
+crm,CRM0010760,2025-10-15T20:03:00.000000,Christina Fowler,christinafowler@example.com,7262652385,78229,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0006340,2025-10-16T13:14:00.000000,Jennifer Smith,jennifer.smith4552@example.com,+1 210 901 6019,78230,Organic Search,Organic Search,Exterior Painting
+crm,CRM0009615,2025-10-16T16:46:00.000000,Donna Osborne,donna.osborne32@example.org,7264788409,78230,Organic Search,Organic Search,Interior Painting
+crm,CRM0009033,2025-10-17T23:11:00.000000,Brian Todd,brian.todd84@example.com,+1 210 680 6578,78240,,Customer Referral,Interior Painting
+crm,CRM0005340,2025-10-19T09:41:00.000000,Cesar Morgan,cesarmorgan@example.org,7262953850,78229,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+crm,CRM0005757,2025-10-20T14:53:00.000000,Anthony Good,anthony.good60@example.net,210-545-1738,78209,Facebook Ads,Meta | Home Refresh,Cabinet Painting
+crm,CRM0002711,2025-10-20T20:15:00.000000,William Zamora,wzamora@example.org,+1 726 797 3934,78229,Direct,Direct,Interior Painting
+crm,CRM0005117,2025-10-20T21:36:00.000000,Daniel Hernandez,daniel.hernandez83@example.org,7263059221,78230,,Customer Referral,Exterior Painting
+crm,CRM0010960,2025-10-22T02:59:00.000000,Tammy Sherman,tammysherman@example.net,7267167298,78240,Direct,Direct,Drywall Repair
+crm,CRM0004938,2025-10-22T12:50:00.000000,Heather White,heather.white@example.com,2103380656,78230,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0007808,2025-10-22T17:05:00.000000,Sean Kelly,sean.kelly19@example.com,7265836125,78216,,Customer Referral,Interior Painting
+crm,CRM0005326,2025-10-23T05:16:00.000000,Alexandria Vaughan,avaughan@example.org,210 623 3102,78230,Direct,Direct,Cabinet Painting
+crm,CRM0008626,2025-10-24T08:29:00.000000,Paula Keller,paula.keller39@example.net,210-411-3483,78232,Direct,Direct,Cabinet Painting
+crm,CRM0006900,2025-10-25T07:15:00.000000,Steven Smith,steven.smith@example.com,+1 (210) 997-6145,78229,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0002956,2025-10-25T09:47:00.000000,Shawn Campos,shawn.campos29@example.net,+1 210 520 1355,78229,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0001407,2025-10-27T11:35:00.000000,Stacy Macias,smacias@example.org,2102945119,78230,Direct,Direct,Minor Remodeling
+crm,CRM0004622,2025-10-27T15:19:00.000000,Rachel Sherman,rachel.sherman@example.net,+1 (726) 674-3593,78201,,Customer Referral,Exterior Painting
+crm,CRM0010297,2025-10-29T19:18:00.000000,Courtney Barton,courtney.barton34@example.com,2106465362,78216,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0003931,2025-10-31T09:54:00.000000,Harry Goodwin,harry.goodwin99@example.net,+1 726 355 6383,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0005456,2025-11-01T17:22:00.000000,Denise Franco,denise.franco27@example.org,+1 (210) 997-7570,78217,,Property Manager,Exterior Painting
+crm,CRM0000403,2025-11-01T20:57:00.000000,Matthew Lewis,mlewis@example.org,+1 726 349 2230,78232,Organic Search,Organic Search,Interior Painting
+crm,CRM0002237,2025-11-02T09:52:00.000000,Melissa Munoz,melissa.munoz7@example.com,+1 726 625 2237,78240,Direct,Direct,Exterior Painting
+crm,CRM0007774,2025-11-02T10:10:00.000000,Susan Steele,susan.steele@example.org,2105615236,78201,,Customer Referral,Cabinet Painting
+crm,CRM0001527,2025-11-07T21:47:00.000000,Mitchell Graham,mitchellgraham@example.net,+1 726 434 1041,78216,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0001528,2025-11-07T21:47:00.000000,Mitchell Graham,mitchellgraham@example.net,+1 726 434 1041,78216,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0004097,2025-11-08T09:27:00.000000,Robin Smith,,7266357780,78213,Direct,Direct,Interior Painting
+crm,CRM0006426,2025-11-08T13:00:00.000000,Susan Copeland,susan.copeland@example.net,7266240856,78232,Direct,Direct,Interior Painting
+crm,CRM0011454,2025-11-10T12:59:00.000000,Angelica Brown,angelica.brown87@example.org,2109684812,78228,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0003330,2025-11-10T17:19:00.000000,Timothy Barber,timothy.barber@example.net,726-863-0853,78213,Facebook Ads,Meta | Home Refresh,Cabinet Painting
+crm,CRM0000029,2025-11-11T15:17:00.000000,Zachary Wood,zacary.wood@example.com,+16210 735 0612,78239,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0000180,2025-11-12T02:57:00.000000,Ronald Mcintosh,ronald.mcintosh85@example.org,7264346885,78216,,Realtor Network,Interior Painting
+crm,CRM0002297,2025-11-12T23:15:00.000000,Juan Andrews,,+1 (210) 822-5047,78217,,Local Contractor,Cabinet Painting
+crm,CRM0002298,2025-11-12T23:15:00.000000,Juan Andrews,,+1 (210) 822-5047,78217,,Local Contractor,Cabinet Painting
+crm,CRM0001636,2025-11-13T17:53:00.000000,T. Perez,,+1 (726) 775-6705,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0005080,2025-11-14T11:29:00.000000,Monique Brock,moniquebrock@example.com,2104359860,78240,,Customer Referral,Exterior Painting
+crm,CRM0009907,2025-11-14T12:02:00.000000,Gregory Brown,gbrown@example.net,210 701 1944,78228,,Direct,Exterior Painting
+crm,CRM0007154,2025-11-16T13:32:00.000000,Jennifer Rogers,jrogers@example.net,+1 (210) 928-8972,78216,,Property Manager,Exterior Painting
+crm,CRM0004339,2025-11-18T09:11:00.000000,Kathryn Esparza,kathrynesparza@example.com,2109716224,78228,Direct,Direct,Exterior Painting
+crm,CRM0005156,2025-11-18T10:23:00.000000,Richard Allen,,(210) 607-550,38209,Facebook Ads,Meta | Home Refresh,Drywall Repair
+crm,CRM0005939,2025-11-18T12:36:00.000000,Leah Adams,leah.adams@example.org,726 855 6341,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0002558,2025-11-19T05:46:00.000000,Reginald Benton,reginaldbenton@example.net,726-285-1339,78213,Direct,Direct,Cabinet Painting
+crm,CRM0006051,2025-11-22T12:58:00.000000,Patrick Fowler,patrick.fowler77@example.org,210-933-3059,78217,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0011998,2025-11-22T17:05:00.000000,Renee Hamilton,renee.hamilton51@example.net,(726) 347-1118,78240,Direct,Direct,Exterior Painting
+crm,CRM0008006,2025-11-22T19:05:00.000000,Madison Cardenas,mcardenas@example.com,(210) 581-0096,78229,Direct,Direct,Drywall Repair
+crm,CRM0007719,2025-11-24T10:17:00.000000,Faith Trujillo,faith.trujillo78@example.net,+1 210 412 4194,78229,,Customer Referral,Drywall Repair
+crm,CRM0003834,2025-11-25T22:58:00.000000,Antonio Reed,antonio.reed49@example.org,726 841 7798,78230,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0011896,2025-11-26T10:11:00.000000,Linda Schroeder,linda.schroeder@example.net,+1 210 955 7963,78230,,Customer Referral,Exterior Painting
+crm,CRM0000555,2025-11-26T13:13:00.000000,Carla Franklin,carlafranklin@example.net,7266774116,78228,,Customer Referral,Cabinet Painting
+crm,CRM0002289,2025-11-27T15:49:00.000000,Robert Ruiz,robertruiz@example.net,,78217,Organic Search,Organic Search,Drywall Repair
+crm,CRM0007183,2025-11-27T17:21:00.000000,Joseph Smith,josephsmith@example.org,2106186980,78216,,Customer Referral,Interior Painting
+crm,CRM0006703,2025-11-28T17:59:00.000000,Candace Smith,csmith@example.net,2109205672,78232,Direct,Direct,Cabinet Painting
+crm,CRM0005457,2025-11-29T04:08:00.000000,Denise Franco,denise.franco27@example.org,+1 210 997 7570,78217,Direct,Direct,Cabinet Painting
+crm,CRM0008976,2025-11-29T18:10:00.000000,David Jones,david.jones@example.com,+1 (210) 527-7605,78229,Direct,Direct,Interior Painting
+crm,CRM0004743,2025-11-29T22:13:00.000000,Scott Frazier,scottfrazier@example.com,726-606-8568,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0008265,2025-12-01T00:07:00.000000,Jim Wood,jim.wood10@example.org,(210) 575-6837,78232,Direct,Direct,Drywall Repair
+crm,CRM0008264,2025-12-01T00:07:00.000000,Jim Wood,jim.wood10@example.org,(210) 575-6837,78232,Direct,Direct,Drywall Repair
+crm,CRM0010506,2025-12-02T07:31:00.000000,Timothy Meyers,timothy.eyers81@example.com,+1 (726) 222-7330,78232,,Customer Referral,Cabinet Painting
+crm,CRM0003553,2025-12-02T11:27:00.000000,Jonathan Sanchez,jonathansanchez@example.com,+1 726 801 4076,78201,Direct,Direct,Minor Remodeling
+crm,CRM0004471,2025-12-03T07:29:00.000000,Stephanie Lin,stephanie.lin10@example.com,+1 (210) 246-7398,78229,Direct,Direct,Exterior Painting
+crm,CRM0010748,2025-12-03T22:54:00.000000,Roger Watkins,rogerwatkins@example.net,(210) 407-7387,78229,Direct,Direct,Cabinet Painting
+crm,CRM0002253,2025-12-05T08:00:00.000000,Nathan Davis,nathan.davis@example.com,2104921001,78209,Direct,Direct,Exterior Painting
+crm,CRM0008057,2025-12-07T20:26:00.000000,Nicole Acosta,nacosta@example.net,726 589 5168,78228,Direct,Direct,Interior Painting
+crm,CRM0012003,2025-12-08T12:23:00.000000,Kenneth Gray,kennethgray@example.com,2104858024,78217,Direct,Direct,Interior Painting
+crm,CRM0010313,2025-12-08T20:33:00.000000,Kim Matthews,mkatthews@example.net,+1 (210) 213-5160,78241,,Property Manager,Interior Painting
+crm,CRM0009288,2025-12-09T15:42:00.000000,Susan Walker,susa.nwalker40@example.net,726-70993601,78203,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0006514,2025-12-09T20:19:00.000000,Elizabeth Avila,elizabeth.avila@example.net,7265712342,78240,Organic Search,Organic Search,Exterior Painting
+crm,CRM0012335,2025-12-09T21:54:00.000000,Harold Miller,harold.miller@example.net,210-456-9451,78230,Direct,Direct,Interior Painting
+crm,CRM0006767,2025-12-10T01:56:00.000000,Michael Larsen,mlarsen@example.com,2103602332,78230,Direct,Direct,Cabinet Painting
+crm,CRM0012376,2025-12-12T07:46:00.000000,Michael Garcia,michael.garcia8913@example.com,2107999785,78229,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0010050,2025-12-12T21:45:00.000000,Christopher Carter,ccarter@example.org,2107034469,78216,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0006758,2025-12-13T14:07:00.000000,Michael Dominguez,michael.dominguez@example.org,726-802-4004,78229,Direct,Direct,Cabinet Painting
+crm,CRM0007962,2025-12-14T09:01:00.000000,William Smith,william.smith@example.net,7269247155,78230,Direct,Direct,Exterior Painting
+crm,CRM0006607,2025-12-15T14:48:00.000000,Tamara Robles,tamara.robles@example.net,210-260-4097,78228,,Customer Referral,Drywall Repair
+crm,CRM0008577,2025-12-15T15:08:00.000000,Philip Roberts,proberts@example.net,210 711 8796,78201,Organic Search,Organic Search,Interior Painting
+crm,CRM0002131,2025-12-15T18:13:00.000000,Cory Avery,coryavery@example.org,+1 210 671 1722,78229,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0008151,2025-12-15T19:09:00.000000,Rachel Davis,rachel.davis5842@example.net,+1 (726) 963-0021,78217,Direct,Direct,Minor Remodeling
+crm,CRM0008508,2025-12-17T08:40:00.000000,E. Giles,egilles@example.org,+1 (736) 243-6611,78201,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0001281,2025-12-18T03:45:00.000000,Crystal Kim,crystalk.zm@example.net,+1 (210) 838-3173,7832,Organic Search,Organic Search,Interior Painting
+crm,CRM0011199,2025-12-18T05:06:00.000000,Mary Carroll,marycarroll@example.net,210 910 0231,78216,Direct,Direct,Interior Painting
+crm,CRM0001252,2025-12-19T15:48:00.000000,Victoria Delgado,victoria.delgado65@example.net,+1 726 833 5954,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0009831,2025-12-19T16:31:00.000000,Jamie Gonzales,jgonzales@example.com,2106746101,78216,Direct,Direct,Interior Painting
+crm,CRM0006785,2025-12-21T12:40:00.000000,Kimberly Callahan,kimberly.callahan@example.net,726-619-7482,78232,,Direct,Interior Painting
+crm,CRM0009474,2025-12-23T07:47:00.000000,Samantha Larsen,samanthalarsen@example.net,+1 (726) 661-9467,78229,,Customer Referral,Drywall Repair
+crm,CRM0003173,2025-12-24T15:20:00.000000,Paul Finley,paul.finley@example.org,726-256-8625,78240,Direct,Direct,Exterior Painting
+crm,CRM0003174,2025-12-24T15:20:00.000000,PAUL FINLEY,paul.finley@example.org,726-256-8625,78240,Direct,Direct,Exterior Painting
+crm,CRM0005867,2025-12-26T11:01:00.000000,Kenneth Richardson,kenneth.richardson@example.com,726 626 7588,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0005866,2025-12-26T11:01:00.000000,Kenneth Richardson,kenneth.richardson@example.com,726-626-7588,78216,Organic Search,Organic Search,Interior Painting
+crm,CRM0004443,2025-12-26T19:33:00.000000,Jacqueline Luna,jacqueline.luna84@example.com,2107905154,78229,Direct,Direct,Interior Painting
+crm,CRM0002930,2025-12-27T23:24:00.000000,Megan Manning,meganmanning@example.net,2104934022,78228,Organic Search,Organic Search,Exterior Painting
+crm,CRM0004006,2025-12-31T03:26:00.000000,David Mendoza,dmendoza@example.org,2106079982,78229,Direct,Direct,Interior Painting
+crm,CRM0011274,2025-12-31T14:12:00.000000,Robert English,robert..english@example.org,1204979381,7823,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0008337,2025-12-31T22:28:00.000000,Natalie Robertson,natalierobertson@example.com,(726) 525-1653,78229,Direct,Direct,Drywall Repair
+crm,CRM0010446,2026-01-03T02:25:00.000000,Sharon Drake,sharon.drake@example.net,7263603275,78209,Direct,Direct,Cabinet Painting
+crm,CRM0007935,2026-01-03T09:55:00.000000,Wendy Johnson,wendy.johnson75@example.org,210-628-4469,78201,Direct,Direct,Drywall Repair
+crm,CRM0009824,2026-01-03T17:26:00.000000,Robert Padilla,robert.padilla@example.net,2103583997,78229,Direct,Direct,Exterior Painting
+crm,CRM0003251,2026-01-05T11:49:00.000000,Tammy Hobbs,tammyhobbs@example.com,(210) 730-6458,78240,Direct,Direct,Drywall Repair
+crm,CRM0003417,2026-01-06T01:39:00.000000,Christopher Ayala,christopherayala@example.net,210 448 7879,78217,Direct,Direct,Interior Painting
+crm,CRM0010637,2026-01-06T04:42:00.000000,David Ross,davidross@example.org,+1 210 939 7698,78213,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0000513,2026-01-07T15:57:00.000000,Justin Sanchez,jsanchez@example.org,(726) 526-2216,78230,Direct,Direct,Cabinet Painting
+crm,CRM0000072,2026-01-08T08:40:00.000000,Jesse Arnold,jessearnold@example.net,210 865 9233,78232,Direct,Direct,Minor Remodeling
+crm,CRM0008135,2026-01-09T11:17:00.000000,Kirk Owen,kirk.owen61@example.net,+1 726 696 5666,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0005493,2026-01-09T18:41:00.000000,Tyler Smith,tylersmith@example.com,2106197864,78213,,Direct,Interior Painting
+crm,CRM0004346,2026-01-10T00:15:00.000000,Shawn Stone,sstone@example.com,(210) 201-7236,78229,Facebook Ads,Meta | Home Refresh,Interior Painting
+crm,CRM0003211,2026-01-10T11:46:00.000000,April Evans,,+1 (210) 777-6211,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0009385,2026-01-11T10:11:00.000000,Cory Lopez,cory.lopez6730@example.org,7267109601,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0012261,2026-01-11T15:00:00.000000,Troy Daniels,troy.dainels@example.org,+1 726 89 3657,7820,Organic Search,Organic Search,Exterior Painting
+crm,CRM0006369,2026-01-12T17:43:00.000000,Kristen Baker,krisen.baker69@example.com,769467576,78261,Direct,Direct,Exterior Painting
+crm,CRM0003778,2026-01-13T01:08:00.000000,Rebekah Rice,rebekah.rice11@example.com,2105260427,78230,Direct,Direct,Interior Painting
+crm,CRM0008970,2026-01-13T17:43:00.000000,Kristin Armstrong,kristin.armstrong@example.org,210-683-0463,78209,,Customer Referral,Drywall Repair
+crm,CRM0011916,2026-01-14T02:16:00.000000,Steve White,swhite@example.com,210-820-2567,78229,Direct,Direct,Minor Remodeling
+crm,CRM0009103,2026-01-14T10:11:00.000000,Evan Neal,eneal@example.org,726 357 6932,78232,Organic Search,Organic Search,Exterior Painting
+crm,CRM0010356,2026-01-14T11:38:00.000000,Stephen Cummings,stephencummings@example.com,210 535 3571,78240,Direct,Direct,Exterior Painting
+crm,CRM0010355,2026-01-14T11:38:00.000000,Stephen Cummings,stephencummings@example.com,+1 (210) 535-3571,78240,Direct,Direct,Exterior Painting
+crm,CRM0002196,2026-01-15T10:53:00.000000,Cynthia Jordan,cjordan@example.net,726 496 2094,78217,Organic Search,Organic Search,Interior Painting
+crm,CRM0010309,2026-01-16T21:24:00.000000,Maureen Hamilton,maureen.hamilton38@example.org,7264712049,78232,Direct,Direct,Exterior Painting
+crm,CRM0007331,2026-01-19T00:01:00.000000,Gabriel Miller,gabrielmiller@example.net,2105403542,78209,Direct,Direct,Exterior Painting
+crm,CRM0011449,2026-01-19T01:18:00.000000,Barbara Jones,barbara.jones48@example.org,+1 210 317 0367,78232,Direct,Direct,Minor Remodeling
+crm,CRM0008558,2026-01-20T18:06:00.000000,Russell Pollard,russell.pollard78@example.org,+1 (726) 592-3600,78240,Organic Search,Organic Search,Drywall Repair
+crm,CRM0002153,2026-01-22T18:34:00.000000,Amy Mann,amy.mann16@example.org,210 249 0444,78213,Organic Search,Organic Search,Interior Painting
+crm,CRM0000787,2026-01-23T09:04:00.000000,Sean Bryant,seanbryant@example.net,+1 (210) 793-8433,78232,Facebook Ads,Meta | Free Estimate,Drywall Repair
+crm,CRM0010915,2026-01-24T15:09:00.000000,Stephanie Duffy,stephanie.duffy44@example.com,7266795390,78209,Direct,Direct,Exterior Painting
+crm,CRM0009505,2026-01-25T07:36:00.000000,Jessica Bailey,jesssica.bailey38@example.net,+1 210 446 3230,78217,Direct,Direct,Interior Painting
+crm,CRM0001157,2026-01-26T10:24:00.000000,Anthony Hill,ahill@example.com,+1 (726) 614-3525,78217,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0003682,2026-01-31T04:48:00.000000,Shelley Howard,shelley.howard@example.com,2102116681,78201,Direct,Direct,Cabinet Painting
+crm,CRM0004416,2026-01-31T17:32:00.000000,Jamie Coleman,jamiecoleman@example.com,+1 210 353 0174,78230,Direct,Direct,Exterior Painting
+crm,CRM0003835,2026-02-01T20:44:00.000000,Antonio Reed,antonio.reed49@example.org,+1 (726) 841-7798,78230,,Direct,Drywall Repair
+crm,CRM0003788,2026-02-02T07:25:00.000000,Heather Olson,heather.olson89@example.com,+1 726 509 9987,78213,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+crm,CRM0010602,2026-02-02T10:00:00.000000,Amanda Guerra,aguerra@example.com,2108431637,78240,Direct,Direct,Interior Painting
+crm,CRM0007561,2026-02-02T22:43:00.000000,Carrie Cruz,carrie.cruz27@example.org,+1 (210) 728-2051,78201,Direct,Direct,Cabinet Painting
+crm,CRM0010600,2026-02-02T23:49:00.000000,Jacqueline Garcia,jacqueline.garcia38@example.com,+1 (210) 437-0913,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0005026,2026-02-03T11:34:00.000000,Charles Smith,charles.smith@example.com,7268829233,78201,,Customer Referral,Interior Painting
+crm,CRM0011581,2026-02-04T16:45:00.000000,Sandra Jones,sadrajones@example.org,212798846,7824,Direct,Direct,Interior Painting
+crm,CRM0001742,2026-02-05T09:17:00.000000,Karen French,karen.french41@example.org,7262783556,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0003675,2026-02-05T14:22:00.000000,Patricia Freeman,patricia.freeman30@example.net,,78217,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0000155,2026-02-06T18:59:00.000000,Christopher Mueller,christophermueller@example.com,7264828025,78213,,Customer Referral,Exterior Painting
+crm,CRM0010092,2026-02-07T03:48:00.000000,Pamela King,pamela.kung@example.org,+1 726 609 8504,78240,,Realtor Network,Interior Painting
+crm,CRM0010091,2026-02-07T03:48:00.000000,Pamela King,pamela.kung@example.org,726 609 8504,78240,,Realtor Network,Interior Painting
+crm,CRM0004173,2026-02-07T14:06:00.000000,Kenneth Hansen,kenneth.hansen53@example.com,210 287 1757,78240,Direct,Direct,Interior Painting
+crm,CRM0010013,2026-02-07T21:38:00.000000,Russell Romero,russell.romero97@example.org,7269611145,78228,,Search | Interior Painting,Interior Painting
+crm,CRM0007301,2026-02-08T16:52:00.000000,Mathew Higgins,mathew.higgins13@example.net,+1 210 412 7710,78232,Direct,Direct,Exterior Painting
+crm,CRM0001008,2026-02-08T16:53:00.000000,Kimberly Soto,kimberly.soto@example.com,2106800554,78216,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0001619,2026-02-08T21:55:00.000000,William French,william.french85@example.net,2103579497,78229,Direct,Direct,Exterior Painting
+crm,CRM0003095,2026-02-08T23:43:00.000000,Rebecca Wood,rwood@example.org,210 872 9884,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0011541,2026-02-09T05:31:00.000000,Shawn Castillo,shawn.castillo82@example.com,,78201,Organic Search,Organic Search,Exterior Painting
+crm,CRM0006029,2026-02-10T05:53:00.000000,Danielle Scott,daniellescott@example.com,(726) 941-5823,78228,Direct,Direct,Exterior Painting
+crm,CRM0004171,2026-02-10T14:39:00.000000,Austin Anderson,austin.anderson23@example.com,7262152181,78230,Direct,Direct,Drywall Repair
+crm,CRM0002588,2026-02-10T22:43:00.000000,Catherine Ali,cali@example.org,2104938230,78213,Direct,Direct,Exterior Painting
+crm,CRM0000540,2026-02-11T14:57:00.000000,Samantha Christensen,schristensen@example.com,726-877-2401,78240,Organic Search,Organic Search,Exterior Painting
+crm,CRM0002923,2026-02-13T06:06:00.000000,Betty Campbell,betty.campbell36@example.com,726-781-8994,78240,Direct,Direct,Cabinet Painting
+crm,CRM0006717,2026-02-13T13:07:00.000000,Nichole Harvey,nichole.harvey99@example.com,2108631858,78216,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0006409,2026-02-13T13:27:00.000000,Wendy Norman,wendy.norman@example.com,(726) 994-5485,78209,Direct,Direct,Drywall Repair
+crm,CRM0000107,2026-02-14T20:17:00.000000,William Lowe,william.lowe@example.com,+1 210 844 6416,78228,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0011332,2026-02-15T01:36:00.000000,Emily Roberts,emily.roberts18@example.net,,78230,,Direct,Cabinet Painting
+crm,CRM0005210,2026-02-15T19:01:00.000000,Timothy Gray,timothygray@example.org,(726) 829-3550,78230,,Customer Referral,Exterior Painting
+crm,CRM0007430,2026-02-16T07:39:00.000000,Anthony Green,anthonygreen@example.net,(210) 547-8972,78209,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0006885,2026-02-16T17:35:00.000000,Alvin Moore,alvin.moore@example.net,+1 (210) 275-0018,78230,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0007722,2026-02-16T18:34:00.000000,Mrvin Leonard,mrvin.leonard@example.com,(426) 634-6784,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0000692,2026-02-18T10:31:00.000000,Aaron Thomas,aaronthomas@example.com,2107965964,78216,,Customer Referral,Interior Painting
+crm,CRM0002373,2026-02-18T20:42:00.000000,Michael Figueroa,michael.figueroa@example.org,2109672361,78216,,Customer Referral,Drywall Repair
+crm,CRM0007446,2026-02-19T16:56:00.000000,Jeffrey Gray,jeffrey.gray71@example.net,2105358613,78217,,Customer Referral,Interior Painting
+crm,CRM0008440,2026-02-19T19:42:00.000000,Kristy Hernandez,kristyhernandez@example.org,+1 (726) 562-4980,78232,Direct,Direct,Interior Painting
+crm,CRM0009783,2026-02-20T05:49:00.000000,Madeline Wilson,madelinee.wilson@example.net,726-896-3915,78240,Direct,Direct,Exterior Painting
+crm,CRM0008534,2026-02-20T09:11:00.000000,Tiffany Wright,tiffany.wright77@example.org,2107188470,78232,Direct,Direct,Exterior Painting
+crm,CRM0004547,2026-02-20T13:24:00.000000,ronald wagner,ronaldwagner@example.net,7268740925,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0004546,2026-02-20T13:24:00.000000,Ronald Wagner,ronaldwagner@example.net,7268740925,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0010108,2026-02-21T07:52:00.000000,Mary Moore,marymoore@example.org,+1 726 831 3322,78229,Organic Search,Organic Search,Exterior Painting
+crm,CRM0009486,2026-02-21T10:55:00.000000,Tyler Jones,tyler.jones@example.com,,78232,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0009049,2026-02-22T00:15:00.000000,Brandon Brooks,brandonbrooks@example.org,2105021598,78217,,Customer Referral,Drywall Repair
+crm,CRM0006620,2026-02-23T00:13:00.000000,William Dunn,william.dunn@example.com,2103807284,78230,Direct,Direct,Cabinet Painting
+crm,CRM0009515,2026-02-23T11:02:00.000000,David Ellis,dellis@example.net,7262983221,78228,,Realtor Network,Exterior Painting
+crm,CRM0005245,2026-02-23T14:59:00.000000,Aaron Horn,ahorn@example.com,2108786444,78201,Direct,Direct,Cabinet Painting
+crm,CRM0003539,2026-02-23T16:56:00.000000,Tammy Ramsey,tammy.ramsey@example.com,+1 210 455 1769,78216,Direct,Direct,Interior Painting
+crm,CRM0009262,2026-02-25T02:44:00.000000,Linda Burns,,2108806647,78217,,Customer Referral,Interior Painting
+crm,CRM0012305,2026-02-26T15:36:00.000000,Christina Long,christina.long13@example.com,(726) 247-4829,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008049,2026-02-27T16:36:00.000000,Alexandra Norman,anorman@example.org,210 301 9496,78201,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0012480,2026-02-28T18:10:00.000000,Stacy Morris,stacy.morris81@example.com,2109540216,78230,Organic Search,Organic Search,Drywall Repair
+crm,CRM0000678,2026-03-01T14:26:00.000000,Anthony Reynolds,anthony.reynolds38@example.org,210 943 8677,78201,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0001506,2026-03-01T14:36:00.000000,Shawn Jordan,shawnjordan@example.com,726 240 2341,78217,Direct,Direct,Drywall Repair
+crm,CRM0005825,2026-03-03T08:09:00.000000,Tanner Todd,tanner.todd2@example.net,+1 (726) 855-9785,78209,,Search | Interior Painting,Interior Painting
+crm,CRM0004113,2026-03-03T13:12:00.000000,James Oliver,james.oliver88@example.org,(726) 242-5449,78209,Direct,Direct,Exterior Painting
+crm,CRM0005185,2026-03-03T19:16:00.000000,Joanne Martin,jmartin@example.org,726-421-0801,78213,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008410,2026-03-04T06:56:00.000000,Scott Webster,scott.webster22@example.org,+1 (210) 888-5375,78229,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008347,2026-03-04T18:24:00.000000,Joseph Torres,joseph.torres56@example.org,+1 210 682 9685,78228,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0005577,2026-03-05T17:26:00.000000,Dawn Keith,dkeith@example.org,+1 (726) 582-3911,78232,Direct,Direct,Exterior Painting
+crm,CRM0004292,2026-03-06T13:35:00.000000,Lisa Gonzalez,lisagonzalez@example.com,(210) 234-2683,78240,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+crm,CRM0001986,2026-03-06T14:51:00.000000,Haley Mahoney,haley.mahoney51@example.org,+1 (726) 954-6494,78209,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0009657,2026-03-08T07:28:00.000000,Benjamin Jones,benjamin.jones31@example.org,2104077960,78232,Direct,Direct,Minor Remodeling
+crm,CRM0007484,2026-03-08T10:06:00.000000,Jenny Grimes,jenny.grimes27@example.net,210 847 1505,78230,Direct,Direct,Interior Painting
+crm,CRM0008326,2026-03-08T14:16:00.000000,Lisa Robinson,lisa.robinson@example.com,210291150,78217,Organic Search,Organic Search,Interior Painting
+crm,CRM0005351,2026-03-09T04:03:00.000000,Samantha Peck,speck@example.org,210 932 2114,78216,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0001482,2026-03-09T11:38:00.000000,Emily Daniel,emily.daniel@example.net,(210) 337-4889,78230,Google Ads,Search | Cabinet Painting,Cabinet Painting
+crm,CRM0006178,2026-03-09T22:51:00.000000,Robert Sawyer,rswyer@example.net,+1 726) 431-4098,8213,Direct,Direct,Interior Painting
+crm,CRM0001337,2026-03-10T17:27:00.000000,Joyce Rodriguez,joyce.rodriguez35@example.net,+1 210 860 2187,78217,,Customer Referral,Minor Remodeling
+crm,CRM0007919,2026-03-10T20:30:00.000000,Christine Terrell,christineterrell@example.net,+1 210 708 4964,78209,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0007920,2026-03-10T20:30:00.000000,Christine Terrell,Christineterrell@example.net,+1 210 708 4964,78209,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0003897,2026-03-10T22:22:00.000000,Jasmine Hoffman,jasmine.hoffman@example.org,210-549-1433,78209,Direct,Direct,Minor Remodeling
+crm,CRM0009721,2026-03-12T15:26:00.000000,Andrew Thompson,andrewthompson@example.net,(726) 706-0886,78209,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0003263,2026-03-12T19:43:00.000000,Lance Davis,lance.davis65@example.org,726-577-5861,78216,Direct,Direct,Exterior Painting
+crm,CRM0007990,2026-03-13T09:51:00.000000,Dawn Johnson,dawnjohnson@example.org,2105708646,78216,Direct,Direct,Interior Painting
+crm,CRM0006526,2026-03-13T12:01:00.000000,Sanrda Arellano,sandra.arellano5@example.com,786 394 6425,78213,,Customer Referral,Interior Painting
+crm,CRM0005413,2026-03-14T20:10:00.000000,James West,james.west@example.net,7269993390,78213,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0008493,2026-03-16T10:23:00.000000,William Washington,williamwashington@example.com,(726) 507-8721,78216,,Customer Referral,Drywall Repair
+crm,CRM0011284,2026-03-16T11:10:00.000000,Gary Olson,garyolson@example.org,+1 (726) 515-6450,78209,Direct,Direct,Exterior Painting
+crm,CRM0005430,2026-03-16T20:44:00.000000,Holly Johnson,holly.johnson@example.net,(726) 668-5363,78213,,Customer Referral,Exterior Painting
+crm,CRM0006047,2026-03-17T05:44:00.000000,Eric Koch,eric.koch38@example.net,2102929053,78209,Direct,Direct,Exterior Painting
+crm,CRM0010130,2026-03-17T08:33:00.000000,David Francis,davidfrancis@example.org,+1 (726) 535-3578,78240,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0011534,2026-03-18T08:31:00.000000,Lauren Meyer,lmeyer@example.net,2102911980,78229,Organic Search,Organic Search,Drywall Repair
+crm,CRM0004152,2026-03-18T15:09:00.000000,Warren Tucker,warrentucker@example.com,726 807 2305,78209,Google Ads,Search | Drywall Repair,Drywall Repair
+crm,CRM0004570,2026-03-18T15:19:00.000000,Adrian Adams,adrianadams@example.org,726 342 9532,78240,Organic Search,Organic Search,Interior Painting
+crm,CRM0002934,2026-03-19T02:02:00.000000,Cynthia Kim,cynthiakim@example.org,210 905 2239,78232,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0004100,2026-03-19T11:56:00.000000,Bryan Kramer,bryan.kramer@example.net,(726) 702-2158,78217,Direct,Direct,Interior Painting
+crm,CRM0006598,2026-03-20T15:13:00.000000,I. Berry,,2106231613,78217,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0009433,2026-03-20T20:31:00.000000,Elizabeth Schmidt,elizabeth.schmidt59@example.com,7262864152,78232,Direct,Direct,Exterior Painting
+crm,CRM0002210,2026-03-20T21:03:00.000000,Samantha Greene,sgreene@example.com,726-563-0767,78201,Direct,Direct,Drywall Repair
+crm,CRM0003985,2026-03-23T06:45:00.000000,Christopher Mcpherson,christophermcpherson@example.net,(726) 594-8329,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0011453,2026-03-23T13:31:00.000000,Elizabeth Fischer,elizabeth.fischer@example.com,+1 (210) 313-9685,78240,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008388,2026-03-24T10:44:00.000000,Rachel Brown,rachelbrown@example.net,210 525 8797,78228,Direct,Direct,Exterior Painting
+crm,CRM0008219,2026-03-24T19:14:00.000000,Thomas Best,thomas.best@example.com,210 314 9488,78232,,Customer Referral,Exterior Painting
+crm,CRM0007723,2026-03-25T14:29:00.000000,Marvin Leonard,marvin.leonard@example.com,+1 (726) 634-6784,78228,Direct,Direct,Interior Painting
+crm,CRM0000505,2026-03-25T20:12:00.000000,Kevin Lowery,kevin.lowery@example.org,7268036471,78217,Direct,Direct,Interior Painting
+crm,CRM0000259,2026-03-26T20:15:00.000000,Madison Villarreal,madison.vilmarreal@example.net,(726) 82828060,8216,Organic Search,Organic Search,Exterior Painting
+crm,CRM0009318,2026-03-27T07:43:00.000000,Sydney Prince,sydneyprince@example.com,(726) 862-8243,78217,Direct,Direct,Minor Remodeling
+crm,CRM0005791,2026-03-28T09:09:00.000000,George Johnson,gjohnson@example.org,+1 210 873 2439,78230,Organic Search,Organic Search,Exterior Painting
+crm,CRM0012379,2026-03-29T02:53:00.000000,Brandon Rogers,brandon.rogers@example.net,7269791309,78240,Direct,Direct,Interior Painting
+crm,CRM0010628,2026-03-30T20:56:00.000000,Robert Clark,robert.clark86@example.com,2107009277,78240,Direct,Direct,Drywall Repair
+crm,CRM0007925,2026-03-31T12:21:00.000000,Michael Miller,mmiller@example.org,7266153312,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0006452,2026-03-31T15:59:00.000000,Brandon Joseph,bjoseph@example.com,2104017632,78228,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005996,2026-03-31T20:28:00.000000,Kelly White,kwhite@example.com,+1 (210) 598-0613,78209,Organic Search,Organic Search,Drywall Repair
+crm,CRM0004887,2026-04-01T11:00:00.000000,Jason Daniels,jason.daniels25@example.org,210-925-9600,78217,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0004837,2026-04-01T15:03:00.000000,Christopher Dominguez,christopher.dominguez@example.net,(210) 608-4639,78228,,Property Manager,Interior Painting
+crm,CRM0003101,2026-04-01T15:06:00.000000,John Miller,john.miller85@example.org,2106565780,78213,Google Ads,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0003392,2026-04-01T22:17:00.000000,John Pierce,john.pierce@example.org,2105324745,78230,Direct,Direct,Exterior Painting
+crm,CRM0003010,2026-04-02T00:01:00.000000,Ryan Jones,rjones@example.net,(726) 268-4359,78216,,Realtor Network,Exterior Painting
+crm,CRM0010088,2026-04-02T10:30:00.000000,Meagan Moore,meaganmoore@example.com,(210) 271-9899,78240,Direct,Direct,Minor Remodeling
+crm,CRM0009248,2026-04-02T11:15:00.000000,Timothy Wyatt,timothy.wyatt19@example.com,2109351531,78216,,Customer Referral,Interior Painting
+crm,CRM0001605,2026-04-02T20:20:00.000000,T. Day,fiffany.day52@example.net,120 870 0637,78229,,Search | Minor Remodeling,Minor Remodeling
+crm,CRM0002602,2026-04-03T04:02:00.000000,Charles Douglas,charles.douglas94@example.com,726 610 1859,78201,Organic Search,Organic Search,Drywall Repair
+crm,CRM0010011,2026-04-03T18:24:00.000000,Daniel Kirby,dkirby@example.net,726-485-1276,78229,Direct,Direct,Interior Painting
+crm,CRM0004613,2026-04-04T10:37:00.000000,John Johnson,joohn.johnson11@example.com,205581995,87217,Organic Search,Organic Search,Drywall Repair
+crm,CRM0011509,2026-04-04T11:13:00.000000,Brian Logan,blogan@example.org,+1 726 620 2200,78240,,Customer Referral,Exterior Painting
+crm,CRM0002462,2026-04-04T19:47:00.000000,Jeffery Ferguson,jefferyferguson@example.com,(210) 985-9097,78230,,Realtor Network,Minor Remodeling
+crm,CRM0008351,2026-04-07T01:41:00.000000,Kendra Oconnor,kendra.oconnor65@example.org,(726) 307-1850,78229,Organic Search,Organic Search,Exterior Painting
+crm,CRM0001578,2026-04-08T09:30:00.000000,Terri Wilson,terri.wilson40@example.org,+1 (210) 697-3355,78229,Facebook Ads,Meta | Free Estimate,Interior Painting
+crm,CRM0005130,2026-04-08T17:55:00.000000,Steven Marshall,smarshall@example.net,7266963536,78229,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0001658,2026-04-08T18:47:00.000000,Todd Rodriguez,,7263938202,78201,Organic Search,Organic Search,Drywall Repair
+crm,CRM0008893,2026-04-08T18:57:00.000000,Bradley Thomas,bradleythomas@example.net,210-619-8762,78228,,Realtor Network,Drywall Repair
+crm,CRM0004980,2026-04-09T08:49:00.000000,Michelle Hicks,mhocks@example.com,76 519 6474,58232,,Local Contractor,Cabinet Painting
+crm,CRM0003157,2026-04-09T12:31:00.000000,Alexander Vega,alexander.vega70@example.net,+1 726 359 8177,78217,Direct,Direct,Minor Remodeling
+crm,CRM0008250,2026-04-09T16:01:00.000000,Dominic Hamilton,dhamilton@example.com,210-630-7975,78230,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0001697,2026-04-10T12:10:00.000000,Devon Chavez,dchavez@example.com,726-898-1211,78217,,Property Manager,Minor Remodeling
+crm,CRM0007836,2026-04-10T19:36:00.000000,Joseph Peters,josephpeters@example.com,7262347934,78216,Direct,Direct,Cabinet Painting
+crm,CRM0010290,2026-04-11T09:27:00.000000,Ashley Cline,acline@example.net,(726) 690-2702,78228,Organic Search,Organic Search,Drywall Repair
+crm,CRM0010291,2026-04-11T09:27:00.000000,Ashley Cline,acline@example.net,726-690-2702,78228,Organic Search,Organic Search,Drywall Repair
+crm,CRM0000058,2026-04-12T23:26:00.000000,Margaret Strong,margaretstrong@example.com,726-740-0071,78228,Direct,Direct,Minor Remodeling
+crm,CRM0011755,2026-04-13T11:43:00.000000,Evan King,evan.kking@example.net,+1 726 374 1096,7809,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0011746,2026-04-13T22:51:00.000000,Joshua Herrera,joshua.herrera@example.org,726 925 9784,78216,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0011476,2026-04-14T17:58:00.000000,Tracey Sandoval,tsandoval@example.net,726-532-2086,78228,Organic Search,Organic Search,Exterior Painting
+crm,CRM0004778,2026-04-14T21:10:00.000000,Benjamin Brock,benjamin.brock57@example.com,2107278492,78240,Direct,Direct,Drywall Repair
+crm,CRM0007413,2026-04-15T03:10:00.000000,Kelly Williams,keelly.williams@example.net,+1 (210) 616-3772,78230,Facebook Ads,Meta | Seasonal Promo,Drywall Repair
+crm,CRM0009663,2026-04-16T03:42:00.000000,Sandra Willis,sandra.willis57@example.org,210 816 2425,78201,,Customer Referral,Minor Remodeling
+crm,CRM0002119,2026-04-16T11:46:00.000000,Erik Dudley,erik.dudley@example.org,(210) 809-2976,78229,Direct,Direct,Interior Painting
+crm,CRM0002118,2026-04-16T11:46:00.000000,Erik Dudley,erik.dudley@example.org,+1 210 809 2976,78229,Direct,Direct,Interior Painting
+crm,CRM0008367,2026-04-17T01:14:00.000000,Rhonda Brewer,rhondabrewer@example.org,2109660020,78213,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0002952,2026-04-17T19:11:00.000000,Eric Irwin,eric.irwin@example.net,726-461-8189,78240,Direct,Direct,Cabinet Painting
+crm,CRM0004951,2026-04-18T19:40:00.000000,Grace Smith,grace.smith@example.org,2108203577,78216,,Customer Referral,Exterior Painting
+crm,CRM0003556,2026-04-18T21:11:00.000000,Jeffrey Coleman,jcoleman@example.org,+1 726 567 3769,78230,,Direct,Minor Remodeling
+crm,CRM0000382,2026-04-18T23:51:00.000000,Willie Hansen,willie.hansen45@example.com,+1 (726) 680-9704,78230,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0002022,2026-04-19T15:39:00.000000,Judith Hayes,judith.hayes@example.net,+1 (726) 857-1621,78213,Direct,Direct,Minor Remodeling
+crm,CRM0007899,2026-04-20T12:05:00.000000,John Herman,john.herman79@example.com,726-355-4332,78209,Organic Search,Organic Search,Interior Painting
+crm,CRM0001398,2026-04-20T14:50:00.000000,James Pierce,,210-845-1212,78230,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0003270,2026-04-21T12:30:00.000000,Charles Smith,csmith@example.org,7264124206,78240,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0003922,2026-04-21T17:00:00.000000,Gregory Marquez,gregorymarquez@example.com,726 994 6721,78217,Direct,Direct,Drywall Repair
+crm,CRM0000850,2026-04-22T15:41:00.000000,Carolyn Pierce,carolynpierce@example.net,7262119681,78232,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0004724,2026-04-22T15:45:00.000000,Benjamin Williams,benjamin.williams@example.net,2105717171,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0010742,2026-04-23T13:10:00.000000,Steve Tucker,steve.tucker@example.org,(726) 780-3949,78216,Direct,Direct,Interior Painting
+crm,CRM0012468,2026-04-24T04:53:00.000000,David Roberts,,+1 726 658 9046,78201,Organic Search,Organic Search,Exterior Painting
+crm,CRM0012467,2026-04-24T04:53:00.000000,David Roberts,,(726) 658-9046,78201,Organic Search,Organic Search,Exterior Painting
+crm,CRM0008556,2026-04-24T07:49:00.000000,William Wright,wwright@example.net,726-841-8305,78217,Organic Search,Organic Search,Exterior Painting
+crm,CRM0002547,2026-04-24T10:44:00.000000,Karen Walker,kwalker@example.com,726 650 4169,78230,Organic Search,Organic Search,Exterior Painting
+crm,CRM0003365,2026-04-24T13:54:00.000000,Jessica Bradley,jessicabraddley@example.com,+1 (210) 4264101,72809,Direct,Direct,Exterior Painting
+crm,CRM0002186,2026-04-28T07:49:00.000000,Logan Cummings,logancummings@example.net,210-618-1883,78209,Direct,Direct,Interior Painting
+crm,CRM0011296,2026-04-28T11:17:00.000000,Rebecca Henry,rebecca.henry33@example.net,210 462 4925,78209,Direct,Direct,Drywall Repair
+crm,CRM0001127,2026-04-28T16:57:00.000000,Susan Gay,susan.gay@example.org,2105503297,78209,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0011060,2026-04-29T09:57:00.000000,Michael Lee,,2108177830,78228,,Local Contractor,Exterior Painting
+crm,CRM0004970,2026-04-29T12:02:00.000000,Jacob Cox,jacob.cox65@example.org,(210) 298-9323,78232,,Customer Referral,Exterior Painting
+crm,CRM0004971,2026-04-29T12:02:00.000000,Jacob Cox,Jacob.cox65@example.org,(210) 298-9323,78232,,Customer Referral,Exterior Painting
+crm,CRM0003184,2026-04-29T16:12:00.000000,Jerry Barrett,jerrybarrett@example.com,,78229,,Customer Referral,Interior Painting
+crm,CRM0004024,2026-05-01T16:02:00.000000,Craig Waters,Craigwaters@example.net,7268583544,78229,,Local Contractor,Cabinet Painting
+crm,CRM0004023,2026-05-01T16:02:00.000000,Craig Waters,craigwaters@example.net,7268583544,78229,,Local Contractor,Cabinet Painting
+crm,CRM0008899,2026-05-01T16:54:00.000000,Pamela Galvan,pamela.galvan36@example.org,+1 (726) 418-5585,78217,Direct,Direct,Minor Remodeling
+crm,CRM0009686,2026-05-01T23:39:00.000000,William Serrano,william.serrano@example.net,7265152288,78228,Direct,Direct,Cabinet Painting
+crm,CRM0000331,2026-05-02T14:25:00.000000,John Gracia,johnn.garcia@example.net,276 972 1659,78230,Direct,Direct,Exterior Painting
+crm,CRM0010168,2026-05-02T14:29:00.000000,Charles Hinton,charles.hinton@example.net,(726) 200-7543,78217,Facebook Ads,Meta | Free Estimate,Drywall Repair
+crm,CRM0001423,2026-05-03T07:57:00.000000,Christine Long,christine.longg@example.org,,78217,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0004690,2026-05-03T10:21:00.000000,Jason Warren,jasonwarren@example.org,7266142826,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0000254,2026-05-05T07:16:00.000000,Gregory Martin,gregory.martin@example.net,7269848032,78230,,Direct,Exterior Painting
+crm,CRM0001169,2026-05-05T13:04:00.000000,Brenda Walsh,brendawalsh@example.org,(210) 332-2341,78229,,Customer Referral,Exterior Painting
+crm,CRM0010865,2026-05-05T19:26:00.000000,Michael Wilson,michael.wilson96@example.org,(726) 357-1209,78216,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0011128,2026-05-06T04:51:00.000000,Michelle Schwartz,mschwartz@example.org,7263857076,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0009886,2026-05-07T05:56:00.000000,Daniel Phillips,daniel.phillips@example.com,(726) 991-1601,78230,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005144,2026-05-09T04:45:00.000000,Drew Stewart,drew.stewart31@example.org,2103177796,78240,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+crm,CRM0010990,2026-05-09T20:26:00.000000,Rachael Dixon,rachael.dixon@example.org,+1 (210) 750-4661,78209,Direct,Direct,Interior Painting
+crm,CRM0012072,2026-05-12T10:56:00.000000,Matthew Stewart,matthew.stewart@example.com,2102510344,78232,Direct,Direct,Drywall Repair
+crm,CRM0008027,2026-05-12T13:37:00.000000,Kaitlin Schmidt,kaitlin.schmidt35@example.com,2102786316,78229,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0010301,2026-05-13T11:36:00.000000,Julia Ellison,julia.ellison@example.net,2109146563,78213,Organic Search,Organic Search,Exterior Painting
+crm,CRM0003943,2026-05-15T00:01:00.000000,Jackie Harris,jackie.harris@example.com,7267726881,78229,Direct,Direct,Cabinet Painting
+crm,CRM0009516,2026-05-15T09:27:00.000000,David Ellis,dellis@example.net,7262986221,78228,Direct,Direct,Exterior Painting
+crm,CRM0011411,2026-05-16T10:17:00.000000,Steven Brown,steven.brown51@example.org,7262388314,78213,Direct,Direct,Cabinet Painting
+crm,CRM0005508,2026-05-17T06:38:00.000000,Nicole Keller,nicole.keller@example.com,2107446346,78209,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0002874,2026-05-17T06:55:00.000000,Kristin Gibson,kristin.gibson@example.com,726 965 7081,78230,Organic Search,Organic Search,Interior Painting
+crm,CRM0008910,2026-05-17T14:43:00.000000,Connie Nelson,connienelson@example.com,(726) 654-9890,78201,Direct,Direct,Interior Painting
+crm,CRM0008045,2026-05-17T17:40:00.000000,Renee Gross,renee.gross38@example.org,+1 726 827 6415,78209,,Customer Referral,Drywall Repair
+crm,CRM0008046,2026-05-17T17:40:00.000000,Renee Gross,renee.gross38@example.org,+1 726 827 6415,78209,,Customer Referral,Drywall Repair
+crm,CRM0006067,2026-05-18T08:38:00.000000,Sheila Wright,swright@example.net,2105275996,78213,Direct,Direct,Cabinet Painting
+crm,CRM0006062,2026-05-19T10:24:00.000000,Sarah Richardson,srichardson@example.net,210 262 1907,78217,Organic Search,Organic Search,Interior Painting
+crm,CRM0006529,2026-05-19T11:29:00.000000,Jessica Hodges,jessica.hodges@example.org,7262412818,78216,Direct,Direct,Exterior Painting
+crm,CRM0001845,2026-05-19T13:10:00.000000,Caitlin Small,csmall@example.net,210-592-0086,78229,Organic Search,Organic Search,Exterior Painting
+crm,CRM0001118,2026-05-19T21:07:00.000000,Debra Gilmore,dgilmore@example.com,2109086650,78229,,Customer Referral,Interior Painting
+crm,CRM0002686,2026-05-20T11:13:00.000000,Rebecca Flores,rebeccaflores@example.org,726 969 7295,78213,Organic Search,Organic Search,Drywall Repair
+crm,CRM0011558,2026-05-20T14:23:00.000000,Robert Taylor,robert.taylor25@example.com,7268691212,78229,Direct,Direct,Exterior Painting
+crm,CRM0000580,2026-05-21T08:22:00.000000,Michael Barrera,michael.barrera46@example.com,2108203282,78209,Direct,Direct,Exterior Painting
+crm,CRM0003551,2026-05-21T20:42:00.000000,Susan Gray,susan.gray@example.com,210 297 8594,78213,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+crm,CRM0001368,2026-05-22T03:34:00.000000,Omar Pitts,omarpitts@example.net,726-661-8597,78229,,Customer Referral,Drywall Repair
+crm,CRM0003764,2026-05-22T08:34:00.000000,James Cardenas,james.cardenas@example.com,2109692133,78216,,Local Contractor,Interior Painting
+crm,CRM0004917,2026-05-23T00:35:00.000000,Denise Brown,denise.brown@example.org,+1 210 770 3658,78229,Direct,Direct,Interior Painting
+crm,CRM0007417,2026-05-23T22:38:00.000000,Brandy Marquez,bmarquez@example.com,7268580625,78216,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005954,2026-05-24T06:38:00.000000,Natasha Rice,natasha.rice@example.com,2108298132,78209,Direct,Direct,Interior Painting
+crm,CRM0011061,2026-05-24T21:25:00.000000,Tom Green,tom.green@example.org,726 948 2971,78232,,Customer Referral,Cabinet Painting
+crm,CRM0001433,2026-05-25T03:12:00.000000,Cody Sanchez,cody.sanchez19@example.com,210 336 9360,78209,Direct,Direct,Minor Remodeling
+crm,CRM0005150,2026-05-25T10:08:00.000000,Olivia Martin,olivia.martin47@example.net,726-237-2721,78240,,Customer Referral,Drywall Repair
+crm,CRM0003425,2026-05-25T15:06:00.000000,Jenny Black,jblack@example.com,2106000200,78228,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005893,2026-05-25T19:34:00.000000,Rachel Watson,rwatson@example.net,+1 (726) 862-0738,78213,,Customer Referral,Cabinet Painting
+crm,CRM0009036,2026-05-26T11:42:00.000000,Candice House,canndice.house4@example.org,721 644 5474,78277,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0003550,2026-05-26T13:29:00.000000,Amber Walsh,amber.walsh62@example.org,726 635 8758,78229,,Customer Referral,Interior Painting
+crm,CRM0007602,2026-05-27T13:31:00.000000,Tiffany Ryan,tryan@example.net,210 807 3259,78213,Direct,Direct,Minor Remodeling
+crm,CRM0005745,2026-05-27T18:59:00.000000,Sandra Woods,sandra.woods23@example.org,+1 210 817 7286,78213,,Customer Referral,Interior Painting
+crm,CRM0008608,2026-05-27T19:50:00.000000,Emily Stephens,emily.stephens51@example.net,(726) 281-8815,78229,Direct,Direct,Exterior Painting
+crm,CRM0003936,2026-05-28T09:31:00.000000,Cheryl Boone,cherylboone@example.net,+1 210 468 5979,78216,Direct,Direct,Interior Painting
+crm,CRM0002885,2026-05-28T16:28:00.000000,MARIA JOHNSON,maria.johnson@example.net,726-920-9680,78230,Organic Search,Organic Search,Drywall Repair
+crm,CRM0002884,2026-05-28T16:28:00.000000,Maria Johnson,maria.johnson@example.net,726-920-9680,78230,Organic Search,Organic Search,Drywall Repair
+crm,CRM0002315,2026-05-28T16:58:00.000000,Austin Rose,austinrose@example.com,726 501 1718,78213,Organic Search,Organic Search,Interior Painting
+crm,CRM0012427,2026-05-28T16:59:00.000000,Victor Chambers,victorchambers@example.com,2107919776,78240,Direct,Direct,Interior Painting
+crm,CRM0007713,2026-05-28T18:43:00.000000,James Ingram,jingram@example.com,+1 (210) 250-6939,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0007712,2026-05-28T18:43:00.000000,James Ingram,jingram@example.com,+1 (210) 250-6939,78228,Organic Search,Organic Search,Interior Painting
+crm,CRM0002955,2026-05-28T20:10:00.000000,John Gonzalez,jgonzalez@example.net,+1 210 679 9333,78230,Direct,Direct,Drywall Repair
+crm,CRM0002497,2026-05-29T15:19:00.000000,Dustin Bell,dustinbell@example.com,+1 210 650 7685,78216,,Organic Search,Interior Painting
+crm,CRM0001984,2026-05-30T00:47:00.000000,Evan Reyes,ereyes@example.org,210-800-2066,78209,,Direct,Interior Painting
+crm,CRM0010721,2026-05-30T03:46:00.000000,Jennifer Baker,jennifer.baker94@example.com,210-523-8961,78232,Direct,Direct,Cabinet Painting
+crm,CRM0007877,2026-05-30T18:35:00.000000,Kenneth Greene,kenneth.greene53@example.org,+1 726 777 4875,78232,Organic Search,Organic Search,Exterior Painting
+crm,CRM0004607,2026-06-01T19:27:00.000000,Benjamin Campbell,benjamin.campbell@example.com,+1 210 964 8056,78216,Direct,Direct,Exterior Painting
+crm,CRM0008447,2026-06-03T08:41:00.000000,Brian Wagner,brianwagner@example.net,210 764 8124,78230,Direct,Direct,Cabinet Painting
+crm,CRM0000861,2026-06-03T12:46:00.000000,Angelica Watkins,angelica.watkins@example.net,+1 726 866 7903,78228,Organic Search,Organic Search,Exterior Painting
+crm,CRM0006691,2026-06-04T02:14:00.000000,Paula Hall,paulahall@example.net,7263248363,78216,,Local Contractor,Exterior Painting
+crm,CRM0005784,2026-06-04T13:18:00.000000,Victoria Hunt,victoriahunt@example.com,+1 (726) 664-6816,78229,Organic Search,Organic Search,Interior Painting
+crm,CRM0010336,2026-06-04T13:20:00.000000,John Finley,,,78201,Direct,Direct,Cabinet Painting
+crm,CRM0001859,2026-06-04T15:18:00.000000,Anthony Mason,anthony.mason4@example.net,7264473258,78230,,Customer Referral,Minor Remodeling
+crm,CRM0001860,2026-06-04T15:18:00.000000,Anthony Mason,anthony.mason4@example.net,726-447-3258,78230,,Customer Referral,Minor Remodeling
+crm,CRM0008405,2026-06-05T02:16:00.000000,Jerry Krause,jerry.krause7@example.org,210 219 1780,78228,Direct,Direct,Exterior Painting
+crm,CRM0003218,2026-06-08T17:24:00.000000,Sandra Contreras,sandra.contreras@example.net,,78232,Organic Search,Organic Search,Minor Remodeling
+crm,CRM0002586,2026-06-09T12:05:00.000000,Jonathan Lyons,jlyons@example.org,+1 210 309 2232,78209,,Customer Referral,Cabinet Painting
+crm,CRM0003726,2026-06-10T02:18:00.000000,Regina Hendricks,rhendricks@example.com,2108799404,78228,,Property Manager,Minor Remodeling
+crm,CRM0010226,2026-06-10T04:25:00.000000,Donna Koch,donna.koch@example.net,+1 (210) 873-4846,78229,,Customer Referral,Exterior Painting
+crm,CRM0010076,2026-06-10T11:57:00.000000,Cynthia Lin,cynthialin@example.net,210 896 4574,78240,,Local Contractor,Drywall Repair
+crm,CRM0007412,2026-06-10T14:53:00.000000,Alexander Miller,alexander.miller24@example.org,210-873-5909,78229,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0006043,2026-06-11T01:35:00.000000,Michael Gomez,mgomez@example.org,(726) 601-8802,78229,Direct,Direct,Exterior Painting
+crm,CRM0005205,2026-06-11T10:56:00.000000,Andrew Miller,amiller@example.net,726-477-4302,78240,Direct,Direct,Minor Remodeling
+crm,CRM0005206,2026-06-11T10:56:00.000000,Andrew Miller,amiller@example.net,726-477-4302,78240,Direct,Direct,Minor Remodeling
+crm,CRM0010866,2026-06-11T11:30:00.000000,Erik Oneal,erikoneal@example.com,(210) 776-6219,78209,,Customer Referral,Interior Painting
+crm,CRM0012273,2026-06-12T11:45:00.000000,Dana Huber,dhuber@example.net,7266555427,78229,Organic Search,Organic Search,Exterior Painting
+crm,CRM0011162,2026-06-12T22:57:00.000000,Paul Phillips,pphillips@example.com,(726) 864-3338,78217,Direct,Direct,Drywall Repair
+crm,CRM0006797,2026-06-13T19:54:00.000000,Samantha Newman,snewman@example.com,+1 210 444 4328,78209,,Customer Referral,Exterior Painting
+crm,CRM0001383,2026-06-15T08:03:00.000000,Cesar Singleton,cesarsingleton@example.com,210 522 1246,78213,,Local Contractor,Exterior Painting
+crm,CRM0007431,2026-06-16T23:39:00.000000,Anthony Green,anthonygreen@example.net,210 547 8972,78209,Direct,Direct,Interior Painting
+crm,CRM0012399,2026-06-17T15:47:00.000000,Maria Ramos,maria.ramos11@example.org,2104677913,78201,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0000542,2026-06-18T03:25:00.000000,Anthony Sanders,anthony.sanders@example.com,(726) 258-2003,78230,Direct,Direct,Drywall Repair
+crm,CRM0011354,2026-06-19T17:38:00.000000,Maria Nguyen,maria.nguhen@example.net,,7821,Direct,Direct,Exterior Painting
+crm,CRM0005691,2026-06-20T00:11:00.000000,Nicole Smith,nicole.smith95@example.com,+1 (726) 218-9777,78230,Direct,Direct,Cabinet Painting
+crm,CRM0005692,2026-06-20T00:11:00.000000,Nicole Smith,nicole.smith95@example.com,+1 (726) 218-9777,78230,Direct,Direct,Cabinet Painting
+crm,CRM0008165,2026-06-20T08:01:00.000000,Eric Stewart,ericstewart@example.org,(210) 780-8986,78216,Organic Search,Organic Search,Exterior Painting
+crm,CRM0005250,2026-06-20T12:11:00.000000,E. Jones,elizabeth.jxnes@example.org,+1 210 834 5313,78229,Facebook Ads,Meta | Free Estimate,Exterior Painting
+crm,CRM0006456,2026-06-20T14:09:00.000000,Kristin Bradford,kristin.bradford62@example.net,(726) 529-4705,78240,Organic Search,Organic Search,Cabinet Painting
+crm,CRM0005955,2026-06-21T06:41:00.000000,Natasha Rice,natasha.rice@example.com,210 829 8132,78209,Direct,Direct,Exterior Painting
+crm,CRM0002766,2026-06-21T18:44:00.000000,Kevin Marsh,kevin.marsh@example.net,(726) 668-0283,78209,,Customer Referral,Minor Remodeling
+crm,CRM0005014,2026-06-22T20:13:00.000000,David Robertson,david.robertson99@example.com,+1 (210) 538-9883,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+crm,CRM0002173,2026-06-24T18:03:00.000000,Sabrina Moore,sabrina.moore74@example.net,+1 (210) 813-7162,78229,Direct,Direct,Minor Remodeling
+crm,CRM0005781,2026-06-25T08:28:00.000000,Charles Dixon,cdixon@example.net,+1 (210) 871-1003,78217,,Customer Referral,Interior Painting
+crm,CRM0009390,2026-06-25T11:55:00.000000,Manuel Hamilton,mhamilton@example.org,7266569010,78240,Direct,Direct,Interior Painting
+crm,CRM0000802,2026-06-25T14:49:00.000000,Zachary Terry,zacharyterry@example.com,210-874-9463,78232,Google Ads,Search | Interior Painting,Interior Painting
+crm,CRM0012432,2026-06-25T19:19:00.000000,Nathaniel Rice,nrice@example.com,7266535451,78209,Direct,Direct,Minor Remodeling
+crm,CRM0010418,2026-06-25T19:39:00.000000,Roberta Lewis,roberta.lewis@example.net,726 983 7105,78229,,Customer Referral,Drywall Repair
+crm,CRM0004438,2026-06-26T13:23:00.000000,Aaron Young,aaron.young7@example.net,726 536 9596,78240,,Customer Referral,Exterior Painting
+crm,CRM0009271,2026-06-26T20:33:00.000000,Daniel Obrien,daniel.obrien79@example.com,(726) 245-5520,78216,,Customer Referral,Cabinet Painting
+crm,CRM0009691,2026-06-28T13:01:00.000000,Wanda Murillo,wanda.murillo@example.com,+1 210 515 5178,78201,Facebook Ads,Meta | Home Refresh,Exterior Painting
+crm,CRM0003328,2026-06-28T15:57:00.000000,Mark Lynch,mark.lynch@example.com,726-557-2786,78230,,Property Manager,Exterior Painting
+crm,CRM0006730,2026-06-29T12:10:00.000000,Stephanie Phelps,sphelps@example.com,7265183681,78217,Direct,Direct,Interior Painting
+crm,CRM0002362,2026-06-30T01:23:00.000000,Amy Cox,amycox@example.com,210718553,78209,Direct,Direct,Exterior Painting
+crm,CRM0004033,2026-06-30T05:15:00.000000,Jennifer Meyer,jennifer.meyer@example.net,210 470 0679,78213,Direct,Direct,Cabinet Painting
+marketing,MKT0008646,2025-01-07T08:47:00.000000,Test Lead,test24@example.com,,78240,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008739,2025-01-12T13:23:00.000000,Promotional Contact,promo68@example.net,2105550068,78232,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0003300,2025-01-13T21:54:00.000000,Arthur Nunez,arthurnunez@example.net,+1 726 605 5075,78201,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008473,2025-01-21T14:34:00.000000,Benjamin Mccarthy,benjaminmccarthy@example.com,210-645-4567,78229,Direct,Direct,Interior Painting
+marketing,MKT0008696,2025-02-01T15:19:00.000000,Promotional Contact,promo25@example.net,2105550025,78240,Organic Search,Organic Search,Interior Painting
+marketing,MKT0000419,2025-02-04T20:51:00.000000,Jacqueline Arroyo,jacquelinearroyo@example.net,(726) 230-9462,78209,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008624,2025-02-05T21:10:00.000000,Test Lead,test2@example.com,,78209,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0008650,2025-02-18T12:20:00.000000,Test Lead,test28@example.com,,78213,Facebook Ads,Meta | Home Refresh,Minor Remodeling
+marketing,MKT0008623,2025-02-19T17:31:00.000000,Test Lead,test1@example.com,,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008733,2025-02-27T11:10:00.000000,Promotional Contact,promo62@example.net,2105550062,78209,Direct,Direct,Cabinet Painting
+marketing,MKT0008721,2025-02-27T17:54:00.000000,Promotional Contact,promo50@example.net,2105550050,78217,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0008656,2025-03-05T15:26:00.000000,Test Lead,test34@example.com,,78209,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008700,2025-03-06T19:30:00.000000,Promotional Contact,promo29@example.net,2105550029,78217,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008643,2025-03-07T12:13:00.000000,Test Lead,test21@example.com,,78216,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0004548,2025-03-10T16:30:00.000000,Melissa Kelly,mkelly@example.net,,78201,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0008659,2025-03-10T16:35:00.000000,Test Lead,test37@example.com,,78230,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0008633,2025-03-12T16:39:00.000000,Test Lead,test11@example.com,,78209,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0008273,2025-03-17T17:46:00.000000,Katherine Sandoval,katherinesandoval@example.com,+1 210 447 7325,78240,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0008725,2025-03-19T05:15:00.000000,Promotional Contact,promo54@example.net,2105550054,78213,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0002356,2025-03-24T07:32:00.000000,Nicholas Jones,njones@example.org,7265452059,78201,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0000753,2025-03-31T13:42:00.000000,T. Burton,tammy.burton28@example.net,+1 726 508 4246,78230,Facebook Ads,Meta | Home Refresh,Interior Painting
+marketing,MKT0008647,2025-03-31T19:55:00.000000,Test Lead,test25@example.com,,78217,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008626,2025-04-03T20:44:00.000000,Test Lead,test4@example.com,,78230,Organic Search,Organic Search,Interior Painting
+marketing,MKT0002613,2025-04-04T07:23:00.000000,Derrick Pena,derrick.pena@example.com,2107827279,78230,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008651,2025-04-04T16:49:00.000000,Test Lead,test29@example.com,,78240,Organic Search,Organic Search,Minor Remodeling
+marketing,MKT0004871,2025-04-08T14:49:00.000000,Angela Medina,,7267562541,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0001909,2025-04-14T04:36:00.000000,Stacey Thompson,stacey.thompson@example.org,7264093645,78213,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008719,2025-04-15T07:49:00.000000,Promotional Contact,promo48@example.net,2105550048,78217,Direct,Direct,Exterior Painting
+marketing,MKT0003973,2025-04-16T15:43:00.000000,maria ellis,maria.ellis@example.org,(726) 320-3996,78201,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0008688,2025-04-22T10:21:00.000000,Promotional Contact,promo17@example.net,2105550017,78216,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0006237,2025-04-24T16:39:00.000000,Angela Stuart,angela.stuart85@example.com,,78229,Organic Search,Organic Search,Interior Painting
+marketing,MKT0006418,2025-04-27T13:13:00.000000,Cody Jenkins,cody.jenkins84@example.net,(726) 443-8535,78229,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008001,2025-04-28T02:37:00.000000,Michael Mcdonald,michael.mcdonald90@example.org,7264627295,78201,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008731,2025-04-29T08:46:00.000000,Promotional Contact,promo60@example.net,2105550060,78232,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0005038,2025-04-30T00:34:00.000000,Steven Pierce,spierce@example.net,7265240907,78217,Facebook Ads,Meta | Free Estimate,Minor Remodeling
+marketing,MKT0008533,2025-05-02T15:10:00.000000,Deborah Howell,deborah.howell94@example.org,7265388833,78216,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008605,2025-05-03T07:46:00.000000,Adriana Young,ayoung@example.net,7267215286,78230,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+marketing,MKT0008727,2025-05-03T14:40:00.000000,Promotional Contact,promo56@example.net,2105550056,78232,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0004662,2025-05-06T10:53:00.000000,ANGELA JENKINS,angela.jenkins51@example.net,(210) 700-8423,78213,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+marketing,MKT0008676,2025-05-07T18:51:00.000000,Promotional Contact,promo5@example.net,2105550005,78216,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008680,2025-05-08T17:20:00.000000,Promotional Contact,promo9@example.net,2105550009,78216,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0001080,2025-05-08T17:38:00.000000,michael love,michael.love@example.com,7266255340,78213,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008663,2025-05-09T13:03:00.000000,Test Lead,test41@example.com,,78216,Direct,Direct,Exterior Painting
+marketing,MKT0008628,2025-05-10T20:12:00.000000,Test Lead,test6@example.com,,78232,Direct,Direct,Interior Painting
+marketing,MKT0002654,2025-05-16T14:05:00.000000,Danielle Simmons,daniellesimmons@example.org,+1 726 935 6996,78228,Organic Search,Organic Search,Drywall Repair
+marketing,MKT0002398,2025-05-17T04:10:00.000000,James Hall,,726-524-3635,78229,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008056,2025-05-18T09:58:00.000000,Melanie Hansen,melanie.hansen88@example.com,7267736462,78232,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0008356,2025-05-19T02:39:00.000000,Andrew Dunn,andrewdunn@example.org,2102583446,78232,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0002778,2025-05-20T20:27:00.000000,Sabrina Russell,sabrinarussell@example.net,2109763568,78228,Facebook Ads,Meta | Home Refresh,Cabinet Painting
+marketing,MKT0002779,2025-05-20T20:37:00.000000,Sabrina Russell,sabrinarussell@example.net,2109763568,78228,Facebook Ads,Meta | Home Refresh,Cabinet Painting
+marketing,MKT0008666,2025-05-22T19:42:00.000000,Test Lead,test44@example.com,,78217,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008677,2025-05-24T01:46:00.000000,Promotional Contact,promo6@example.net,2105550006,78209,Direct,Direct,Interior Painting
+marketing,MKT0007885,2025-05-27T19:16:00.000000,Steven Young,syoung@example.net,(726) 591-9473,78228,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0008639,2025-05-28T08:00:00.000000,Test Lead,test17@example.com,,78217,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008629,2025-05-31T01:33:00.000000,Test Lead,test7@example.com,,78232,Direct,Direct,Exterior Painting
+marketing,MKT0008732,2025-06-01T17:43:00.000000,Promotional Contact,promo61@example.net,2105550061,78232,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0008702,2025-06-04T11:11:00.000000,Promotional Contact,promo31@example.net,2105550031,78230,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0006076,2025-06-05T17:12:00.000000,Eric Walton,ewalton@example.org,7265275984,78229,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008748,2025-06-07T04:06:00.000000,Promotional Contact,promo77@example.net,2105550077,78216,Facebook Ads,Meta | Home Refresh,Drywall Repair
+marketing,MKT0008034,2025-06-09T09:11:00.000000,Jacob Porter,jacob.porter27@example.net,210-758-8108,78230,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0008720,2025-06-13T03:31:00.000000,Promotional Contact,promo49@example.net,2105550049,78216,Facebook Ads,Meta | Seasonal Promo,Minor Remodeling
+marketing,MKT0004489,2025-06-13T14:20:00.000000,Christian Hernandez,christian.hernandez@example.net,726-980-1288,78230,Facebook Ads,Meta | Free Estimate,Minor Remodeling
+marketing,MKT0002162,2025-06-14T17:28:00.000000,Brendan Fry,bfry@example.net,2106793738,78216,Direct,Direct,Interior Painting
+marketing,MKT0008671,2025-06-15T23:01:00.000000,Test Lead,test49@example.com,,78232,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0001462,2025-06-17T06:48:00.000000,Tyler Holt,tylerholt@example.org,2108543678,78228,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008155,2025-06-18T11:33:00.000000,Stephanie Garcia,sgarcia@example.com,2106694048,78229,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0001504,2025-06-21T16:39:00.000000,Deanna Harris,deannaharris@example.org,+1 210 707 8183,78230,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0003610,2025-06-25T13:09:00.000000,C. Zimmerman,,(726) 940-9470,78229,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0004058,2025-06-30T20:07:00.000000,Cynthia Ford,cynthiaford@example.com,2109528862,78240,Facebook Ads,Meta | Home Refresh,Interior Painting
+marketing,MKT0008657,2025-07-01T05:29:00.000000,Test Lead,test35@example.com,,78213,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0001512,2025-07-01T15:09:00.000000,Derrick Moore,derrickmoore@example.org,+1 210 667 6046,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008051,2025-07-02T07:19:00.000000,Sarah Hall,,(210) 316-4877,78217,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008052,2025-07-02T07:26:00.000000,Sarah Hall,,(210) 316-4877,78217,Organic Search,Organic Search,Interior Painting
+marketing,MKT0000604,2025-07-08T09:25:00.000000,Michael Williams,michaelwilliams@example.net,(726) 687-4099,78209,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008655,2025-07-10T15:07:00.000000,Test Lead,test33@example.com,,78228,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008660,2025-07-11T09:21:00.000000,Test Lead,test38@example.com,,78213,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0008652,2025-07-15T06:00:00.000000,Test Lead,test30@example.com,,78228,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0001798,2025-07-15T09:21:00.000000,Tiffany Dominguez,tiffanydominguez@example.com,7263820942,78216,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0008735,2025-07-18T00:15:00.000000,Promotional Contact,promo64@example.net,2105550064,78217,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008707,2025-07-19T12:06:00.000000,Promotional Contact,promo36@example.net,2105550036,78240,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0001137,2025-07-19T20:52:00.000000,Christopher Price,cprice@example.com,7268701590,78209,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008632,2025-07-22T23:01:00.000000,Test Lead,test10@example.com,,78232,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008746,2025-07-23T16:54:00.000000,Promotional Contact,promo75@example.net,2105550075,78232,Direct,Direct,Exterior Painting
+marketing,MKT0001377,2025-07-23T23:22:00.000000,Sandra Sharp,sandra.sharp@example.org,2104516988,78213,Direct,Direct,Minor Remodeling
+marketing,MKT0003454,2025-07-24T09:41:00.000000,Jose Bolton,jbolton@example.org,210-745-6553,78229,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0003455,2025-07-24T09:50:00.000000,Jose Bolton,jbolton@example.org,210-745-6553,78229,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008689,2025-07-25T00:11:00.000000,Promotional Contact,promo18@example.net,2105550018,78230,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0003927,2025-07-25T07:20:00.000000,David Cox,davidcox@example.org,(210) 239-0880,78216,Organic Search,Organic Search,Minor Remodeling
+marketing,MKT0004473,2025-07-29T11:08:00.000000,Rebecca Thomas,rebecca.thomas@example.org,726-201-6022,78228,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008682,2025-07-29T17:37:00.000000,Promotional Contact,promo11@example.net,2105550011,78217,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0004972,2025-07-29T23:40:00.000000,Jodi Ferguson,jodi.ferguson@example.com,2105736784,78229,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0000909,2025-08-01T22:57:00.000000,Luke Griffin,luke.griffin@example.org,7268819417,78201,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0008723,2025-08-04T09:32:00.000000,Promotional Contact,promo52@example.net,2105550052,78216,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0008691,2025-08-05T00:38:00.000000,Promotional Contact,promo20@example.net,2105550020,78228,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008743,2025-08-08T01:56:00.000000,Promotional Contact,promo72@example.net,2105550072,78217,Direct,Direct,Exterior Painting
+marketing,MKT0008658,2025-08-10T20:25:00.000000,Test Lead,test36@example.com,,78216,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0006896,2025-08-12T09:14:00.000000,Michael Smith,michael.smith7159@example.net,+1 726 772 1772,78230,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0006897,2025-08-12T09:22:00.000000,Michael Smith,michael.smith7159@example.net,+1 726 772 1772,78230,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0008625,2025-08-14T13:08:00.000000,Test Lead,test3@example.com,,78230,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008472,2025-08-18T01:36:00.000000,Stephanie Cox,stephanie.cox36@example.com,7268741407,78228,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008669,2025-08-18T18:01:00.000000,Test Lead,test47@example.com,,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0003136,2025-08-18T19:55:00.000000,Peter Kim,peterkim@example.org,2108463323,78213,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0008637,2025-08-19T18:23:00.000000,Test Lead,test15@example.com,,78217,Organic Search,Organic Search,Interior Painting
+marketing,MKT0007826,2025-08-20T12:33:00.000000,Joseph Tyler,jtyler@example.com,2105678457,78228,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0005911,2025-08-21T04:53:00.000000,Mark James,mjames@example.org,2107672349,78209,Organic Search,Organic Search,Drywall Repair
+marketing,MKT0008729,2025-08-22T04:16:00.000000,Promotional Contact,promo58@example.net,2105550058,78201,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0002697,2025-08-23T10:33:00.000000,Nathan Heath,nathan.heath34@example.com,7269919917,78216,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0000058,2025-08-30T03:19:00.000000,JESSICA VAZQUEZ,jessicavazquez@example.org,(726) 872-5578,78240,Direct,Direct,Interior Painting
+marketing,MKT0000059,2025-08-30T03:28:00.000000,JESSICA VAZQUEZ,jessicavazquez@example.org,(726) 872-5578,78240,Direct,Direct,Interior Painting
+marketing,MKT0008653,2025-09-01T15:54:00.000000,Test Lead,test31@example.com,,78213,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0005988,2025-09-03T15:14:00.000000,Andrew Owen,andrew.owen98@example.net,(210) 205-1085,78232,Organic Search,Organic Search,Interior Painting
+marketing,MKT0002925,2025-09-07T11:41:00.000000,Kelly Walters,kwalters@example.net,+1 210 418 2766,78201,Direct,Direct,Exterior Painting
+marketing,MKT0002460,2025-09-11T00:23:00.000000,Mark Martin,mmartin@example.com,7264648969,78209,Direct,Direct,Interior Painting
+marketing,MKT0001796,2025-09-12T03:03:00.000000,Edward Griffin,edwardgriffin@example.net,(726) 693-8916,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008722,2025-09-12T03:10:00.000000,Promotional Contact,promo51@example.net,2105550051,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0007579,2025-09-13T12:54:00.000000,Morgan Moss,morgan.moss@example.net,7268676092,78213,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0007580,2025-09-13T12:59:00.000000,Morgan Moss,morgan.moss@example.net,7268676092,78213,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0000579,2025-09-16T11:26:00.000000,David Nichols,david.nichols@example.net,2106804732,78216,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0001723,2025-09-18T12:46:00.000000,A. Phillips,annette.phillips72@example.net,7265463411,78216,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0002218,2025-09-22T09:07:00.000000,Brian Zamora,brian.zamora12@example.com,(726) 690-4436,78240,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0005344,2025-09-25T10:43:00.000000,Rhonda Gregory,rhondagregory@example.net,7264058909,78232,Direct,Direct,Interior Painting
+marketing,MKT0005669,2025-09-30T21:59:00.000000,John Combs,jcombs@example.net,+1 726 934 6049,78228,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008738,2025-10-01T23:09:00.000000,Promotional Contact,promo67@example.net,2105550067,78240,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+marketing,MKT0002526,2025-10-05T12:04:00.000000,Meredith Gomez,meredith.gomez@example.net,(210) 697-7334,78230,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008693,2025-10-09T15:49:00.000000,Promotional Contact,promo22@example.net,2105550022,78232,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0007129,2025-10-09T17:00:00.000000,Catherine Chapman,cchapman@example.net,2108268105,78229,Facebook Ads,Meta | Free Estimate,Minor Remodeling
+marketing,MKT0008706,2025-10-09T21:41:00.000000,Promotional Contact,promo35@example.net,2105550035,78213,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+marketing,MKT0008713,2025-10-13T23:59:00.000000,Promotional Contact,promo42@example.net,2105550042,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008734,2025-10-14T10:31:00.000000,Promotional Contact,promo63@example.net,2105550063,78228,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008670,2025-10-17T19:41:00.000000,Test Lead,test48@example.com,,78232,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008672,2025-10-19T09:00:00.000000,Promotional Contact,promo1@example.net,2105550001,78228,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0008708,2025-10-20T21:50:00.000000,Promotional Contact,promo37@example.net,2105550037,78230,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+marketing,MKT0006473,2025-10-21T13:55:00.000000,Lauren Clark,lclark@example.com,+1 210 314 3589,78213,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+marketing,MKT0004016,2025-10-22T08:50:00.000000,Philip Price,pprice@example.net,7265380813,78201,Organic Search,Organic Search,Minor Remodeling
+marketing,MKT0008724,2025-10-22T10:23:00.000000,Promotional Contact,promo53@example.net,2105550053,78213,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0003539,2025-10-22T14:28:00.000000,Kendra Andrews,kendra.andrews@example.com,7264546850,78229,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0004394,2025-10-22T15:07:00.000000,James Brown,james.brown@example.com,7267910392,78228,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0005186,2025-10-28T11:18:00.000000,Alice Stephens,alicestephens@example.org,(210) 733-6613,78230,Direct,Direct,Cabinet Painting
+marketing,MKT0007462,2025-11-02T02:12:00.000000,D. Gamble,darius.gamble@example.com,7266861784,78230,Direct,Direct,Interior Painting
+marketing,MKT0008635,2025-11-04T08:17:00.000000,Test Lead,test13@example.com,,78209,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0008648,2025-11-10T11:43:00.000000,Test Lead,test26@example.com,,78240,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0000748,2025-11-10T16:44:00.000000,Anita Larson,anita.larson@example.net,2105101153,78216,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0007551,2025-11-11T07:04:00.000000,Crystal Smith,crystal.smith99@example.net,7265739589,78228,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0000023,2025-11-11T15:17:00.000000,Z. Wood,zachary.wood@example.com,(210) 735-0612,78209,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0008627,2025-11-12T17:54:00.000000,Test Lead,test5@example.com,,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0001130,2025-11-13T17:57:00.000000,Timothy Perez,tperez@example.org,+1 726 775 6707,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0007388,2025-11-20T05:15:00.000000,Sarah Mayer,sarah.mayer24@example.com,2104944329,78209,Direct,Direct,Exterior Painting
+marketing,MKT0007389,2025-11-20T05:25:00.000000,Sarah Mayer,sarah.mayer24@example.com,2104944329,78209,Direct,Direct,Exterior Painting
+marketing,MKT0004136,2025-11-20T23:27:00.000000,Andrea Knapp,andreaknapp@example.org,,78201,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0004437,2025-11-22T20:18:00.000000,Rachel King,rachel.king@example.org,2104144187,78240,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008704,2025-11-28T02:01:00.000000,Promotional Contact,promo33@example.net,2105550033,78213,Facebook Ads,Meta | Home Refresh,Cabinet Painting
+marketing,MKT0002142,2025-11-28T08:30:00.000000,Denise Wallace,denise.wallace22@example.com,2106123490,78216,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008730,2025-11-28T22:50:00.000000,Promotional Contact,promo59@example.net,2105550059,78216,Direct,Direct,Drywall Repair
+marketing,MKT0001844,2025-11-30T13:02:00.000000,Mark Bryant,mark.bryant@example.org,2104646459,78228,Direct,Direct,Cabinet Painting
+marketing,MKT0002414,2025-12-01T08:41:00.000000,Lee Robles,lee.robles@example.org,7265774300,78228,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0008699,2025-12-01T10:50:00.000000,Promotional Contact,promo28@example.net,2105550028,78232,Facebook Ads,Meta | Home Refresh,Minor Remodeling
+marketing,MKT0008718,2025-12-02T15:00:00.000000,Promotional Contact,promo47@example.net,2105550047,78217,Facebook Ads,Meta | Home Refresh,Interior Painting
+marketing,MKT0008726,2025-12-05T09:44:00.000000,Promotional Contact,promo55@example.net,2105550055,78216,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008644,2025-12-05T09:51:00.000000,Test Lead,test22@example.com,,78216,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008705,2025-12-09T20:24:00.000000,Promotional Contact,promo34@example.net,2105550034,78228,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008698,2025-12-10T22:53:00.000000,Promotional Contact,promo27@example.net,2105550027,78216,Facebook Ads,Meta | Home Refresh,Interior Painting
+marketing,MKT0004989,2025-12-15T12:08:00.000000,Beverly Carpenter,bcarpenter@example.com,2109373245,78229,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008654,2025-12-15T15:28:00.000000,Test Lead,test32@example.com,,78217,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0005899,2025-12-17T08:41:00.000000,Elizabeth Giles,egiles@example.org,726-243-6611,78201,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008661,2025-12-17T16:52:00.000000,Test Lead,test39@example.com,,78240,Organic Search,Organic Search,Interior Painting
+marketing,MKT0005345,2025-12-18T05:53:00.000000,Christopher Hoover,christopherhoover@example.com,7264315888,78228,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0006513,2025-12-19T02:43:00.000000,Daniel Vazquez,daniel.vazquez70@example.org,+1 726 821 9127,78228,Direct,Direct,Minor Remodeling
+marketing,MKT0008745,2025-12-22T13:40:00.000000,Promotional Contact,promo74@example.net,2105550074,78240,Direct,Direct,Minor Remodeling
+marketing,MKT0008692,2025-12-24T16:25:00.000000,Promotional Contact,promo21@example.net,2105550021,78213,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0003946,2025-12-27T00:23:00.000000,Thomas Wallace,thomas.wallace@example.com,7263193578,78230,Organic Search,Organic Search,Drywall Repair
+marketing,MKT0000219,2025-12-29T22:57:00.000000,Lisa Phillips,lisaphillips@example.net,(210) 896-6280,78232,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008749,2025-12-31T00:44:00.000000,Promotional Contact,promo78@example.net,2105550078,78240,Direct,Direct,Interior Painting
+marketing,MKT0008641,2025-12-31T09:30:00.000000,Test Lead,test19@example.com,,78209,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008741,2026-01-12T05:50:00.000000,Promotional Contact,promo70@example.net,2105550070,78232,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008664,2026-01-16T01:10:00.000000,Test Lead,test42@example.com,,78232,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008268,2026-01-18T19:24:00.000000,Susan Hood,susan.hood@example.org,(210) 730-1055,78229,Organic Search,Organic Search,Interior Painting
+marketing,MKT0001314,2026-01-22T10:19:00.000000,Joseph Coleman,joseph.coleman@example.org,2103886718,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008701,2026-01-27T11:14:00.000000,Promotional Contact,promo30@example.net,2105550030,78228,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0007210,2026-01-28T08:56:00.000000,jennifer torres,jtorres@example.com,,78209,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0007068,2026-01-28T16:11:00.000000,Ryan Taylor,ryantaylor@example.com,7262343328,78209,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0008716,2026-02-05T16:36:00.000000,Promotional Contact,promo45@example.net,2105550045,78228,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008674,2026-02-07T12:48:00.000000,Promotional Contact,promo3@example.net,2105550003,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008715,2026-02-09T10:06:00.000000,Promotional Contact,promo44@example.net,2105550044,78229,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0004209,2026-02-12T08:33:00.000000,Barbara Mayo,barbaramayo@example.com,+1 726 234 9262,78228,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0008630,2026-02-12T09:23:00.000000,Test Lead,test8@example.com,,78228,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0007118,2026-02-13T16:32:00.000000,Phillip Fry,phillip.fry51@example.net,7263338435,78216,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0008640,2026-02-15T09:10:00.000000,Test Lead,test18@example.com,,78216,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008667,2026-02-20T11:39:00.000000,Test Lead,test45@example.com,,78201,Direct,Direct,Cabinet Painting
+marketing,MKT0008747,2026-02-20T12:39:00.000000,Promotional Contact,promo76@example.net,2105550076,78230,Facebook Ads,Meta | Free Estimate,Drywall Repair
+marketing,MKT0008634,2026-02-23T20:00:00.000000,Test Lead,test12@example.com,,78228,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0007669,2026-02-24T04:21:00.000000,Veronica Patterson,vpatterson@example.com,2105632405,78213,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0004465,2026-02-24T10:41:00.000000,Robert Garcia,rgarcia@example.org,(726) 743-8038,78240,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0008673,2026-02-25T15:06:00.000000,Promotional Contact,promo2@example.net,2105550002,78228,Direct,Direct,Drywall Repair
+marketing,MKT0008636,2026-02-26T16:58:00.000000,Test Lead,test14@example.com,,78201,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0000170,2026-03-02T16:37:00.000000,Michael Bean,michael.bean@example.org,210-922-5633,78230,Organic Search,Organic Search,Drywall Repair
+marketing,MKT0004234,2026-03-11T00:16:00.000000,Sheila Wright,swright@example.net,2105275996,78213,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008728,2026-03-19T20:58:00.000000,Promotional Contact,promo57@example.net,2105550057,78229,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0004599,2026-03-20T15:14:00.000000,Isabel Berry,isabel.berry@example.com,2102631613,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008737,2026-03-21T21:59:00.000000,Promotional Contact,promo66@example.net,2105550066,78217,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0001370,2026-03-23T11:02:00.000000,Abigail Finley,abigail.finley@example.net,7268107635,78240,Facebook Ads,Meta | Free Estimate,Cabinet Painting
+marketing,MKT0000359,2026-03-23T17:46:00.000000,Lauren Jones,lauren.jones9@example.org,2107243669,78232,Direct,Direct,Interior Painting
+marketing,MKT0008645,2026-03-24T02:25:00.000000,Test Lead,test23@example.com,,78230,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0008685,2026-03-25T10:43:00.000000,Promotional Contact,promo14@example.net,2105550014,78213,Facebook Ads,Meta | Seasonal Promo,Drywall Repair
+marketing,MKT0008679,2026-03-27T20:30:00.000000,Promotional Contact,promo8@example.net,2105550008,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0000171,2026-03-29T12:25:00.000000,Michael Bean,michael.bean@example.org,2109225633,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008675,2026-03-30T16:47:00.000000,Promotional Contact,promo4@example.net,2105550004,78230,Facebook Ads,Meta | Home Refresh,Drywall Repair
+marketing,MKT0005737,2026-04-01T11:58:00.000000,Jose Dickerson,jdickerson@example.org,(210) 270-7802,78230,Organic Search,Organic Search,Interior Painting
+marketing,MKT0001112,2026-04-02T20:23:00.000000,Tiffany Day,tiffany.day52@example.net,2108700637,78229,Google Ads,Search | Minor Remodeling,Minor Remodeling
+marketing,MKT0008665,2026-04-09T14:42:00.000000,Test Lead,test43@example.com,,78240,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008711,2026-04-09T15:17:00.000000,Promotional Contact,promo40@example.net,2105550040,78240,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0006714,2026-04-16T10:56:00.000000,Alexa Lopez,alopez@example.com,2103131568,78217,Organic Search,Organic Search,Interior Painting
+marketing,MKT0000001,2026-04-20T15:11:00.000000,Sarah Bartlett,sarah.bartlett@example.com,2107554721,78240,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008736,2026-04-22T17:15:00.000000,Promotional Contact,promo65@example.net,2105550065,78213,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008649,2026-04-25T18:35:00.000000,Test Lead,test27@example.com,,78228,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+marketing,MKT0004494,2026-04-26T07:14:00.000000,Erica Cook,erica.cook23@example.org,(210) 654-1604,78209,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+marketing,MKT0007193,2026-04-27T12:27:00.000000,Claudia Boyd,claudia.boyd83@example.org,7262166537,78209,Facebook Ads,Meta | Seasonal Promo,Interior Painting
+marketing,MKT0004397,2026-04-27T15:43:00.000000,Alexa Williams,alexa.williams@example.com,210-707-8679,78240,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008638,2026-04-27T18:51:00.000000,Test Lead,test16@example.com,,78209,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0007673,2026-04-28T08:00:00.000000,Ana Stewart,astewart@example.com,(210) 580-1808,78201,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0007019,2026-04-30T07:08:00.000000,Alexander Gilbert,agilbert@example.org,2106665750,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008681,2026-04-30T12:35:00.000000,Promotional Contact,promo10@example.net,2105550010,78230,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008694,2026-04-30T18:36:00.000000,Promotional Contact,promo23@example.net,2105550023,78216,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+marketing,MKT0008668,2026-05-01T17:53:00.000000,Test Lead,test46@example.com,,78228,Facebook Ads,Meta | Free Estimate,Minor Remodeling
+marketing,MKT0000367,2026-05-04T19:18:00.000000,Michael Saunders,michael.saunders66@example.org,2105009416,78232,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008697,2026-05-05T16:43:00.000000,Promotional Contact,promo26@example.net,2105550026,78230,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008631,2026-05-07T23:54:00.000000,Test Lead,test9@example.com,,78228,Facebook Ads,Meta | Home Refresh,Interior Painting
+marketing,MKT0001297,2026-05-08T13:04:00.000000,JASON MORRIS,jasonmorris@example.org,2105492882,78213,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0002768,2026-05-10T08:25:00.000000,Joseph Medina,joseph.medina@example.net,+1 726 542 2096,78228,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008686,2026-05-10T09:09:00.000000,Promotional Contact,promo15@example.net,2105550015,78201,Direct,Direct,Interior Painting
+marketing,MKT0007371,2026-05-11T09:05:00.000000,Jonathan Beard,jonathan.beard36@example.org,7265116029,78209,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008690,2026-05-11T14:56:00.000000,Promotional Contact,promo19@example.net,2105550019,78240,Facebook Ads,Meta | Seasonal Promo,Drywall Repair
+marketing,MKT0008687,2026-05-12T23:20:00.000000,Promotional Contact,promo16@example.net,2105550016,78209,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008744,2026-05-14T15:51:00.000000,Promotional Contact,promo73@example.net,2105550073,78213,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008740,2026-05-15T06:03:00.000000,Promotional Contact,promo69@example.net,2105550069,78230,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0008678,2026-05-16T06:48:00.000000,Promotional Contact,promo7@example.net,2105550007,78213,Direct,Direct,Minor Remodeling
+marketing,MKT0007425,2026-05-19T11:54:00.000000,Rebecca Rivera,rrivera@example.com,(210) 979-5209,78213,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008642,2026-05-19T20:34:00.000000,Test Lead,test20@example.com,,78229,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0008710,2026-05-23T19:18:00.000000,Promotional Contact,promo39@example.net,2105550039,78201,Facebook Ads,Meta | Seasonal Promo,Exterior Painting
+marketing,MKT0008703,2026-05-24T21:24:00.000000,Promotional Contact,promo32@example.net,2105550032,78228,Facebook Ads,Meta | Home Refresh,Exterior Painting
+marketing,MKT0005487,2026-05-25T08:14:00.000000,Jessica Riley,jessicariley@example.net,7268271559,78213,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0008683,2026-05-25T14:52:00.000000,Promotional Contact,promo12@example.net,2105550012,78228,Google Ads,Search | Exterior Painting,Exterior Painting
+marketing,MKT0004178,2026-05-26T07:42:00.000000,April Little,,7265235364,78240,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0005159,2026-05-26T16:08:00.000000,Jason Ford,jasonford@example.com,2106356196,78229,Facebook Ads,Meta | Free Estimate,Minor Remodeling
+marketing,MKT0001863,2026-05-27T08:13:00.000000,Christopher Durham,christopher.durham@example.net,7265726647,78213,Facebook Ads,Meta | Home Refresh,Drywall Repair
+marketing,MKT0000976,2026-05-28T16:45:00.000000,Karen Mora,karen.mora5@example.net,7269650760,78229,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008695,2026-05-28T22:38:00.000000,Promotional Contact,promo24@example.net,2105550024,78228,Organic Search,Organic Search,Exterior Painting
+marketing,MKT0002215,2026-05-30T02:25:00.000000,Anna Humphrey,anna.humphrey33@example.com,2107923415,78201,Organic Search,Organic Search,Interior Painting
+marketing,MKT0008709,2026-05-30T16:57:00.000000,Promotional Contact,promo38@example.net,2105550038,78232,Facebook Ads,Meta | Free Estimate,Interior Painting
+marketing,MKT0004475,2026-05-31T15:47:00.000000,Rebecca Thomas,rebecca.thomas@example.org,+1 726 201 6022,78228,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0000980,2026-06-02T06:01:00.000000,Joseph Martin,jmartin@example.com,2109231802,78228,Direct,Direct,Exterior Painting
+marketing,MKT0008550,2026-06-02T17:53:00.000000,Jason Carrillo,,7265813847,78216,Direct,Direct,Interior Painting
+marketing,MKT0007088,2026-06-02T22:05:00.000000,Kurt Bowen,kurtbowen@example.com,7267473573,78217,Direct,Direct,Cabinet Painting
+marketing,MKT0003332,2026-06-03T10:09:00.000000,L. Morris,lindsey.morris@example.com,7266646837,78232,Google Ads,Search | Drywall Repair,Drywall Repair
+marketing,MKT0008684,2026-06-04T12:27:00.000000,Promotional Contact,promo13@example.net,2105550013,78201,Organic Search,Organic Search,Interior Painting
+marketing,MKT0003155,2026-06-07T02:20:00.000000,Cody King,cking@example.com,+1 726 236 1570,78201,Google Ads,Search | Cabinet Painting,Cabinet Painting
+marketing,MKT0008662,2026-06-14T01:18:00.000000,Test Lead,test40@example.com,,78209,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0005974,2026-06-17T11:57:00.000000,Brett Brown,brettbrown@example.com,2109612736,78213,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0003605,2026-06-17T14:43:00.000000,Monica Mcdonald,monica.mcdonald@example.net,+1 210 816 0869,78230,Facebook Ads,Meta | Seasonal Promo,Drywall Repair
+marketing,MKT0000894,2026-06-18T12:09:00.000000,Monique Leon,monique.leon@example.org,2102555217,78230,Google Ads,Search | Interior Painting,Interior Painting
+marketing,MKT0003663,2026-06-20T12:14:00.000000,Elizabeth Jones,elizabeth.jones@example.org,(210) 834-5013,78229,Facebook Ads,Meta | Free Estimate,Exterior Painting
+marketing,MKT0000369,2026-06-20T22:22:00.000000,Ronald Ellis,rellis@example.net,(210) 241-7896,78229,Facebook Ads,Meta | Seasonal Promo,Cabinet Painting
+marketing,MKT0000763,2026-06-23T02:24:00.000000,Debra Gilmore,dgilmore@example.com,2109086650,78229,Direct,Direct,Cabinet Painting
+marketing,MKT0008717,2026-06-24T08:36:00.000000,Promotional Contact,promo46@example.net,2105550046,78213,Organic Search,Organic Search,Interior Painting
+marketing,MKT0001053,2026-06-26T10:12:00.000000,Angela White,angela.white27@example.net,(210) 483-2230,78228,Direct,Direct,Cabinet Painting
+marketing,MKT0008742,2026-06-26T15:35:00.000000,Promotional Contact,promo71@example.net,2105550071,78201,Direct,Direct,Cabinet Painting
+marketing,MKT0008714,2026-06-27T12:25:00.000000,Promotional Contact,promo43@example.net,2105550043,78240,Direct,Direct,Exterior Painting
+marketing,MKT0003071,2026-06-29T09:47:00.000000,Jodi Hunt,jodi.hunt@example.org,210-944-1658,78240,Organic Search,Organic Search,Cabinet Painting
+marketing,MKT0008712,2026-06-30T13:59:00.000000,Promotional Contact,promo41@example.net,2105550041,78216,Google Ads,Search | Exterior Painting,Exterior Painting

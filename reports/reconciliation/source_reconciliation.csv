@@ -1,0 +1,5 @@
+source_canonical,raw_crm_records,raw_marketing_records,linked_crm_records,linked_marketing_records,reconciled_leads,spend,platform_conversions,clicks,impressions,unlinked_crm_records,unlinked_marketing_records,platform_reported_cpl,raw_marketing_cpl,raw_crm_cpl,crm_confirmed_cpl
+Direct,1559,1298,1249,1261,1225,,,,,310,37,,,,
+Facebook Ads,1847,1866,1798,1800,1745,150231.89,1989,62074,3301746,49,66,75.53136752136753,80.51012325830655,81.33832701678398,86.0927736389685
+Google Ads,3472,3542,3407,3433,3345,445174.19999999995,3608,61594,978353,65,109,123.38531042128602,125.68441558441558,128.21837557603686,133.08645739910312
+Organic Search,2128,2043,1953,1987,1932,,,,,175,56,,,,
