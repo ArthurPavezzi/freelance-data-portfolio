@@ -14,38 +14,16 @@ def test_normalize_phone() -> None:
         "+1 210 755 4721",
     ]
 
-    assert {
-        normalize_phone(value)
-        for value in variants
-    } == {
-        "2107554721"
-    }
+    assert {normalize_phone(value) for value in variants} == {"2107554721"}
 
 
 def test_normalize_email() -> None:
-    assert (
-        normalize_email(
-            " Sarah@example.COM "
-        )
-        == "sarah@example.com"
-    )
+    assert normalize_email(" Sarah@example.COM ") == "sarah@example.com"
 
 
 def test_normalize_name() -> None:
-    assert (
-        normalize_name(
-            "Sarah Bartlett"
-        )
-        == normalize_name(
-            "SARAH  BARTLETT"
-        )
-    )
+    assert normalize_name("Sarah Bartlett") == normalize_name("SARAH  BARTLETT")
 
 
 def test_normalize_zip() -> None:
-    assert (
-        normalize_zip(
-            "78240-1234"
-        )
-        == "78240"
-    )
+    assert normalize_zip("78240-1234") == "78240"

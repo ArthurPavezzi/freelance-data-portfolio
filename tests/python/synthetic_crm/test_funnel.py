@@ -32,20 +32,11 @@ def test_funnel_generation() -> None:
 
     assert leads.height == base_leads.height
 
-    assert (
-        leads["lead_id"].n_unique()
-        == leads.height
-    )
+    assert leads["lead_id"].n_unique() == leads.height
 
-    assert (
-        estimates["estimate_id"].n_unique()
-        == estimates.height
-    )
+    assert estimates["estimate_id"].n_unique() == estimates.height
 
-    assert (
-        jobs["job_id"].n_unique()
-        == jobs.height
-    )
+    assert jobs["job_id"].n_unique() == jobs.height
 
 
 def test_funnel_relational_integrity() -> None:
@@ -68,25 +59,15 @@ def test_funnel_relational_integrity() -> None:
         config,
     )
 
-    lead_ids = set(
-        leads["lead_id"].to_list()
-    )
+    lead_ids = set(leads["lead_id"].to_list())
 
-    estimate_ids = set(
-        estimates["estimate_id"].to_list()
-    )
+    estimate_ids = set(estimates["estimate_id"].to_list())
 
-    assert set(
-        estimates["lead_id"].to_list()
-    ).issubset(lead_ids)
+    assert set(estimates["lead_id"].to_list()).issubset(lead_ids)
 
-    assert set(
-        jobs["lead_id"].to_list()
-    ).issubset(lead_ids)
+    assert set(jobs["lead_id"].to_list()).issubset(lead_ids)
 
-    assert set(
-        jobs["estimate_id"].to_list()
-    ).issubset(estimate_ids)
+    assert set(jobs["estimate_id"].to_list()).issubset(estimate_ids)
 
 
 def test_only_won_estimates_create_jobs() -> None:
@@ -109,16 +90,8 @@ def test_only_won_estimates_create_jobs() -> None:
         config,
     )
 
-    won_estimates = set(
-        estimates
-        .filter(
-            estimates["status"] == "Won"
-        )["estimate_id"]
-        .to_list()
-    )
+    won_estimates = set(estimates.filter(estimates["status"] == "Won")["estimate_id"].to_list())
 
-    job_estimates = set(
-        jobs["estimate_id"].to_list()
-    )
+    job_estimates = set(jobs["estimate_id"].to_list())
 
     assert job_estimates == won_estimates

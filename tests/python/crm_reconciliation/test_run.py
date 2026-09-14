@@ -4,10 +4,7 @@ from crm_reconciliation.run import (
 
 
 def test_pipeline_stage_order() -> None:
-    assert [
-        name
-        for name, _ in PIPELINE_STAGES
-    ] == [
+    assert [name for name, _ in PIPELINE_STAGES] == [
         "Exact matching",
         "Fuzzy candidate recovery",
         "Match resolution",
@@ -21,12 +18,6 @@ def test_pipeline_stage_order() -> None:
 
 
 def test_validation_is_not_an_operational_stage() -> None:
-    stage_modules = [
-        stage.__module__
-        for _, stage in PIPELINE_STAGES
-    ]
+    stage_modules = [stage.__module__ for _, stage in PIPELINE_STAGES]
 
-    assert (
-        "crm_reconciliation.run_validation"
-        not in stage_modules
-    )
+    assert "crm_reconciliation.run_validation" not in stage_modules

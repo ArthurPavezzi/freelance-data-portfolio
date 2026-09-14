@@ -30,7 +30,6 @@ from .run_triage import (
     main as run_triage,
 )
 
-
 PipelineStage = tuple[
     str,
     Callable[[], None],
@@ -88,7 +87,13 @@ def main() -> None:
     print("=" * 27)
     print()
 
-    for position, (name, stage,) in enumerate(PIPELINE_STAGES, start=1, ):
+    for position, (
+        name,
+        stage,
+    ) in enumerate(
+        PIPELINE_STAGES,
+        start=1,
+    ):
         print(f"[{position}/{total}] {name}")
 
         stage()

@@ -155,19 +155,11 @@ def test_exact_matches_are_auto_matched() -> None:
         _fuzzy_candidates(),
     )
 
-    exact = resolved.filter(
-        pl.col("match_method")
-        == "exact"
-    )
+    exact = resolved.filter(pl.col("match_method") == "exact")
 
     assert exact.height == 1
 
-    assert (
-        exact[
-            "review_status"
-        ][0]
-        == "auto_match"
-    )
+    assert exact["review_status"][0] == "auto_match"
 
 
 def test_high_fuzzy_score_is_auto_match() -> None:
@@ -177,24 +169,12 @@ def test_high_fuzzy_score_is_auto_match() -> None:
     )
 
     fuzzy_auto = resolved.filter(
-        (
-            pl.col("match_method")
-            == "fuzzy"
-        )
-        & (
-            pl.col("review_status")
-            == "auto_match"
-        )
+        (pl.col("match_method") == "fuzzy") & (pl.col("review_status") == "auto_match")
     )
 
     assert fuzzy_auto.height == 1
 
-    assert (
-        fuzzy_auto[
-            "crm_record_id"
-        ][0]
-        == "CRM2"
-    )
+    assert fuzzy_auto["crm_record_id"][0] == "CRM2"
 
 
 def test_middle_fuzzy_score_requires_review() -> None:
@@ -203,19 +183,11 @@ def test_middle_fuzzy_score_requires_review() -> None:
         _fuzzy_candidates(),
     )
 
-    review = resolved.filter(
-        pl.col("review_status")
-        == "manual_review"
-    )
+    review = resolved.filter(pl.col("review_status") == "manual_review")
 
     assert review.height == 1
 
-    assert (
-        review[
-            "crm_record_id"
-        ][0]
-        == "CRM3"
-    )
+    assert review["crm_record_id"][0] == "CRM3"
 
 
 def test_low_fuzzy_score_is_rejected() -> None:
@@ -224,26 +196,12 @@ def test_low_fuzzy_score_is_rejected() -> None:
         _fuzzy_candidates(),
     )
 
-    assert (
-        "CRM4"
-        not in resolved[
-            "crm_record_id"
-        ].to_list()
-    )
+    assert "CRM4" not in resolved["crm_record_id"].to_list()
 
 
 def test_manual_review_queue_only_contains_review_band() -> None:
-    queue = (
-        build_manual_review_queue(
-            _fuzzy_candidates()
-        )
-    )
+    queue = build_manual_review_queue(_fuzzy_candidates())
 
     assert queue.height == 1
 
-    assert (
-        queue[
-            "crm_record_id"
-        ][0]
-        == "CRM3"
-    )
+    assert queue["crm_record_id"][0] == "CRM3"

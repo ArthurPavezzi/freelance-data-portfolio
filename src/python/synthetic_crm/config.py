@@ -24,7 +24,7 @@ class SimulationConfig:
     malformed_email_rate: float = 0.02
     missing_crm_lead_rate: float = 0.015
     crm_hard_identity_rate: float = 0.04
-    
+
     # Marketing-system observation noise
     marketing_duplicate_rate: float = 0.03
     marketing_phone_format_rate: float = 0.55

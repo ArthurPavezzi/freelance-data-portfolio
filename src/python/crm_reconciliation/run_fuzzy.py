@@ -32,28 +32,17 @@ def main() -> None:
         try_parse_dates=True,
     )
 
-    exact_matches = pl.read_parquet(
-        OUTPUT_DIR
-        / "exact_matches.parquet"
+    exact_matches = pl.read_parquet(OUTPUT_DIR / "exact_matches.parquet")
+
+    candidates = generate_fuzzy_candidates(
+        crm,
+        marketing,
+        exact_matches,
     )
 
-    candidates = (
-        generate_fuzzy_candidates(
-            crm,
-            marketing,
-            exact_matches,
-        )
-    )
+    scored = score_fuzzy_candidates(candidates)
 
-    scored = (
-        score_fuzzy_candidates(
-            candidates
-        )
-    )
-
-    scored.write_parquet(
-        OUTPUT_DIR / "fuzzy_candidates.parquet"
-    )
+    scored.write_parquet(OUTPUT_DIR / "fuzzy_candidates.parquet")
 
     print("Fuzzy candidate generation")
     print()
@@ -78,37 +67,14 @@ def main() -> None:
 
     print(
         scored.select(
-            pl.col("fuzzy_score")
-            .min()
-            .alias("min"),
-
-            pl.col("fuzzy_score")
-            .quantile(0.25)
-            .alias("p25"),
-
-            pl.col("fuzzy_score")
-            .median()
-            .alias("median"),
-
-            pl.col("fuzzy_score")
-            .quantile(0.75)
-            .alias("p75"),
-
-            pl.col("fuzzy_score")
-            .quantile(0.90)
-            .alias("p90"),
-
-            pl.col("fuzzy_score")
-            .quantile(0.95)
-            .alias("p95"),
-
-            pl.col("fuzzy_score")
-            .quantile(0.99)
-            .alias("p99"),
-
-            pl.col("fuzzy_score")
-            .max()
-            .alias("max"),
+            pl.col("fuzzy_score").min().alias("min"),
+            pl.col("fuzzy_score").quantile(0.25).alias("p25"),
+            pl.col("fuzzy_score").median().alias("median"),
+            pl.col("fuzzy_score").quantile(0.75).alias("p75"),
+            pl.col("fuzzy_score").quantile(0.90).alias("p90"),
+            pl.col("fuzzy_score").quantile(0.95).alias("p95"),
+            pl.col("fuzzy_score").quantile(0.99).alias("p99"),
+            pl.col("fuzzy_score").max().alias("max"),
         )
     )
 

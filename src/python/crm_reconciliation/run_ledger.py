@@ -8,42 +8,27 @@ from .ledger import (
     build_unified_ledger,
 )
 
-RAW_DIR = Path(
-    "data/synthetic/crm/raw_exports"
-)
+RAW_DIR = Path("data/synthetic/crm/raw_exports")
 
-PROCESSED_DIR = Path(
-    "data/processed/reconciliation"
-)
+PROCESSED_DIR = Path("data/processed/reconciliation")
 
 
 def main() -> None:
     crm = pl.read_csv(
-        RAW_DIR
-        / "crm_leads.csv",
+        RAW_DIR / "crm_leads.csv",
         try_parse_dates=True,
     )
 
     marketing = pl.read_csv(
-        RAW_DIR
-        / "marketing_leads.csv",
+        RAW_DIR / "marketing_leads.csv",
         try_parse_dates=True,
     )
 
-    clusters = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciled_leads.parquet"
-    )
+    clusters = pl.read_parquet(PROCESSED_DIR / "reconciled_leads.parquet")
 
-    membership = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciled_record_membership.parquet"
-    )
+    membership = pl.read_parquet(PROCESSED_DIR / "reconciled_record_membership.parquet")
 
-    resolved = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciliation_results.parquet"
-    )
+    resolved = pl.read_parquet(PROCESSED_DIR / "reconciliation_results.parquet")
 
     ledger = build_unified_ledger(
         crm,
@@ -53,19 +38,11 @@ def main() -> None:
         resolved,
     )
 
-    ledger.write_parquet(
-        PROCESSED_DIR
-        / "unified_lead_ledger.parquet"
-    )
+    ledger.write_parquet(PROCESSED_DIR / "unified_lead_ledger.parquet")
 
-    ledger.write_csv(
-        PROCESSED_DIR
-        / "unified_lead_ledger.csv"
-    )
+    ledger.write_csv(PROCESSED_DIR / "unified_lead_ledger.csv")
 
-    print(
-        "Unified lead ledger"
-    )
+    print("Unified lead ledger")
     print()
 
     print(
@@ -75,15 +52,10 @@ def main() -> None:
 
     print()
 
-    print(
-        "=== STATUS ==="
-    )
+    print("=== STATUS ===")
 
     print(
-        ledger
-        .group_by(
-            "ledger_status"
-        )
+        ledger.group_by("ledger_status")
         .len()
         .sort(
             "len",
@@ -93,13 +65,10 @@ def main() -> None:
 
     print()
 
-    print(
-        "=== MARKETING SCOPE ==="
-    )
+    print("=== MARKETING SCOPE ===")
 
     print(
-        ledger
-        .group_by(
+        ledger.group_by(
             "ledger_status",
             "in_marketing_scope",
         )
@@ -114,63 +83,23 @@ def main() -> None:
 
     print()
 
-    print(
-        "=== DATA DISAGREEMENTS ==="
-    )
+    print("=== DATA DISAGREEMENTS ===")
 
     print(
-        ledger
-        .filter(
-            pl.col(
-                "ledger_status"
-            )
-            == "cross_system_confirmed"
-        )
-        .select(
-            pl.col(
-                "source_disagreement"
-            )
-            .sum()
-            .alias(
-                "source_disagreements"
-            ),
-
-            pl.col(
-                "service_disagreement"
-            )
-            .sum()
-            .alias(
-                "service_disagreements"
-            ),
+        ledger.filter(pl.col("ledger_status") == "cross_system_confirmed").select(
+            pl.col("source_disagreement").sum().alias("source_disagreements"),
+            pl.col("service_disagreement").sum().alias("service_disagreements"),
         )
     )
 
     print()
 
-    print(
-        "=== REVIEW ==="
-    )
+    print("=== REVIEW ===")
 
     print(
-        ledger
-        .filter(
-            pl.col(
-                "needs_review"
-            )
-        )
-        .select(
-            pl.len()
-            .alias(
-                "records_pending_review"
-            ),
-
-            pl.col(
-                "review_candidate_count"
-            )
-            .sum()
-            .alias(
-                "candidate_links"
-            ),
+        ledger.filter(pl.col("needs_review")).select(
+            pl.len().alias("records_pending_review"),
+            pl.col("review_candidate_count").sum().alias("candidate_links"),
         )
     )
 

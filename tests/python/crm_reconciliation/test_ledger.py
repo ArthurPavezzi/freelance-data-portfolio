@@ -33,11 +33,7 @@ def _inputs():
                 "Exterior Painting",
             ],
         }
-    ).with_columns(
-        pl.col(
-            "created_at"
-        ).str.to_datetime()
-    )
+    ).with_columns(pl.col("created_at").str.to_datetime())
 
     marketing = pl.DataFrame(
         {
@@ -62,11 +58,7 @@ def _inputs():
                 "Exterior Painting",
             ],
         }
-    ).with_columns(
-        pl.col(
-            "captured_at"
-        ).str.to_datetime()
-    )
+    ).with_columns(pl.col("captured_at").str.to_datetime())
 
     clusters = pl.DataFrame(
         {
@@ -150,85 +142,42 @@ def _inputs():
 
 
 def test_confirmed_cluster_becomes_one_ledger_row() -> None:
-    ledger = build_unified_ledger(
-        *_inputs()
-    )
+    ledger = build_unified_ledger(*_inputs())
 
-    confirmed = ledger.filter(
-        pl.col("ledger_status")
-        == "cross_system_confirmed"
-    )
+    confirmed = ledger.filter(pl.col("ledger_status") == "cross_system_confirmed")
 
     assert confirmed.height == 1
 
-    assert (
-        confirmed[
-            "crm_record_count"
-        ][0]
-        == 2
-    )
+    assert confirmed["crm_record_count"][0] == 2
 
-    assert (
-        confirmed[
-            "marketing_record_count"
-        ][0]
-        == 1
-    )
+    assert confirmed["marketing_record_count"][0] == 1
 
 
 def test_unmatched_records_remain_singletons() -> None:
-    ledger = build_unified_ledger(
-        *_inputs()
-    )
+    ledger = build_unified_ledger(*_inputs())
 
     assert ledger.height == 3
 
 
 def test_manual_review_records_are_marked_pending() -> None:
-    ledger = build_unified_ledger(
-        *_inputs()
-    )
+    ledger = build_unified_ledger(*_inputs())
 
-    pending = ledger.filter(
-        pl.col(
-            "ledger_status"
-        )
-        == "manual_review_pending"
-    )
+    pending = ledger.filter(pl.col("ledger_status") == "manual_review_pending")
 
     assert pending.height == 2
 
 
 def test_out_of_scope_crm_record_is_identified() -> None:
-    ledger = build_unified_ledger(
-        *_inputs()
-    )
+    ledger = build_unified_ledger(*_inputs())
 
-    crm3 = ledger.filter(
-        pl.col(
-            "primary_crm_record_id"
-        )
-        == "CRM3"
-    )
+    crm3 = ledger.filter(pl.col("primary_crm_record_id") == "CRM3")
 
-    assert not crm3[
-        "in_marketing_scope"
-    ][0]
+    assert not crm3["in_marketing_scope"][0]
 
 
 def test_confirmed_source_prefers_marketing_attribution() -> None:
-    ledger = build_unified_ledger(
-        *_inputs()
-    )
+    ledger = build_unified_ledger(*_inputs())
 
-    confirmed = ledger.filter(
-        pl.col("ledger_status")
-        == "cross_system_confirmed"
-    )
+    confirmed = ledger.filter(pl.col("ledger_status") == "cross_system_confirmed")
 
-    assert (
-        confirmed[
-            "source_canonical"
-        ][0]
-        == "Google Ads"
-    )
+    assert confirmed["source_canonical"][0] == "Google Ads"

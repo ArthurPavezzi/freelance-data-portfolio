@@ -48,54 +48,40 @@ def _generate_duplicate_candidates(
         ),
     ]
 
-    candidate_frames: list[
-        pl.DataFrame
-    ] = []
+    candidate_frames: list[pl.DataFrame] = []
 
     for fields, rule in rules:
         filtered = records
 
         for field in fields:
-            filtered = filtered.filter(
-                pl.col(field)
-                .is_not_null()
-            )
+            filtered = filtered.filter(pl.col(field).is_not_null())
 
-        left = (
-            filtered
-            .select(
-                id_col,
-                time_col,
-                "service",
-                *fields,
-            )
-            .rename(
-                {
-                    id_col: "left_record_id",
-                    time_col: "left_timestamp",
-                }
-            )
+        left = filtered.select(
+            id_col,
+            time_col,
+            "service",
+            *fields,
+        ).rename(
+            {
+                id_col: "left_record_id",
+                time_col: "left_timestamp",
+            }
         )
 
-        right = (
-            filtered
-            .select(
-                id_col,
-                time_col,
-                "service",
-                *fields,
-            )
-            .rename(
-                {
-                    id_col: "right_record_id",
-                    time_col: "right_timestamp",
-                }
-            )
+        right = filtered.select(
+            id_col,
+            time_col,
+            "service",
+            *fields,
+        ).rename(
+            {
+                id_col: "right_record_id",
+                time_col: "right_timestamp",
+            }
         )
 
         candidates = (
-            left
-            .join(
+            left.join(
                 right,
                 on=[
                     "service",
@@ -103,47 +89,23 @@ def _generate_duplicate_candidates(
                 ],
                 how="inner",
             )
-            .filter(
-                pl.col("left_record_id")
-                < pl.col("right_record_id")
-            )
+            .filter(pl.col("left_record_id") < pl.col("right_record_id"))
             .with_columns(
-                (
-                    pl.col(
-                        "left_timestamp"
-                    )
-                    - pl.col(
-                        "right_timestamp"
-                    )
-                )
+                (pl.col("left_timestamp") - pl.col("right_timestamp"))
                 .abs()
                 .dt.total_minutes()
-                .alias(
-                    "time_delta_minutes"
-                )
+                .alias("time_delta_minutes")
             )
-            .filter(
-                pl.col(
-                    "time_delta_minutes"
-                )
-                <= max_delta_minutes
-            )
+            .filter(pl.col("time_delta_minutes") <= max_delta_minutes)
             .select(
                 "left_record_id",
                 "right_record_id",
                 "time_delta_minutes",
             )
-            .with_columns(
-                pl.lit(rule)
-                .alias(
-                    "dedupe_rule"
-                )
-            )
+            .with_columns(pl.lit(rule).alias("dedupe_rule"))
         )
 
-        candidate_frames.append(
-            candidates
-        )
+        candidate_frames.append(candidates)
 
     if not candidate_frames:
         return pl.DataFrame()
@@ -153,9 +115,7 @@ def _generate_duplicate_candidates(
             candidate_frames,
             how="vertical",
         )
-        .sort(
-            "time_delta_minutes"
-        )
+        .sort("time_delta_minutes")
         .unique(
             subset=[
                 "left_record_id",
@@ -175,10 +135,7 @@ def _build_components(
     """
     Convert duplicate links into deterministic connected components.
     """
-    parent = {
-        record_id: record_id
-        for record_id in record_ids
-    }
+    parent = {record_id: record_id for record_id in record_ids}
 
     def find(
         node: str,
@@ -206,24 +163,14 @@ def _build_components(
             return
 
         if left_root < right_root:
-            parent[right_root] = (
-                left_root
-            )
+            parent[right_root] = left_root
         else:
-            parent[left_root] = (
-                right_root
-            )
+            parent[left_root] = right_root
 
-    for row in candidates.iter_rows(
-        named=True
-    ):
+    for row in candidates.iter_rows(named=True):
         union(
-            str(
-                row["left_record_id"]
-            ),
-            str(
-                row["right_record_id"]
-            ),
+            str(row["left_record_id"]),
+            str(row["right_record_id"]),
         )
 
     components: dict[
@@ -232,11 +179,7 @@ def _build_components(
     ] = defaultdict(list)
 
     for record_id in record_ids:
-        components[
-            find(record_id)
-        ].append(
-            record_id
-        )
+        components[find(record_id)].append(record_id)
 
     ordered = sorted(
         components.values(),
@@ -249,30 +192,18 @@ def _build_components(
         ordered,
         start=1,
     ):
-        entity_id = (
-            f"{prefix}{number:07d}"
-        )
+        entity_id = f"{prefix}{number:07d}"
 
-        for record_id in sorted(
-            members
-        ):
+        for record_id in sorted(members):
             rows.append(
                 {
-                    "within_system_entity_id": (
-                        entity_id
-                    ),
-                    "record_id": (
-                        record_id
-                    ),
-                    "record_count": (
-                        len(members)
-                    ),
+                    "within_system_entity_id": (entity_id),
+                    "record_id": (record_id),
+                    "record_count": (len(members)),
                 }
             )
 
-    return pl.DataFrame(
-        rows
-    )
+    return pl.DataFrame(rows)
 
 
 def deduplicate_singletons(
@@ -289,143 +220,77 @@ def deduplicate_singletons(
     Cross-system-confirmed and manual-review records are deliberately
     excluded; this layer only handles unresolved singleton observations.
     """
-    crm_prepared = prepare_crm(
-        crm
-    )
+    crm_prepared = prepare_crm(crm)
 
-    marketing_prepared = (
-        prepare_marketing(
-            marketing
-        )
-    )
+    marketing_prepared = prepare_marketing(marketing)
 
     # --------------------------------------------------------
     # Eligible CRM observations
     # --------------------------------------------------------
 
-    crm_context = (
-        triaged
-        .filter(
-            pl.col(
-                "triage_status"
-            )
-            .is_in(
-                CRM_ELIGIBLE_STATUSES
-            )
-        )
-        .select(
-            pl.col(
-                "primary_crm_record_id"
-            )
-            .alias(
-                "crm_record_id"
-            ),
-            "triage_status",
-            "source_canonical",
-            "campaign",
-            "service",
-            "event_timestamp",
-        )
+    crm_context = triaged.filter(pl.col("triage_status").is_in(CRM_ELIGIBLE_STATUSES)).select(
+        pl.col("primary_crm_record_id").alias("crm_record_id"),
+        "triage_status",
+        "source_canonical",
+        "campaign",
+        "service",
+        "event_timestamp",
     )
 
-    crm_unresolved = (
-        crm_prepared
-        .join(
-            crm_context.select(
-                "crm_record_id"
-            ),
-            on="crm_record_id",
-            how="inner",
-        )
+    crm_unresolved = crm_prepared.join(
+        crm_context.select("crm_record_id"),
+        on="crm_record_id",
+        how="inner",
     )
 
     # CRM duplicates are generated at the same CRM timestamp.
-    crm_candidates = (
-        _generate_duplicate_candidates(
-            crm_unresolved,
-            id_col="crm_record_id",
-            time_col="created_at",
-            max_delta_minutes=0,
-        )
+    crm_candidates = _generate_duplicate_candidates(
+        crm_unresolved,
+        id_col="crm_record_id",
+        time_col="created_at",
+        max_delta_minutes=0,
     )
 
-    crm_membership = (
-        _build_components(
-            crm_unresolved[
-                "crm_record_id"
-            ].to_list(),
-            crm_candidates,
-            prefix="WCR",
-        )
-        .with_columns(
-            pl.lit("crm")
-            .alias("system")
-        )
-    )
+    crm_membership = _build_components(
+        crm_unresolved["crm_record_id"].to_list(),
+        crm_candidates,
+        prefix="WCR",
+    ).with_columns(pl.lit("crm").alias("system"))
 
     # --------------------------------------------------------
     # Eligible marketing observations
     # --------------------------------------------------------
 
-    marketing_context = (
-        triaged
-        .filter(
-            pl.col(
-                "triage_status"
-            )
-            .is_in(
-                MARKETING_ELIGIBLE_STATUSES
-            )
-        )
-        .select(
-            pl.col(
-                "primary_marketing_record_id"
-            )
-            .alias(
-                "marketing_record_id"
-            ),
-            "triage_status",
-            "source_canonical",
-            "campaign",
-            "service",
-            "event_timestamp",
-        )
+    marketing_context = triaged.filter(
+        pl.col("triage_status").is_in(MARKETING_ELIGIBLE_STATUSES)
+    ).select(
+        pl.col("primary_marketing_record_id").alias("marketing_record_id"),
+        "triage_status",
+        "source_canonical",
+        "campaign",
+        "service",
+        "event_timestamp",
     )
 
-    marketing_unresolved = (
-        marketing_prepared
-        .join(
-            marketing_context.select(
-                "marketing_record_id"
-            ),
-            on="marketing_record_id",
-            how="inner",
-        )
+    marketing_unresolved = marketing_prepared.join(
+        marketing_context.select("marketing_record_id"),
+        on="marketing_record_id",
+        how="inner",
     )
 
     # Marketing duplicate submissions occur within a few minutes.
-    marketing_candidates = (
-        _generate_duplicate_candidates(
-            marketing_unresolved,
-            id_col="marketing_record_id",
-            time_col="captured_at",
-            max_delta_minutes=15,
-        )
+    marketing_candidates = _generate_duplicate_candidates(
+        marketing_unresolved,
+        id_col="marketing_record_id",
+        time_col="captured_at",
+        max_delta_minutes=15,
     )
 
-    marketing_membership = (
-        _build_components(
-            marketing_unresolved[
-                "marketing_record_id"
-            ].to_list(),
-            marketing_candidates,
-            prefix="WMK",
-        )
-        .with_columns(
-            pl.lit("marketing")
-            .alias("system")
-        )
-    )
+    marketing_membership = _build_components(
+        marketing_unresolved["marketing_record_id"].to_list(),
+        marketing_candidates,
+        prefix="WMK",
+    ).with_columns(pl.lit("marketing").alias("system"))
 
     membership = pl.concat(
         [
@@ -439,34 +304,16 @@ def deduplicate_singletons(
     # Human-readable entity summary
     # --------------------------------------------------------
 
-    crm_entity_context = (
-        crm_membership
-        .join(
-            crm_context.rename(
-                {
-                    "crm_record_id": (
-                        "record_id"
-                    )
-                }
-            ),
-            on="record_id",
-            how="left",
-        )
+    crm_entity_context = crm_membership.join(
+        crm_context.rename({"crm_record_id": ("record_id")}),
+        on="record_id",
+        how="left",
     )
 
-    marketing_entity_context = (
-        marketing_membership
-        .join(
-            marketing_context.rename(
-                {
-                    "marketing_record_id": (
-                        "record_id"
-                    )
-                }
-            ),
-            on="record_id",
-            how="left",
-        )
+    marketing_entity_context = marketing_membership.join(
+        marketing_context.rename({"marketing_record_id": ("record_id")}),
+        on="record_id",
+        how="left",
     )
 
     entity_context = pl.concat(
@@ -478,63 +325,19 @@ def deduplicate_singletons(
     )
 
     entities = (
-        entity_context
-        .group_by(
+        entity_context.group_by(
             "within_system_entity_id",
             "system",
         )
         .agg(
-            pl.len()
-            .alias(
-                "record_count"
-            ),
-
-            pl.col(
-                "event_timestamp"
-            )
-            .min()
-            .alias(
-                "event_timestamp"
-            ),
-
-            pl.col(
-                "triage_status"
-            )
-            .first()
-            .alias(
-                "triage_status"
-            ),
-
-            pl.col(
-                "source_canonical"
-            )
-            .drop_nulls()
-            .first()
-            .alias(
-                "source_canonical"
-            ),
-
-            pl.col("campaign")
-            .drop_nulls()
-            .first()
-            .alias("campaign"),
-
-            pl.col("service")
-            .drop_nulls()
-            .first()
-            .alias("service"),
+            pl.len().alias("record_count"),
+            pl.col("event_timestamp").min().alias("event_timestamp"),
+            pl.col("triage_status").first().alias("triage_status"),
+            pl.col("source_canonical").drop_nulls().first().alias("source_canonical"),
+            pl.col("campaign").drop_nulls().first().alias("campaign"),
+            pl.col("service").drop_nulls().first().alias("service"),
         )
-        .with_columns(
-            (
-                pl.col(
-                    "record_count"
-                )
-                > 1
-            )
-            .alias(
-                "has_duplicates"
-            )
-        )
+        .with_columns((pl.col("record_count") > 1).alias("has_duplicates"))
         .sort(
             [
                 "system",

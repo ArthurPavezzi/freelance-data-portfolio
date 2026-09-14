@@ -15,13 +15,7 @@ def normalize_name(value: str | None) -> str | None:
         value,
     )
 
-    value = (
-        value
-        .encode("ascii", "ignore")
-        .decode("ascii")
-        .lower()
-        .strip()
-    )
+    value = value.encode("ascii", "ignore").decode("ascii").lower().strip()
 
     value = re.sub(
         r"[^a-z0-9]+",
@@ -51,10 +45,7 @@ def normalize_phone(value: str | None) -> str | None:
         value,
     )
 
-    if (
-        len(digits) == 11
-        and digits.startswith("1")
-    ):
+    if len(digits) == 11 and digits.startswith("1"):
         digits = digits[1:]
 
     if len(digits) != 10:
@@ -89,21 +80,18 @@ def prepare_crm(
             return_dtype=pl.String,
         )
         .alias("name_norm"),
-
         pl.col("email")
         .map_elements(
             normalize_email,
             return_dtype=pl.String,
         )
         .alias("email_norm"),
-
         pl.col("phone")
         .map_elements(
             normalize_phone,
             return_dtype=pl.String,
         )
         .alias("phone_norm"),
-
         pl.col("zip_code")
         .cast(pl.String)
         .map_elements(
@@ -124,21 +112,18 @@ def prepare_marketing(
             return_dtype=pl.String,
         )
         .alias("name_norm"),
-
         pl.col("email")
         .map_elements(
             normalize_email,
             return_dtype=pl.String,
         )
         .alias("email_norm"),
-
         pl.col("phone")
         .map_elements(
             normalize_phone,
             return_dtype=pl.String,
         )
         .alias("phone_norm"),
-
         pl.col("zip_code")
         .cast(pl.String)
         .map_elements(

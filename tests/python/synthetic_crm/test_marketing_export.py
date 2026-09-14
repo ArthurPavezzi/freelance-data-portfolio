@@ -23,9 +23,7 @@ def _generate_test_data():
         target_leads=700,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -52,20 +50,13 @@ def test_marketing_record_ids_are_unique() -> None:
         leads,
     ) = _generate_test_data()
 
-    marketing, _, _ = (
-        generate_marketing_export(
-            leads,
-            customers,
-            config,
-        )
+    marketing, _, _ = generate_marketing_export(
+        leads,
+        customers,
+        config,
     )
 
-    assert (
-        marketing[
-            "marketing_record_id"
-        ].n_unique()
-        == marketing.height
-    )
+    assert marketing["marketing_record_id"].n_unique() == marketing.height
 
 
 def test_only_trackable_true_sources_are_mapped() -> None:
@@ -75,42 +66,19 @@ def test_only_trackable_true_sources_are_mapped() -> None:
         leads,
     ) = _generate_test_data()
 
-    _, _, mapping = (
-        generate_marketing_export(
-            leads,
-            customers,
-            config,
-        )
+    _, _, mapping = generate_marketing_export(
+        leads,
+        customers,
+        config,
     )
 
-    mapped_lead_ids = set(
-        mapping[
-            "ground_truth_lead_id"
-        ]
-        .drop_nulls()
-        .to_list()
-    )
+    mapped_lead_ids = set(mapping["ground_truth_lead_id"].drop_nulls().to_list())
 
     eligible_lead_ids = set(
-        leads
-        .filter(
-            pl.col("source").is_in(
-                list(
-                    TRACKABLE_SOURCES
-                )
-            )
-        )[
-            "lead_id"
-        ]
-        .to_list()
+        leads.filter(pl.col("source").is_in(list(TRACKABLE_SOURCES)))["lead_id"].to_list()
     )
 
-    assert (
-        mapped_lead_ids
-        .issubset(
-            eligible_lead_ids
-        )
-    )
+    assert mapped_lead_ids.issubset(eligible_lead_ids)
 
 
 def test_noise_records_have_no_ground_truth() -> None:
@@ -121,9 +89,7 @@ def test_noise_records_have_no_ground_truth() -> None:
         marketing_spam_record_rate=0.10,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -136,29 +102,17 @@ def test_noise_records_have_no_ground_truth() -> None:
         config,
     )
 
-    _, _, mapping = (
-        generate_marketing_export(
-            leads,
-            customers,
-            config,
-        )
+    _, _, mapping = generate_marketing_export(
+        leads,
+        customers,
+        config,
     )
 
-    noise = mapping.filter(
-        pl.col("record_kind")
-        .is_in(
-            ["test", "spam"]
-        )
-    )
+    noise = mapping.filter(pl.col("record_kind").is_in(["test", "spam"]))
 
     assert noise.height > 0
 
-    assert (
-        noise[
-            "ground_truth_lead_id"
-        ].null_count()
-        == noise.height
-    )
+    assert noise["ground_truth_lead_id"].null_count() == noise.height
 
 
 def test_duplicate_submissions_reference_original() -> None:
@@ -170,9 +124,7 @@ def test_duplicate_submissions_reference_original() -> None:
         marketing_spam_record_rate=0.0,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -185,35 +137,19 @@ def test_duplicate_submissions_reference_original() -> None:
         config,
     )
 
-    _, _, mapping = (
-        generate_marketing_export(
-            leads,
-            customers,
-            config,
-        )
+    _, _, mapping = generate_marketing_export(
+        leads,
+        customers,
+        config,
     )
 
-    duplicates = mapping.filter(
-        pl.col("is_duplicate")
-    )
+    duplicates = mapping.filter(pl.col("is_duplicate"))
 
-    originals = set(
-        mapping
-        .filter(
-            ~pl.col("is_duplicate")
-        )[
-            "marketing_record_id"
-        ]
-        .to_list()
-    )
+    originals = set(mapping.filter(~pl.col("is_duplicate"))["marketing_record_id"].to_list())
 
     assert duplicates.height > 0
 
-    assert set(
-        duplicates[
-            "duplicate_of_marketing_record_id"
-        ].to_list()
-    ).issubset(originals)
+    assert set(duplicates["duplicate_of_marketing_record_id"].to_list()).issubset(originals)
 
 
 def test_marketing_export_is_reproducible() -> None:
@@ -240,6 +176,4 @@ def test_marketing_export_is_reproducible() -> None:
         second,
         strict=True,
     ):
-        assert first_df.equals(
-            second_df
-        )
+        assert first_df.equals(second_df)

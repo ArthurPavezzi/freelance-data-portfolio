@@ -114,16 +114,7 @@ def test_marketing_test_is_detected() -> None:
         _marketing(),
     )
 
-    assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "M1"
-        )[
-            "triage_status"
-        ][0]
-        == "marketing_test"
-    )
+    assert triaged.filter(pl.col("ledger_id") == "M1")["triage_status"][0] == "marketing_test"
 
 
 def test_marketing_spam_is_detected() -> None:
@@ -134,14 +125,7 @@ def test_marketing_spam_is_detected() -> None:
     )
 
     assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "M2"
-        )[
-            "triage_status"
-        ][0]
-        == "marketing_likely_spam"
+        triaged.filter(pl.col("ledger_id") == "M2")["triage_status"][0] == "marketing_likely_spam"
     )
 
 
@@ -152,16 +136,7 @@ def test_valid_marketing_only_is_retained() -> None:
         _marketing(),
     )
 
-    assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "M3"
-        )[
-            "triage_status"
-        ][0]
-        == "marketing_only_valid"
-    )
+    assert triaged.filter(pl.col("ledger_id") == "M3")["triage_status"][0] == "marketing_only_valid"
 
 
 def test_out_of_scope_crm_is_excluded() -> None:
@@ -172,14 +147,7 @@ def test_out_of_scope_crm_is_excluded() -> None:
     )
 
     assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "C1"
-        )[
-            "triage_status"
-        ][0]
-        == "crm_only_out_of_scope"
+        triaged.filter(pl.col("ledger_id") == "C1")["triage_status"][0] == "crm_only_out_of_scope"
     )
 
 
@@ -190,16 +158,7 @@ def test_trackable_crm_only_is_flagged() -> None:
         _marketing(),
     )
 
-    assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "C2"
-        )[
-            "triage_status"
-        ][0]
-        == "crm_only_trackable"
-    )
+    assert triaged.filter(pl.col("ledger_id") == "C2")["triage_status"][0] == "crm_only_trackable"
 
 
 def test_unknown_crm_source_is_flagged() -> None:
@@ -210,14 +169,7 @@ def test_unknown_crm_source_is_flagged() -> None:
     )
 
     assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "C3"
-        )[
-            "triage_status"
-        ][0]
-        == "crm_only_unknown_source"
+        triaged.filter(pl.col("ledger_id") == "C3")["triage_status"][0] == "crm_only_unknown_source"
     )
 
 
@@ -229,13 +181,5 @@ def test_manual_review_status_is_preserved() -> None:
     )
 
     assert (
-        triaged
-        .filter(
-            pl.col("ledger_id")
-            == "R1"
-        )[
-            "triage_status"
-        ][0]
-        == "manual_review_pending"
+        triaged.filter(pl.col("ledger_id") == "R1")["triage_status"][0] == "manual_review_pending"
     )
-    

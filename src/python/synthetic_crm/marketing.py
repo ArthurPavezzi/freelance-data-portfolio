@@ -132,11 +132,7 @@ def _sample_source(
     repeat_lead: bool,
 ) -> str:
     """Sample an acquisition source conditional on lead type."""
-    probabilities = (
-        REPEAT_LEAD_SOURCES
-        if repeat_lead
-        else FIRST_LEAD_SOURCES
-    )
+    probabilities = REPEAT_LEAD_SOURCES if repeat_lead else FIRST_LEAD_SOURCES
 
     return str(
         rng.choice(
@@ -176,18 +172,9 @@ def _sample_repeat_gap(
         scale=55.0,
     )
 
-    total_minutes = round(
-        (
-            minimum_days
-            + float(additional_days)
-        )
-        * 24
-        * 60
-    )
+    total_minutes = round((minimum_days + float(additional_days)) * 24 * 60)
 
-    return timedelta(
-        minutes=total_minutes
-    )
+    return timedelta(minutes=total_minutes)
 
 
 def _campaign_for_source(
@@ -202,19 +189,11 @@ def _campaign_for_source(
     if source == "Facebook Ads":
         eligible_campaigns = [
             campaign
-            for campaign, active_months
-            in META_CAMPAIGNS.items()
-            if (
-                active_months is None
-                or created_at.month in active_months
-            )
+            for campaign, active_months in META_CAMPAIGNS.items()
+            if (active_months is None or created_at.month in active_months)
         ]
 
-        return str(
-            rng.choice(
-                eligible_campaigns
-            )
-        )
+        return str(rng.choice(eligible_campaigns))
 
     if source == "Partner":
         return str(
@@ -259,20 +238,12 @@ def _generate_customer_timestamps(
         )
     )
 
-    first_timestamp = (
-        timestamps[first_index]
-        + timedelta(
-            minutes=int(rng.integers(0, 60))
-        )
-    )
+    first_timestamp = timestamps[first_index] + timedelta(minutes=int(rng.integers(0, 60)))
 
     customer_timestamps = [first_timestamp]
 
     for _ in range(1, lead_count):
-        next_timestamp = (
-            customer_timestamps[-1]
-            + _sample_repeat_gap(rng)
-        )
+        next_timestamp = customer_timestamps[-1] + _sample_repeat_gap(rng)
 
         if next_timestamp > simulation_end:
             break
@@ -302,17 +273,14 @@ def generate_leads(
     customer_ids = customers["customer_id"].to_numpy()
 
     if config.target_leads < len(customer_ids):
-        raise ValueError(
-            "target_leads must be greater than or equal to "
-            "target_customers."
-        )
+        raise ValueError("target_leads must be greater than or equal to target_customers.")
 
     expected_extra_leads = (
         (config.target_leads - len(customer_ids))
         / len(customer_ids)
         * config.lead_censoring_adjustment
     )
-    
+
     extra_leads = rng.poisson(
         lam=expected_extra_leads,
         size=len(customer_ids),
@@ -325,13 +293,10 @@ def generate_leads(
         config.end_date,
     )
 
-    simulation_end = (
-        datetime.fromisoformat(config.end_date)
-        + timedelta(
-            hours=23,
-            minutes=59,
-            seconds=59,
-        )
+    simulation_end = datetime.fromisoformat(config.end_date) + timedelta(
+        hours=23,
+        minutes=59,
+        seconds=59,
     )
 
     rows: list[dict[str, object]] = []

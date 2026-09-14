@@ -68,35 +68,22 @@ def test_rasmussen_hirschman() -> None:
         sectors,
     )
 
-    overall_mean = (
-        L.to_numpy().mean()
-    )
+    overall_mean = L.to_numpy().mean()
 
-    assert (
-        result.loc[
-            0,
-            "forward_linkage",
-        ]
-        == pytest.approx(
-            L.iloc[
-                0
-            ].mean()
-            / overall_mean
-        )
-    )
+    assert result.loc[
+        0,
+        "forward_linkage",
+    ] == pytest.approx(L.iloc[0].mean() / overall_mean)
 
-    assert (
-        result.loc[
+    assert result.loc[
+        0,
+        "backward_linkage",
+    ] == pytest.approx(
+        L.iloc[
+            :,
             0,
-            "backward_linkage",
-        ]
-        == pytest.approx(
-            L.iloc[
-                :,
-                0,
-            ].mean()
-            / overall_mean
-        )
+        ].mean()
+        / overall_mean
     )
 
 
@@ -134,23 +121,9 @@ def test_linkage_indices_average_to_one() -> None:
         sectors,
     )
 
-    assert (
-        result[
-            "forward_linkage"
-        ].mean()
-        == pytest.approx(
-            1.0
-        )
-    )
+    assert result["forward_linkage"].mean() == pytest.approx(1.0)
 
-    assert (
-        result[
-            "backward_linkage"
-        ].mean()
-        == pytest.approx(
-            1.0
-        )
-    )
+    assert result["backward_linkage"].mean() == pytest.approx(1.0)
 
 
 def test_rasmussen_hirschman_rejects_non_square_matrix() -> None:

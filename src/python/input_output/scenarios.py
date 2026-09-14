@@ -24,9 +24,7 @@ class ShockScenario:
             self.name,
         ):
             raise ValueError(
-                "Scenario name must contain only "
-                "lowercase letters, numbers, "
-                "and underscores."
+                "Scenario name must contain only lowercase letters, numbers, and underscores."
             )
 
 
@@ -50,9 +48,7 @@ def run_scenario(
 ) -> ScenarioRun:
     result = apply_final_demand_shock(
         leontief=leontief,
-        delta_final_demand=(
-            scenario.delta_final_demand
-        ),
+        delta_final_demand=(scenario.delta_final_demand),
         sectors=sectors,
     )
 
@@ -68,21 +64,12 @@ def run_scenarios(
     leontief: pd.DataFrame,
     sectors: pd.DataFrame,
 ) -> tuple[ScenarioRun, ...]:
-    scenarios = tuple(
-        scenarios
-    )
+    scenarios = tuple(scenarios)
 
-    names = [
-        scenario.name
-        for scenario in scenarios
-    ]
+    names = [scenario.name for scenario in scenarios]
 
-    if len(names) != len(
-        set(names)
-    ):
-        raise ValueError(
-            "Scenario names must be unique."
-        )
+    if len(names) != len(set(names)):
+        raise ValueError("Scenario names must be unique.")
 
     return tuple(
         run_scenario(
@@ -102,60 +89,35 @@ def compare_scenarios(
     for run in runs:
         records.append(
             {
-                "scenario": (
-                    run.scenario.name
-                ),
-                "description": (
-                    run.scenario.description
-                ),
-                "direct_demand_shock": (
-                    run.result.direct_demand_shock
-                ),
-                "total_output_impact": (
-                    run.result.total_output_impact
-                ),
-                "indirect_output_impact": (
-                    run.result.indirect_output_impact
-                ),
-                "output_multiplier": (
-                    run.result.output_multiplier
-                ),
+                "scenario": (run.scenario.name),
+                "description": (run.scenario.description),
+                "direct_demand_shock": (run.result.direct_demand_shock),
+                "total_output_impact": (run.result.total_output_impact),
+                "indirect_output_impact": (run.result.indirect_output_impact),
+                "output_multiplier": (run.result.output_multiplier),
             }
         )
 
-    return pd.DataFrame(
-        records
-    )
+    return pd.DataFrame(records)
 
 
 def write_scenario_outputs(
     *,
     runs: Iterable[ScenarioRun],
-    output_dir: str | Path = Path(
-        "reports/input-output/scenarios"
-    ),
+    output_dir: str | Path = Path("reports/input-output/scenarios"),
 ) -> ScenarioOutputPaths:
-    runs = tuple(
-        runs
-    )
+    runs = tuple(runs)
 
-    output_dir = Path(
-        output_dir
-    )
+    output_dir = Path(output_dir)
 
     output_dir.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    summary_path = (
-        output_dir
-        / "scenario_comparison.csv"
-    )
+    summary_path = output_dir / "scenario_comparison.csv"
 
-    comparison = compare_scenarios(
-        runs
-    )
+    comparison = compare_scenarios(runs)
 
     comparison.to_csv(
         summary_path,
@@ -168,22 +130,14 @@ def write_scenario_outputs(
     ] = {}
 
     for run in runs:
-        path = (
-            output_dir
-            / (
-                f"{run.scenario.name}"
-                "_impacts.csv"
-            )
-        )
+        path = output_dir / (f"{run.scenario.name}_impacts.csv")
 
         run.result.sector_impacts.to_csv(
             path,
             index=False,
         )
 
-        impact_paths[
-            run.scenario.name
-        ] = path
+        impact_paths[run.scenario.name] = path
 
     return ScenarioOutputPaths(
         summary=summary_path,

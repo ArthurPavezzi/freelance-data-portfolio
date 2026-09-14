@@ -21,17 +21,10 @@ def build_reconciliation_clusters(
     Only auto-matched links are used. Manual-review candidates remain
     unresolved until explicitly adjudicated.
     """
-    accepted = (
-        resolved
-        .filter(
-            pl.col("review_status")
-            == "auto_match"
-        )
-        .select(
-            "crm_record_id",
-            "marketing_record_id",
-            "match_method",
-        )
+    accepted = resolved.filter(pl.col("review_status") == "auto_match").select(
+        "crm_record_id",
+        "marketing_record_id",
+        "match_method",
     )
 
     parent: dict[str, str] = {}
@@ -72,26 +65,12 @@ def build_reconciliation_clusters(
         else:
             parent[left_root] = right_root
 
-    edges: list[
-        dict[str, Any]
-    ] = []
+    edges: list[dict[str, Any]] = []
 
-    for row in accepted.iter_rows(
-        named=True
-    ):
-        crm_node = (
-            "crm:"
-            + str(
-                row["crm_record_id"]
-            )
-        )
+    for row in accepted.iter_rows(named=True):
+        crm_node = "crm:" + str(row["crm_record_id"])
 
-        marketing_node = (
-            "marketing:"
-            + str(
-                row["marketing_record_id"]
-            )
-        )
+        marketing_node = "marketing:" + str(row["marketing_record_id"])
 
         union(
             crm_node,
@@ -101,12 +80,8 @@ def build_reconciliation_clusters(
         edges.append(
             {
                 "crm_node": crm_node,
-                "marketing_node": (
-                    marketing_node
-                ),
-                "match_method": (
-                    row["match_method"]
-                ),
+                "marketing_node": (marketing_node),
+                "match_method": (row["match_method"]),
             }
         )
 
@@ -116,9 +91,7 @@ def build_reconciliation_clusters(
     ] = defaultdict(set)
 
     for node in parent:
-        component_nodes[
-            find(node)
-        ].add(node)
+        component_nodes[find(node)].add(node)
 
     ordered_components = sorted(
         component_nodes.values(),
@@ -134,14 +107,10 @@ def build_reconciliation_clusters(
         ordered_components,
         start=1,
     ):
-        reconciled_lead_id = (
-            f"RCL{number:07d}"
-        )
+        reconciled_lead_id = f"RCL{number:07d}"
 
         for node in nodes:
-            node_to_cluster[
-                node
-            ] = reconciled_lead_id
+            node_to_cluster[node] = reconciled_lead_id
 
     edge_summary: dict[
         str,
@@ -155,163 +124,70 @@ def build_reconciliation_clusters(
     )
 
     for edge in edges:
-        reconciled_lead_id = (
-            node_to_cluster[
-                edge["crm_node"]
-            ]
-        )
+        reconciled_lead_id = node_to_cluster[edge["crm_node"]]
 
-        edge_summary[
-            reconciled_lead_id
-        ][
-            "match_edge_count"
-        ] += 1
+        edge_summary[reconciled_lead_id]["match_edge_count"] += 1
 
-        if (
-            edge["match_method"]
-            == "exact"
-        ):
-            edge_summary[
-                reconciled_lead_id
-            ][
-                "exact_edge_count"
-            ] += 1
+        if edge["match_method"] == "exact":
+            edge_summary[reconciled_lead_id]["exact_edge_count"] += 1
 
-        elif (
-            edge["match_method"]
-            == "fuzzy"
-        ):
-            edge_summary[
-                reconciled_lead_id
-            ][
-                "fuzzy_edge_count"
-            ] += 1
+        elif edge["match_method"] == "fuzzy":
+            edge_summary[reconciled_lead_id]["fuzzy_edge_count"] += 1
 
-    cluster_rows: list[
-        dict[str, Any]
-    ] = []
+    cluster_rows: list[dict[str, Any]] = []
 
-    membership_rows: list[
-        dict[str, Any]
-    ] = []
+    membership_rows: list[dict[str, Any]] = []
 
     for nodes in ordered_components:
-        reconciled_lead_id = (
-            node_to_cluster[
-                next(iter(nodes))
-            ]
-        )
+        reconciled_lead_id = node_to_cluster[next(iter(nodes))]
 
-        crm_records = sorted(
-            node.removeprefix(
-                "crm:"
-            )
-            for node in nodes
-            if node.startswith(
-                "crm:"
-            )
-        )
+        crm_records = sorted(node.removeprefix("crm:") for node in nodes if node.startswith("crm:"))
 
         marketing_records = sorted(
-            node.removeprefix(
-                "marketing:"
-            )
-            for node in nodes
-            if node.startswith(
-                "marketing:"
-            )
+            node.removeprefix("marketing:") for node in nodes if node.startswith("marketing:")
         )
 
-        crm_count = len(
-            crm_records
-        )
+        crm_count = len(crm_records)
 
-        marketing_count = len(
-            marketing_records
-        )
+        marketing_count = len(marketing_records)
 
-        summary = edge_summary[
-            reconciled_lead_id
-        ]
+        summary = edge_summary[reconciled_lead_id]
 
         cluster_rows.append(
             {
-                "reconciled_lead_id": (
-                    reconciled_lead_id
-                ),
-                "crm_record_count": (
-                    crm_count
-                ),
-                "marketing_record_count": (
-                    marketing_count
-                ),
-                "match_edge_count": (
-                    summary[
-                        "match_edge_count"
-                    ]
-                ),
-                "exact_edge_count": (
-                    summary[
-                        "exact_edge_count"
-                    ]
-                ),
-                "fuzzy_edge_count": (
-                    summary[
-                        "fuzzy_edge_count"
-                    ]
-                ),
-                "has_crm_duplicates": (
-                    crm_count > 1
-                ),
-                "has_marketing_duplicates": (
-                    marketing_count > 1
-                ),
-                "is_many_to_many": (
-                    crm_count > 1
-                    and marketing_count > 1
-                ),
+                "reconciled_lead_id": (reconciled_lead_id),
+                "crm_record_count": (crm_count),
+                "marketing_record_count": (marketing_count),
+                "match_edge_count": (summary["match_edge_count"]),
+                "exact_edge_count": (summary["exact_edge_count"]),
+                "fuzzy_edge_count": (summary["fuzzy_edge_count"]),
+                "has_crm_duplicates": (crm_count > 1),
+                "has_marketing_duplicates": (marketing_count > 1),
+                "is_many_to_many": (crm_count > 1 and marketing_count > 1),
             }
         )
 
-        for crm_record_id in (
-            crm_records
-        ):
+        for crm_record_id in crm_records:
             membership_rows.append(
                 {
-                    "reconciled_lead_id": (
-                        reconciled_lead_id
-                    ),
+                    "reconciled_lead_id": (reconciled_lead_id),
                     "system": "crm",
-                    "record_id": (
-                        crm_record_id
-                    ),
+                    "record_id": (crm_record_id),
                 }
             )
 
-        for marketing_record_id in (
-            marketing_records
-        ):
+        for marketing_record_id in marketing_records:
             membership_rows.append(
                 {
-                    "reconciled_lead_id": (
-                        reconciled_lead_id
-                    ),
-                    "system": (
-                        "marketing"
-                    ),
-                    "record_id": (
-                        marketing_record_id
-                    ),
+                    "reconciled_lead_id": (reconciled_lead_id),
+                    "system": ("marketing"),
+                    "record_id": (marketing_record_id),
                 }
             )
 
-    clusters = pl.DataFrame(
-        cluster_rows
-    )
+    clusters = pl.DataFrame(cluster_rows)
 
-    membership = pl.DataFrame(
-        membership_rows
-    )
+    membership = pl.DataFrame(membership_rows)
 
     return (
         clusters,

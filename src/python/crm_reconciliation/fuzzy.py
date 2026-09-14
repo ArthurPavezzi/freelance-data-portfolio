@@ -35,12 +35,7 @@ def _normalize_text(
         value,
     )
 
-    value = (
-        value
-        .encode("ascii", "ignore")
-        .decode("ascii")
-        .lower()
-    )
+    value = value.encode("ascii", "ignore").decode("ascii").lower()
 
     value = re.sub(
         r"[^a-z0-9]+",
@@ -76,10 +71,7 @@ def _normalize_phone_loose(
         value,
     )
 
-    if (
-        len(digits) == 11
-        and digits.startswith("1")
-    ):
+    if len(digits) == 11 and digits.startswith("1"):
         digits = digits[1:]
 
     # Unlike exact normalization, preserve malformed
@@ -108,10 +100,7 @@ def _similarity(
     left: str | None,
     right: str | None,
 ) -> float | None:
-    if (
-        left is None
-        or right is None
-    ):
+    if left is None or right is None:
         return None
 
     return (
@@ -127,39 +116,23 @@ def _score_pair(
     row: dict,
 ) -> dict[str, float | int | None]:
     name_similarity = _similarity(
-        _normalize_text(
-            row["crm_name"]
-        ),
-        _normalize_text(
-            row["marketing_name"]
-        ),
+        _normalize_text(row["crm_name"]),
+        _normalize_text(row["marketing_name"]),
     )
 
     email_similarity = _similarity(
-        _normalize_email(
-            row["crm_email"]
-        ),
-        _normalize_email(
-            row["marketing_email"]
-        ),
+        _normalize_email(row["crm_email"]),
+        _normalize_email(row["marketing_email"]),
     )
 
     phone_similarity = _similarity(
-        _normalize_phone_loose(
-            row["crm_phone"]
-        ),
-        _normalize_phone_loose(
-            row["marketing_phone"]
-        ),
+        _normalize_phone_loose(row["crm_phone"]),
+        _normalize_phone_loose(row["marketing_phone"]),
     )
 
     zip_similarity = _similarity(
-        _normalize_zip_loose(
-            row["crm_zip"]
-        ),
-        _normalize_zip_loose(
-            row["marketing_zip"]
-        ),
+        _normalize_zip_loose(row["crm_zip"]),
+        _normalize_zip_loose(row["marketing_zip"]),
     )
 
     similarities = {
@@ -183,80 +156,44 @@ def _score_pair(
 
     available = [
         (similarity, weight)
-        for similarity, weight
-        in similarities.values()
+        for similarity, weight in similarities.values()
         if similarity is not None
     ]
 
-    evidence_count = len(
-        available
-    )
+    evidence_count = len(available)
 
-    evidence_weight = sum(
-        weight
-        for _, weight in available
-    )
+    evidence_weight = sum(weight for _, weight in available)
 
     if evidence_weight > 0:
         identity_score = (
-            sum(
-                similarity * weight
-                for similarity, weight
-                in available
-            )
-            / evidence_weight
+            sum(similarity * weight for similarity, weight in available) / evidence_weight
         )
     else:
         identity_score = None
 
-    time_delta = float(
-        row["time_delta_minutes"]
-    )
+    time_delta = float(row["time_delta_minutes"])
 
     # Strong preference for temporally close events.
     # ~0.995 at 1 minute,
     # ~0.72 at 60 minutes,
     # ~0.37 at 180 minutes.
-    time_score = math.exp(
-        -time_delta / 180.0
-    )
+    time_score = math.exp(-time_delta / 180.0)
 
     if identity_score is None:
         fuzzy_score = 0.0
     else:
-        fuzzy_score = (
-            0.85 * identity_score
-            + 0.15 * time_score
-        )
+        fuzzy_score = 0.85 * identity_score + 0.15 * time_score
 
     return {
-        "name_similarity": (
-            name_similarity
-        ),
-        "email_similarity": (
-            email_similarity
-        ),
-        "phone_similarity": (
-            phone_similarity
-        ),
-        "zip_similarity": (
-            zip_similarity
-        ),
-        "identity_score": (
-            identity_score
-        ),
-        "time_score": (
-            time_score
-        ),
-        "evidence_count": (
-            evidence_count
-        ),
-        "evidence_weight": (
-            evidence_weight
-        ),
-        "fuzzy_score": (
-            fuzzy_score
-        ),
+        "name_similarity": (name_similarity),
+        "email_similarity": (email_similarity),
+        "phone_similarity": (phone_similarity),
+        "zip_similarity": (zip_similarity),
+        "identity_score": (identity_score),
+        "time_score": (time_score),
+        "evidence_count": (evidence_count),
+        "evidence_weight": (evidence_weight),
+        "fuzzy_score": (fuzzy_score),
     }
 
 
@@ -279,8 +216,7 @@ def generate_fuzzy_candidates(
     legitimate duplicate observations can create many-to-many links.
     """
     crm_block = (
-        crm
-        .select(
+        crm.select(
             "crm_record_id",
             "created_at",
             "name",
@@ -297,16 +233,11 @@ def generate_fuzzy_candidates(
                 "zip_code": "crm_zip",
             }
         )
-        .with_columns(
-            pl.col("created_at")
-            .dt.date()
-            .alias("match_date")
-        )
+        .with_columns(pl.col("created_at").dt.date().alias("match_date"))
     )
 
     marketing_base = (
-        marketing
-        .select(
+        marketing.select(
             "marketing_record_id",
             "captured_at",
             "name",
@@ -323,11 +254,7 @@ def generate_fuzzy_candidates(
                 "zip_code": "marketing_zip",
             }
         )
-        .with_columns(
-            pl.col("captured_at")
-            .dt.date()
-            .alias("captured_date")
-        )
+        .with_columns(pl.col("captured_at").dt.date().alias("captured_date"))
     )
 
     # Expand each marketing observation to the previous,
@@ -336,13 +263,7 @@ def generate_fuzzy_candidates(
     marketing_block = pl.concat(
         [
             marketing_base.with_columns(
-                (
-                    pl.col("captured_date")
-                    + pl.duration(
-                        days=offset
-                    )
-                )
-                .alias("match_date")
+                (pl.col("captured_date") + pl.duration(days=offset)).alias("match_date")
             )
             for offset in (
                 -1,
@@ -354,8 +275,7 @@ def generate_fuzzy_candidates(
     )
 
     candidates = (
-        crm_block
-        .join(
+        crm_block.join(
             marketing_block,
             on=[
                 "service",
@@ -364,22 +284,12 @@ def generate_fuzzy_candidates(
             how="inner",
         )
         .with_columns(
-            (
-                pl.col("created_at")
-                - pl.col("captured_at")
-            )
+            (pl.col("created_at") - pl.col("captured_at"))
             .abs()
             .dt.total_minutes()
-            .alias(
-                "time_delta_minutes"
-            )
+            .alias("time_delta_minutes")
         )
-        .filter(
-            pl.col(
-                "time_delta_minutes"
-            )
-            <= MAX_TIME_DELTA_MINUTES
-        )
+        .filter(pl.col("time_delta_minutes") <= MAX_TIME_DELTA_MINUTES)
         .unique(
             subset=[
                 "crm_record_id",
@@ -420,56 +330,50 @@ def score_fuzzy_candidates(
         "time_delta_minutes",
     ]
 
-    return (
-        candidates
-        .with_columns(
-            pl.struct(
-                score_fields
-            )
-            .map_elements(
-                _score_pair,
-                return_dtype=pl.Struct(
-                    [
-                        pl.Field(
-                            "name_similarity",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "email_similarity",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "phone_similarity",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "zip_similarity",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "identity_score",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "time_score",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "evidence_count",
-                            pl.Int64,
-                        ),
-                        pl.Field(
-                            "evidence_weight",
-                            pl.Float64,
-                        ),
-                        pl.Field(
-                            "fuzzy_score",
-                            pl.Float64,
-                        ),
-                    ]
-                ),
-            )
-            .alias("scores")
+    return candidates.with_columns(
+        pl.struct(score_fields)
+        .map_elements(
+            _score_pair,
+            return_dtype=pl.Struct(
+                [
+                    pl.Field(
+                        "name_similarity",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "email_similarity",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "phone_similarity",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "zip_similarity",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "identity_score",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "time_score",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "evidence_count",
+                        pl.Int64,
+                    ),
+                    pl.Field(
+                        "evidence_weight",
+                        pl.Float64,
+                    ),
+                    pl.Field(
+                        "fuzzy_score",
+                        pl.Float64,
+                    ),
+                ]
+            ),
         )
-        .unnest("scores")
-    )
+        .alias("scores")
+    ).unnest("scores")

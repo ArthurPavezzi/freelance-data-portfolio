@@ -22,9 +22,7 @@ def _generate_test_data():
         target_leads=700,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -60,10 +58,7 @@ def test_raw_crm_hides_ground_truth_ids() -> None:
     assert "lead_id" not in crm.columns
     assert "customer_id" not in crm.columns
 
-    assert (
-        "crm_record_id"
-        in crm.columns
-    )
+    assert "crm_record_id" in crm.columns
 
 
 def test_crm_record_ids_are_unique() -> None:
@@ -79,10 +74,7 @@ def test_crm_record_ids_are_unique() -> None:
         config,
     )
 
-    assert (
-        crm["crm_record_id"].n_unique()
-        == crm.height
-    )
+    assert crm["crm_record_id"].n_unique() == crm.height
 
 
 def test_observation_map_covers_all_crm_records() -> None:
@@ -92,28 +84,15 @@ def test_observation_map_covers_all_crm_records() -> None:
         leads,
     ) = _generate_test_data()
 
-    crm, _, observation_map = (
-        corrupt_crm_leads(
-            leads,
-            customers,
-            config,
-        )
+    crm, _, observation_map = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
     )
 
-    assert (
-        observation_map.height
-        == crm.height
-    )
+    assert observation_map.height == crm.height
 
-    assert set(
-        observation_map[
-            "crm_record_id"
-        ].to_list()
-    ) == set(
-        crm[
-            "crm_record_id"
-        ].to_list()
-    )
+    assert set(observation_map["crm_record_id"].to_list()) == set(crm["crm_record_id"].to_list())
 
 
 def test_duplicate_records_share_ground_truth_lead() -> None:
@@ -124,9 +103,7 @@ def test_duplicate_records_share_ground_truth_lead() -> None:
         missing_crm_lead_rate=0.0,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -139,33 +116,19 @@ def test_duplicate_records_share_ground_truth_lead() -> None:
         config,
     )
 
-    crm, log, mapping = (
-        corrupt_crm_leads(
-            leads,
-            customers,
-            config,
-        )
+    crm, log, mapping = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
     )
 
-    duplicates = mapping.filter(
-        pl.col("is_duplicate")
-    )
+    duplicates = mapping.filter(pl.col("is_duplicate"))
 
     assert duplicates.height == leads.height
 
-    assert crm.height == (
-        leads.height * 2
-    )
+    assert crm.height == (leads.height * 2)
 
-    assert (
-        log.filter(
-            pl.col(
-                "corruption_type"
-            )
-            == "duplicate_record"
-        ).height
-        == leads.height
-    )
+    assert log.filter(pl.col("corruption_type") == "duplicate_record").height == leads.height
 
 
 def test_corruption_is_reproducible() -> None:
@@ -192,10 +155,8 @@ def test_corruption_is_reproducible() -> None:
         second,
         strict=True,
     ):
-        assert first_df.equals(
-            second_df
-        )
-        
+        assert first_df.equals(second_df)
+
 
 def test_missing_crm_leads_are_not_observed() -> None:
     config = SimulationConfig(
@@ -204,9 +165,7 @@ def test_missing_crm_leads_are_not_observed() -> None:
         missing_crm_lead_rate=0.20,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -226,19 +185,12 @@ def test_missing_crm_leads_are_not_observed() -> None:
     )
 
     omitted = set(
-        log
-        .filter(
-            pl.col("corruption_type")
-            == "missing_crm_lead"
-        )["ground_truth_lead_id"]
-        .to_list()
-    )
-
-    observed = set(
-        mapping[
+        log.filter(pl.col("corruption_type") == "missing_crm_lead")[
             "ground_truth_lead_id"
         ].to_list()
     )
+
+    observed = set(mapping["ground_truth_lead_id"].to_list())
 
     assert omitted
     assert omitted.isdisjoint(observed)
@@ -268,10 +220,7 @@ def test_source_aliases_are_logged() -> None:
         config,
     )
 
-    aliases = log.filter(
-        pl.col("corruption_type")
-        == "source_alias"
-    )
+    aliases = log.filter(pl.col("corruption_type") == "source_alias")
 
     assert aliases.height == leads.height
 
@@ -306,30 +255,24 @@ def test_missing_contact_fields_are_logged() -> None:
     assert crm["phone"].null_count() == crm.height
     assert crm["email"].null_count() == crm.height
 
+
 def test_hard_identity_corruption_affects_multiple_fields() -> None:
     config = SimulationConfig(
         target_customers=100,
         target_leads=150,
-    
         duplicate_rate=0.0,
         missing_source_rate=0.0,
         source_alias_rate=0.0,
-    
         missing_phone_rate=0.0,
         malformed_phone_rate=0.0,
         phone_format_rate=0.0,
-    
         missing_email_rate=0.0,
         malformed_email_rate=0.0,
-    
         missing_crm_lead_rate=0.0,
-    
         crm_hard_identity_rate=1.0,
     )
 
-    customers = generate_customers(
-        config
-    )
+    customers = generate_customers(config)
 
     base_leads = generate_leads(
         customers,
@@ -342,34 +285,16 @@ def test_hard_identity_corruption_affects_multiple_fields() -> None:
         config,
     )
 
-    _, corruption_log, _ = (
-        corrupt_crm_leads(
-            leads,
-            customers,
-            config,
-        )
+    _, corruption_log, _ = corrupt_crm_leads(
+        leads,
+        customers,
+        config,
     )
 
-    hard = corruption_log.filter(
-        pl.col("corruption_type")
-        == "hard_identity_corruption"
-    )
+    hard = corruption_log.filter(pl.col("corruption_type") == "hard_identity_corruption")
 
     assert hard.height > 0
 
-    per_record = (
-        hard
-        .group_by("crm_record_id")
-        .agg(
-            pl.col("field")
-            .n_unique()
-            .alias("n_fields")
-        )
-    )
+    per_record = hard.group_by("crm_record_id").agg(pl.col("field").n_unique().alias("n_fields"))
 
-    assert (
-        per_record[
-            "n_fields"
-        ].min()
-        >= 2
-    )
+    assert per_record["n_fields"].min() >= 2

@@ -57,11 +57,7 @@ def _generate_phone(
     while True:
         area_code = str(rng.choice(["210", "726"]))
 
-        exchange = (
-            f"{rng.integers(2, 10)}"
-            f"{rng.integers(0, 10)}"
-            f"{rng.integers(0, 10)}"
-        )
+        exchange = f"{rng.integers(2, 10)}{rng.integers(0, 10)}{rng.integers(0, 10)}"
 
         subscriber = f"{rng.integers(0, 10_000):04d}"
 
