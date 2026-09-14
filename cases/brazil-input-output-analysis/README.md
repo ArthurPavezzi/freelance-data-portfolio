@@ -195,7 +195,7 @@ and scenario outputs under:
 reports/input-output/scenarios/
 ```
 
-The Python test suite currently contains 132 passing tests covering the
+The Python test suite currently contains 134 passing tests covering the
 input-output package alongside the other portfolio pipelines.
 
 Run the full test suite with:

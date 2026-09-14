@@ -6,6 +6,9 @@
 # and final-demand shocks.
 
 # %%
+from textwrap import fill
+
+from adjustText import adjust_text
 from input_output.linkages import rasmussen_hirschman
 from input_output.matrices import (
     build_leontief_inverse,
@@ -34,7 +37,6 @@ tables = parse_ibge_workbook(WORKBOOK)
 
 tables.Bn.shape, tables.D.shape
 
-
 # %% [markdown]
 # ## 2. Reconstruct the technical coefficient matrix
 # ## and Leontief inverse
@@ -48,7 +50,6 @@ A = build_technical_matrix(
 L = build_leontief_inverse(A)
 
 A.shape, L.shape
-
 
 # %% [markdown]
 # ## 3. Rasmussen-Hirschman linkages
@@ -69,7 +70,6 @@ linkages.sort_values(
         False,
     ],
 ).head(20)
-
 
 # %% [markdown]
 # ## 4. Scenario 1 — 40% increase in final demand
@@ -99,13 +99,11 @@ key_result = apply_final_demand_shock(
 
 key_result
 
-
 # %%
 key_result.sector_impacts.sort_values(
     "total_output_impact",
     ascending=False,
 ).head(15)
-
 
 # %% [markdown]
 # ## 5. Scenario 2 — 10% increase in exports
@@ -121,13 +119,11 @@ export_result = apply_final_demand_shock(
 
 export_result
 
-
 # %%
 export_result.sector_impacts.sort_values(
     "total_output_impact",
     ascending=False,
 ).head(15)
-
 
 # %% [markdown]
 # ## 6. Scenario 3 — 10% increase in investment
@@ -143,13 +139,11 @@ investment_result = apply_final_demand_shock(
 
 investment_result
 
-
 # %%
 investment_result.sector_impacts.sort_values(
     "total_output_impact",
     ascending=False,
 ).head(15)
-
 
 # %% [markdown]
 # ## 7. Scenario comparison
@@ -391,7 +385,7 @@ figure_dir.mkdir(
     exist_ok=True,
 )
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(12, 8))
 
 key_mask = linkages["is_key_sector"]
 
@@ -433,33 +427,49 @@ ax.set_title("Rasmussen-Hirschman Linkages — Brazil, 2015")
 
 ax.legend()
 
-label_offsets = {
-    "1991": (8, 6),
-    "4900": (8, 6),
-    "3500": (8, 6),
-    "2091": (8, 6),
-    "7380": (6, 14),
-    "2200": (30, 10),
-    "2092": (8, -16),
-    "2491": (8, 8),
-    "2500": (-22, -18),
-    "1700": (8, 18),
-    "6100": (8, -16),
-}
+texts = []
 
 for _, row in key_linkages.iterrows():
-    offset = label_offsets[row["sector_code"]]
+    label = fill(
+        row["sector_name"],
+        width=24,
+    )
 
-    ax.annotate(
-        row["sector_code"],
-        (
+    texts.append(
+        ax.text(
             row["backward_linkage"],
             row["forward_linkage"],
-        ),
-        xytext=offset,
-        textcoords="offset points",
-        fontsize=8,
+            label,
+            fontsize=7,
+            ha="left",
+            va="center",
+            bbox={
+                "boxstyle": "round,pad=0.15",
+                "facecolor": "white",
+                "edgecolor": "none",
+                "alpha": 0.8,
+            },
+        )
     )
+
+adjust_text(
+    texts,
+    x=key_linkages["backward_linkage"].to_numpy(),
+    y=key_linkages["forward_linkage"].to_numpy(),
+    ax=ax,
+    expand=(1.1, 1.4),
+    force_text=(0.3, 1.0),
+    force_static=(0.2, 0.6),
+    force_pull=(0.01, 0.02),
+    max_move=(12, 40),
+    ensure_inside_axes=True,
+    prevent_crossings=True,
+    arrowprops={
+        "arrowstyle": "-",
+        "linewidth": 0.5,
+        "alpha": 0.45,
+    },
+)
 
 x_min, x_max = ax.get_xlim()
 y_min, y_max = ax.get_ylim()

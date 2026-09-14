@@ -128,6 +128,9 @@ Typical problems include:
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 ├── cases/
 │   ├── brazil-input-output-analysis/
 │   └── crm-marketing-reconciliation/
@@ -170,7 +173,7 @@ Generated intermediate data are generally kept separate from the source code.
 
 The portfolio is built around reusable modules rather than one-off notebooks.
 
-The current Python test suite contains **132 passing tests** covering synthetic data generation, reconciliation logic, input-output parsing, matrix reconstruction, validation, structural analysis, shock modeling, scenario management, and artifact generation.
+The current Python test suite contains **134 passing tests** covering synthetic data generation, reconciliation logic, input-output parsing, matrix reconstruction, validation, structural analysis, shock modeling, scenario management, and artifact generation.
 
 Run the complete Python test suite with:
 

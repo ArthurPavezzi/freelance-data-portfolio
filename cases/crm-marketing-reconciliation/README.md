@@ -17,6 +17,10 @@ The workflow reconstructed **8,932 acquisition entities from 8,972 true trackabl
 
 For paid media, the reconstructed CPL came within **0.3% of hidden truth**, while platform-reported CPL was off by roughly **4–8%**.
 
+In business terms, the same **$595,406 in paid-media spend** appeared to generate 5,597 platform conversions but only **5,269 reconstructed acquisition entities**. Platform reporting therefore implied an aggregate CPL of **$106.38**, compared with **$113.00** after reconciliation — making acquisition cost look **$6.62 cheaper per lead, or about 5.9% lower**, than the reconciled view.
+
+The distortion was larger on Facebook Ads, where platform reporting made CPL look **$7.01 cheaper per lead** ($75.53 vs. $82.54), while Google Ads was understated by **$5.69 per lead** ($123.39 vs. $129.07).
+
 ## Why this matters
 
 A dashboard can be numerically correct and still answer the wrong business question.
