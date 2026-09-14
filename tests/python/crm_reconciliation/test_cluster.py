@@ -1,5 +1,4 @@
 import polars as pl
-
 from crm_reconciliation.cluster import (
     build_reconciliation_clusters,
 )

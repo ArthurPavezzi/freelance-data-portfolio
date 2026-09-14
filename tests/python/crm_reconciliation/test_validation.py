@@ -1,5 +1,4 @@
 import polars as pl
-
 from crm_reconciliation.validation import (
     build_internal_validation,
 )
@@ -269,7 +268,6 @@ def test_reconstructed_cpl_matches_truth_when_counts_match() -> None:
     )
 
 from crm_reconciliation.validation import (
-    build_internal_validation,
     validation_summary_frame,
 )
 

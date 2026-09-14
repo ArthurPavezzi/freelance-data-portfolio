@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import polars as pl
 
-
 MAX_TIME_DELTA_MINUTES = 24 * 60
 
 

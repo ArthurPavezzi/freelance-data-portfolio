@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import polars as pl
 
-
 AUTO_MATCH_THRESHOLD = 0.90
 REVIEW_THRESHOLD = 0.75
 MIN_EVIDENCE_COUNT = 2

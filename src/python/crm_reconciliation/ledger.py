@@ -8,7 +8,6 @@ from .report import (
     TRACKABLE_SOURCES,
 )
 
-
 LEDGER_COLUMNS = [
     "ledger_id",
     "ledger_status",

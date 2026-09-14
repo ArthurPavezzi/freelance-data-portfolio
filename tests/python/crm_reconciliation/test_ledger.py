@@ -1,5 +1,4 @@
 import polars as pl
-
 from crm_reconciliation.ledger import (
     build_unified_ledger,
 )

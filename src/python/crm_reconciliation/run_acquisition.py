@@ -10,7 +10,6 @@ from .acquisition import (
     build_reconstructed_paid_kpis,
 )
 
-
 RAW_DIR = Path(
     "data/synthetic/crm/raw_exports"
 )

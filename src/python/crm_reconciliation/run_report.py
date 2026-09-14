@@ -9,7 +9,6 @@ from .report import (
     build_reconciliation_report,
 )
 
-
 RAW_DIR = Path(
     "data/synthetic/crm/raw_exports"
 )

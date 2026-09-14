@@ -256,9 +256,78 @@ PYTHONPATH=src/python uv run python scripts/generate_portfolio_charts.py
 
 Figures 01–03 belong to the internal evaluation layer; Figures 04–05 are client-safe presentation outputs.
 
+## Reproduce this case
+
+The repository includes the observable synthetic exports required to run the operational reconciliation pipeline. Hidden synthetic ground truth is not required and is intentionally excluded from the operational execution path.
+
+Install the locked dependencies:
+
+```bash
+uv sync --frozen
+```
+
+Run the complete operational pipeline:
+
+```bash
+PYTHONPATH=src/python uv run python -m crm_reconciliation.run
+```
+
+This executes, in order:
+
+1. exact cross-system matching;
+2. fuzzy candidate recovery;
+3. match resolution;
+4. entity clustering;
+5. unified ledger construction;
+6. observable triage;
+7. within-system deduplication;
+8. acquisition-universe reconstruction;
+9. operational reporting.
+
+The command recreates the processed reconciliation datasets and operational reports from the published CRM, marketing, and paid-media exports.
+
+Importantly, the operational pipeline does not read or require hidden synthetic ground truth.
+
+### Internal benchmark validation
+
+Benchmark validation is deliberately separated from the operational pipeline. When the deterministic synthetic ground-truth files are available locally, run:
+
+```bash
+PYTHONPATH=src/python uv run python -m crm_reconciliation.run_validation
+```
+
+Ground truth is used only after reconciliation is complete to evaluate pair-level matching, entity reconstruction, source attribution, and KPI error.
+
+The validation layer produces, among other artifacts:
+
+```text
+reports/reconciliation/internal_validation/
+├── benchmark_summary.csv
+├── benchmark_summary.json
+├── entity_validation.parquet
+├── exact_matches_evaluated.parquet
+├── resolved_matches_evaluated.parquet
+├── matching_stage_validation.csv
+├── match_method_validation.csv
+├── source_validation.csv
+└── paid_kpi_validation.csv
+```
+
+### Regenerate figures
+
+After the required operational and validation outputs are available:
+
+```bash
+PYTHONPATH=src/python uv run python scripts/generate_portfolio_charts.py
+```
+
+Figures 01–03 use the internal synthetic benchmark. Figures 04–05 use only client-safe operational data.
+
 ## Testing
 
-The project currently passes **68 pytest tests** covering synthetic-data generation, corruption logic, marketing exports, spend generation, normalization, matching, resolution, clustering, ledger construction, triage, within-system deduplication, acquisition reconstruction, and hidden-ground-truth validation.
+The repository currently passes **134 pytest tests** across the CRM reconciliation, synthetic-data generation, and input-output analysis packages.
+
+The CRM suite covers synthetic-data generation, corruption logic, marketing exports, normalization, matching, resolution, clustering, ledger construction, triage, within-system deduplication, acquisition reconstruction, pipeline orchestration, and hidden-ground-truth validation.
 
 ```bash
 uv run pytest

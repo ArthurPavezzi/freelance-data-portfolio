@@ -8,7 +8,6 @@ from .cluster import (
     build_reconciliation_clusters,
 )
 
-
 OUTPUT_DIR = Path(
     "data/processed/reconciliation"
 )
