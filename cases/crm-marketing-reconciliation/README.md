@@ -126,6 +126,8 @@ The final operational denominator combines:
 
 ## Source reconstruction
 
+> *Validation note:* the following reconstruction and KPI-error sections are portfolio benchmark views. They compare the completed operational pipeline against hidden synthetic ground truth, which never feeds the reconciliation workflow itself.
+
 | Source | Hidden truth | Reconstructed | Error | Recall |
 |---|---:|---:|---:|---:|
 | Google Ads | 3,458 | 3,449 | -9 | 99.74% |
@@ -152,7 +154,7 @@ The final operational denominator combines:
 
 The two naive views fail in opposite directions:
 
-- platform reporting is too optimistic because reported conversions overstate the effective acquisition denominator;
+- platform reporting is too optimistic because reported conversions overstate the effective acquisition denominator; 
 - “CRM-confirmed only” is too conservative because a credible lead does not need to appear in both systems to exist.
 
 The reconstructed universe explicitly recovers credible one-system observations after triage and deduplication.
@@ -166,11 +168,25 @@ The reconstructed universe explicitly recovers credible one-system observations 
 
 ![CPL error reduction](../../figures/crm-reconciliation/03_cpl_error_reduction.png)
 
-## How the reconstructed universe is composed
+## Client-facing outputs
+
+The portfolio separates **internal validation artifacts** from outputs that could realistically be delivered to a client.
+
+Figures 01–03 above are internal validation artifacts. Because the dataset is synthetic, they may use hidden ground truth to evaluate reconstruction quality, source attribution, and KPI error.
+
+Figures 04–05 below are **client-safe outputs** generated only from observable and reconciled operational data. Hidden synthetic ground truth does not feed these charts or the client-style delivery.
+
+### Acquisition universe composition
 
 ![Acquisition universe composition](../../figures/crm-reconciliation/04_acquisition_composition.png)
 
-This composition is useful operationally because it makes uncertainty visible instead of hiding it inside one headline count.
+Rather than reducing the acquisition universe to one headline count, the reconciled view distinguishes cross-system confirmed entities from credible CRM-only and marketing-only entities. This makes uncertainty and data-quality gaps visible instead of hiding them inside the reporting denominator.
+
+### Paid-media CPL after reconciliation
+
+![Client-facing CPL comparison](../../figures/crm-reconciliation/05_client_cpl_comparison.png)
+
+The client-facing comparison shows how the operational definition of a lead changes reported acquisition cost. Platform-reported CPL is optimistic, while a strict CRM-confirmed-only denominator is too conservative. The reconstructed CPL uses the reconciled acquisition universe without relying on benchmark truth.
 
 ## Internal benchmark
 
@@ -214,13 +230,31 @@ reports/reconciliation/
 ├── unresolved_records.csv
 ├── reconstructed_sources.csv
 ├── reconstructed_paid_kpis.csv
+├── client/
+│   ├── executive_summary.md
+│   └── client_delivery.html
 └── internal_validation/
     ├── benchmark_summary.csv
     ├── benchmark_summary.json
     ├── source_validation.csv
     ├── paid_kpi_validation.csv
     └── entity_validation.parquet
+
+figures/crm-reconciliation/
+├── 01_source_reconstruction.png
+├── 02_paid_cpl_comparison.png
+├── 03_cpl_error_reduction.png
+├── 04_acquisition_composition.png
+└── 05_client_cpl_comparison.png
 ```
+
+Figures can be regenerated from the published reconciliation outputs with:
+
+```bash
+PYTHONPATH=src/python uv run python scripts/generate_portfolio_charts.py
+```
+
+Figures 01–03 belong to the internal evaluation layer; Figures 04–05 are client-safe presentation outputs.
 
 ## Testing
 
