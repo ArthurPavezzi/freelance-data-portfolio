@@ -9,6 +9,7 @@
 from textwrap import fill
 
 from adjustText import adjust_text
+from input_output.labels import sector_label
 from input_output.linkages import rasmussen_hirschman
 from input_output.matrices import (
     build_leontief_inverse,
@@ -26,6 +27,8 @@ from input_output.shocks import (
     build_percentage_shock,
     rescale_shock_to_total,
 )
+
+lang = "en"
 
 # %% [markdown]
 # ## 1. Load official IBGE data
@@ -427,11 +430,22 @@ ax.set_title("Rasmussen-Hirschman Linkages — Brazil, 2015")
 
 ax.legend()
 
+key_linkages = key_linkages.copy()
+
+key_linkages["sector_label"] = key_linkages.apply(
+    lambda row: sector_label(
+        row["sector_code"],
+        row["sector_name"],
+        lang="en",
+    ),
+    axis=1,
+)
+
 texts = []
 
 for _, row in key_linkages.iterrows():
     label = fill(
-        row["sector_name"],
+        row["sector_label"],
         width=24,
     )
 
@@ -519,7 +533,7 @@ key_sector_table = (
     key_linkages[
         [
             "sector_code",
-            "sector_name",
+            "sector_label",
             "forward_linkage",
             "backward_linkage",
         ]
@@ -589,6 +603,15 @@ sector_scenario_impacts = pd.concat(
     ignore_index=True,
 )
 
+sector_scenario_impacts["sector_label"] = sector_scenario_impacts.apply(
+    lambda row: sector_label(
+        row["sector_code"],
+        row["sector_name"],
+        lang="en",
+    ),
+    axis=1,
+)
+
 sector_scenario_impacts["impact_billion"] = sector_scenario_impacts["total_output_impact"] / 1_000
 
 sector_scenario_impacts.head()
@@ -597,7 +620,7 @@ sector_scenario_impacts.head()
 impact_pivot = sector_scenario_impacts.pivot(
     index=[
         "sector_code",
-        "sector_name",
+        "sector_label",
     ],
     columns="scenario",
     values="impact_billion",
@@ -621,7 +644,7 @@ plot_sector_impacts = impact_pivot[
     ]
 ]
 
-plot_sector_impacts.index = [f"{code} — {name}" for code, name in plot_sector_impacts.index]
+plot_sector_impacts.index = [label for _, label in plot_sector_impacts.index]
 
 ax = plot_sector_impacts.plot(
     kind="barh",
