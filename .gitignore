@@ -103,6 +103,10 @@ data/processed/*
 data/raw/lastfm/*
 !data/raw/lastfm/.gitkeep
 
+# Local analytical databases
+data/processed/lastfm/*.duckdb
+data/processed/lastfm/*.duckdb.wal
+
 # ============================================================
 # Reports / generated outputs
 # ============================================================
