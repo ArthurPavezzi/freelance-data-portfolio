@@ -171,9 +171,10 @@ def build_warehouse(
                 rows,
             )
 
-        staging_sql = (sql_root / "001_stg_scrobbles.sql").read_text(encoding="utf-8")
+        for sql_path in sorted(sql_root.glob("*.sql")):
+            sql = sql_path.read_text(encoding="utf-8")
 
-        connection.execute(staging_sql)
+            connection.execute(sql)
 
         bronze_count = connection.execute(
             """
