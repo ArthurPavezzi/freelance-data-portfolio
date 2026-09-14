@@ -99,6 +99,10 @@ data/processed/*
 *.feather
 *.arrow
 
+# Personal Last.fm snapshots
+data/raw/lastfm/*
+!data/raw/lastfm/.gitkeep
+
 # ============================================================
 # Reports / generated outputs
 # ============================================================
