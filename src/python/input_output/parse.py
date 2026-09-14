@@ -6,14 +6,13 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 
 
 @dataclass(frozen=True)
 class IOTables:
     """
     Parsed IBGE input-output tables.
-
-    Dimensions for the 2015 level-67 release:
 
     Bn:
         product x sector
@@ -30,6 +29,14 @@ class IOTables:
     L_official:
         sector x sector
         67 x 67
+
+    final_demand_by_product:
+        product x final-demand component
+        127 x 7
+
+    final_demand_by_sector:
+        sector x final-demand component
+        67 x 7
     """
 
     Bn: pd.DataFrame
@@ -37,8 +44,24 @@ class IOTables:
     A_official: pd.DataFrame
     L_official: pd.DataFrame
 
+    final_demand_by_product: pd.DataFrame
+    final_demand_by_sector: pd.DataFrame
+
     sectors: pd.DataFrame
     products: pd.DataFrame
+
+    @property
+    def final_demand(
+        self,
+    ) -> pd.Series:
+        return (
+            self.final_demand_by_sector[
+                "total_final_demand"
+            ]
+            .rename(
+                "final_demand"
+            )
+        )
 
 
 @dataclass(frozen=True)
@@ -46,6 +69,30 @@ class _ParsedMatrix:
     values: pd.DataFrame
     row_labels: pd.DataFrame
     column_labels: pd.DataFrame
+
+
+FINAL_DEMAND_COLUMNS = {
+    "exportação de bens e serviços":
+        "exports",
+
+    "consumo do governo":
+        "government_consumption",
+
+    "consumo das isflsf":
+        "npish_consumption",
+
+    "consumo das famílias":
+        "household_consumption",
+
+    "formação bruta de capital fixo":
+        "gross_fixed_capital_formation",
+
+    "variação de estoque":
+        "inventory_change",
+
+    "demanda final":
+        "total_final_demand",
+}
 
 
 def _extract_code(
@@ -101,6 +148,22 @@ def _extract_code(
 
     return code.zfill(
         digits
+    )
+
+
+def _normalize_header(
+    value: object,
+) -> str:
+    return re.sub(
+        r"\s+",
+        " ",
+        str(value)
+        .replace(
+            "\n",
+            " ",
+        )
+        .strip()
+        .casefold(),
     )
 
 
@@ -413,6 +476,12 @@ def parse_ibge_workbook(
         .tolist()
     )
 
+    final_demand_products = (
+        _read_final_demand(
+            path
+        )
+    )
+
     # --------------------------------------------------
     # Structural validation
     # --------------------------------------------------
@@ -461,6 +530,16 @@ def parse_ibge_workbook(
                 "sector columns."
             )
 
+    if set(
+        final_demand_products.index
+    ) != set(
+        product_codes
+    ):
+        raise ValueError(
+            "Product codes differ between "
+            "final demand and Bn."
+        )
+
     # --------------------------------------------------
     # Canonical ordering
     # --------------------------------------------------
@@ -499,6 +578,22 @@ def parse_ibge_workbook(
         "product_code"
     )
 
+    final_demand_by_product = (
+        final_demand_products
+        .reindex(
+            product_codes
+        )
+    )
+
+    final_demand_by_sector = (
+        D
+        @ final_demand_by_product
+    )
+    
+    final_demand_by_sector.index.name = (
+        "sector_code"
+    )
+
     for matrix in (
         A_official,
         L_official,
@@ -515,6 +610,165 @@ def parse_ibge_workbook(
         D=D,
         A_official=A_official,
         L_official=L_official,
+    
+        final_demand_by_product=(
+            final_demand_by_product
+        ),
+    
+        final_demand_by_sector=(
+            final_demand_by_sector
+        ),
+    
         sectors=sectors,
         products=products,
+    )
+
+
+def _parse_final_demand_frame(
+    raw: pd.DataFrame,
+    *,
+    expected_rows: int = 127,
+) -> pd.DataFrame:
+    row_codes = (
+        raw.iloc[:, 0]
+        .map(
+            lambda value: _extract_code(
+                value,
+                digits=5,
+            )
+        )
+    )
+
+    row_mask = (
+        row_codes.notna()
+    )
+
+    normalized_columns = {
+        _normalize_header(
+            column
+        ): column
+        for column in raw.columns
+    }
+
+    missing = (
+        set(
+            FINAL_DEMAND_COLUMNS
+        )
+        - set(
+            normalized_columns
+        )
+    )
+
+    if missing:
+        raise ValueError(
+            "Missing final-demand columns: "
+            + ", ".join(
+                sorted(missing)
+            )
+        )
+
+    selected = {}
+
+    for (
+        original_name,
+        canonical_name,
+    ) in FINAL_DEMAND_COLUMNS.items():
+        source_column = (
+            normalized_columns[
+                original_name
+            ]
+        )
+
+        selected[
+            canonical_name
+        ] = pd.to_numeric(
+            raw.loc[
+                row_mask,
+                source_column,
+            ],
+            errors="coerce",
+        ).to_numpy()
+
+    result = pd.DataFrame(
+        selected,
+        index=(
+            row_codes
+            .loc[row_mask]
+            .tolist()
+        ),
+    )
+
+    result.index.name = (
+        "product_code"
+    )
+
+    if (
+        len(result)
+        != expected_rows
+    ):
+        raise ValueError(
+            "Unexpected number of product "
+            "rows in final demand: "
+            f"expected {expected_rows}, "
+            f"got {len(result)}"
+        )
+
+    if result.index.has_duplicates:
+        raise ValueError(
+            "Duplicate product codes found "
+            "in final demand."
+        )
+
+    if result.isna().any().any():
+        raise ValueError(
+            "Final-demand table contains "
+            "missing numeric values."
+        )
+
+    component_columns = [
+        "exports",
+        "government_consumption",
+        "npish_consumption",
+        "household_consumption",
+        "gross_fixed_capital_formation",
+        "inventory_change",
+    ]
+    
+    reconstructed_total = (
+        result[
+            component_columns
+        ]
+        .sum(axis=1)
+    )
+    
+    if not np.allclose(
+        reconstructed_total,
+        result[
+            "total_final_demand"
+        ],
+        atol=1e-6,
+        rtol=0.0,
+    ):
+        raise ValueError(
+            "Final-demand components do not "
+            "sum to total final demand."
+        )
+
+    return result.astype(
+        float
+    )
+
+
+def _read_final_demand(
+    path: Path,
+) -> pd.DataFrame:
+    raw = pd.read_excel(
+        path,
+        sheet_name="03",
+        skiprows=3,
+        engine="xlrd",
+    )
+
+    return _parse_final_demand_frame(
+        raw
     )

@@ -1,9 +1,19 @@
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
 from input_output.parse import (
     _extract_code,
+    _parse_final_demand_frame,
     _parse_matrix_frame,
+    parse_ibge_workbook
+)
+
+
+WORKBOOK = Path(
+    "data/raw/ibge_mip/2015/"
+    "Matriz_de_Insumo_Produto_2015_Nivel_67.xls"
 )
 
 
@@ -144,3 +154,178 @@ def test_parser_rejects_wrong_shape() -> None:
                 67,
             ),
         )
+
+
+def test_parse_final_demand_frame() -> None:
+    raw = pd.DataFrame(
+        {
+            "Código": [
+                "01911",
+                "01912",
+            ],
+            "Descrição": [
+                "Product 1",
+                "Product 2",
+            ],
+            "Exportação\nde bens e\nserviços": [
+                10.0,
+                20.0,
+            ],
+            "Consumo\ndo governo": [
+                1.0,
+                2.0,
+            ],
+            "Consumo\ndas\n ISFLSF": [
+                3.0,
+                4.0,
+            ],
+            "Consumo \ndas famílias": [
+                30.0,
+                40.0,
+            ],
+            "Formação bruta\nde capital fixo": [
+                5.0,
+                6.0,
+            ],
+            "Variação\nde estoque": [
+                -1.0,
+                2.0,
+            ],
+            "Demanda\nfinal": [
+                48.0,
+                74.0,
+            ],
+        }
+    )
+
+    result = (
+        _parse_final_demand_frame(
+            raw,
+            expected_rows=2,
+        )
+    )
+
+    assert result.shape == (
+        2,
+        7,
+    )
+
+    assert (
+        result.index.tolist()
+        == [
+            "01911",
+            "01912",
+        ]
+    )
+
+    assert (
+        result.columns.tolist()
+        == [
+            "exports",
+            "government_consumption",
+            "npish_consumption",
+            "household_consumption",
+            "gross_fixed_capital_formation",
+            "inventory_change",
+            "total_final_demand",
+        ]
+    )
+
+
+def test_final_demand_components_sum_to_total() -> None:
+    raw = pd.DataFrame(
+        {
+            "Código": [
+                "01911",
+            ],
+            "Descrição": [
+                "Product 1",
+            ],
+            "Exportação de bens e serviços": [
+                10.0,
+            ],
+            "Consumo do governo": [
+                20.0,
+            ],
+            "Consumo das ISFLSF": [
+                5.0,
+            ],
+            "Consumo das famílias": [
+                50.0,
+            ],
+            "Formação bruta de capital fixo": [
+                15.0,
+            ],
+            "Variação de estoque": [
+                -2.0,
+            ],
+            "Demanda final": [
+                98.0,
+            ],
+        }
+    )
+
+    result = (
+        _parse_final_demand_frame(
+            raw,
+            expected_rows=1,
+        )
+    )
+
+    components = [
+        "exports",
+        "government_consumption",
+        "npish_consumption",
+        "household_consumption",
+        "gross_fixed_capital_formation",
+        "inventory_change",
+    ]
+
+    assert (
+        result.loc[
+            "01911",
+            components,
+        ].sum()
+        == pytest.approx(
+            result.loc[
+                "01911",
+                "total_final_demand",
+            ]
+        )
+    )
+
+
+@pytest.mark.skipif(
+    not WORKBOOK.exists(),
+    reason=(
+        "IBGE workbook has not been "
+        "downloaded."
+    ),
+)
+def test_real_workbook_final_demand() -> None:
+    tables = parse_ibge_workbook(
+        WORKBOOK
+    )
+
+    assert (
+        tables.final_demand_by_product.shape
+        == (127, 7)
+    )
+
+    assert (
+        tables.final_demand_by_sector.shape
+        == (67, 7)
+    )
+
+    assert (
+        len(
+            tables.final_demand
+        )
+        == 67
+    )
+
+    assert not (
+        tables.final_demand
+        .isna()
+        .any()
+    )
