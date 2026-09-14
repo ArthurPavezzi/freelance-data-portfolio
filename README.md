@@ -4,7 +4,7 @@ End-to-end data projects combining **data engineering, analytics, automation, qu
 
 This repository contains reproducible portfolio cases built around realistic business and research problems. The emphasis is not only on analysis, but on the full workflow: messy source data, validation, reusable code, automated testing, reporting, and decision-ready outputs.
 
-My background combines economics and quantitative research with Python, R, SQL, APIs, spreadsheets, and analytical reporting.
+My work combines economics and quantitative research with Python, data engineering, analytical modeling, reproducible workflows, and decision-oriented reporting.
 
 ---
 
@@ -84,7 +84,6 @@ Typical problems include:
 - duplicate detection and entity resolution;
 - marketing attribution;
 - spreadsheet and reporting automation;
-- API-based data collection;
 - ETL pipelines;
 - KPI reporting;
 - operational data quality;
@@ -105,17 +104,17 @@ Typical problems include:
 
 ---
 
-## Technical Stack
+## Demonstrated Stack
 
-**Python:** pandas, NumPy, PyArrow, pytest, REST APIs, data validation, ETL, analytical modeling
+**Python:** pandas, NumPy, Polars, PyArrow/Parquet, RapidFuzz, Matplotlib, pytest
 
-**R:** econometrics, time series, panel data, statistical analysis, reproducible research
+**Data workflows:** Excel and CSV ingestion, normalization, entity resolution, record linkage, deduplication, reconciliation, validation, ETL-style pipelines, and reproducible analytical outputs
 
-**Data:** SQL, Parquet, CSV, Excel, API data, structured and semi-structured business exports
+**Economic modeling:** matrix methods, input-output analysis, Leontief models, Rasmussen-Hirschman linkages, and scenario analysis
 
-**Workflow:** Git, GitHub, `uv`, `renv`, automated tests, modular project structure
+**Engineering workflow:** Git, GitHub, uv, modular Python packages, automated testing, and structured project layouts
 
-**Reporting:** Python visualization, Excel/Google Sheets workflows, analytical reports, BI-ready datasets
+**Reporting:** analytical tables, client-facing summaries, reproducible figures, and export-ready datasets
 
 ---
 
@@ -146,11 +145,10 @@ Typical problems include:
 ├── scripts/
 │
 ├── src/
-│   ├── python/
-│   │   ├── crm_reconciliation/
-│   │   ├── input_output/
-│   │   └── synthetic_crm/
-│   └── R/
+│   └── python/
+│       ├── crm_reconciliation/
+│       ├── input_output/
+│       └── synthetic_crm/
 │
 └── tests/
     └── python/
