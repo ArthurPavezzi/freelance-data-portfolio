@@ -10,7 +10,7 @@ WITH normalized AS (
         TRIM(artist) AS artist,
         TRIM(track) AS track,
         NULLIF(TRIM(album), '') AS album,
-        
+
         LOWER(TRIM(artist)) AS artist_norm,
         LOWER(TRIM(track)) AS track_norm,
         LOWER(NULLIF(TRIM(album), '')) AS album_norm,
@@ -33,8 +33,8 @@ WITH normalized AS (
 ),
 
 ranked AS (
-    SELECT 
-    	*,
+    SELECT
+        *,
         ROW_NUMBER() OVER (
             PARTITION BY
                 scrobbled_at_uts,
@@ -54,7 +54,7 @@ ranked AS (
 SELECT
     MD5(
         CONCAT_WS(
-        	'|',
+            '|',
             CAST(scrobbled_at_uts AS VARCHAR),
             artist_norm,
             track_norm,

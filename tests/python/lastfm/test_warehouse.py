@@ -350,3 +350,222 @@ def test_fact_scrobble_matches_staging_count(
     assert staging_count == 3
     assert fact_count == 3
     assert fact_count == staging_count
+
+
+def test_daily_mart_preserves_scrobble_total(
+    tmp_path: Path,
+):
+    raw_root = tmp_path / "raw"
+    db_path = tmp_path / "test.duckdb"
+
+    write_run(
+        raw_root,
+        run_id="run-1",
+        completed_at=("2026-09-14T20:00:00+00:00"),
+        tracks=[
+            historical_track(
+                artist="Artist A",
+                track="Track A",
+                album="Album A",
+                uts=1_757_500_000,
+            ),
+            historical_track(
+                artist="Artist B",
+                track="Track B",
+                album="Album B",
+                uts=1_757_586_400,
+            ),
+        ],
+    )
+
+    build_warehouse(
+        raw_root=raw_root,
+        db_path=db_path,
+        sql_root=Path("sql/lastfm"),
+    )
+
+    with duckdb.connect(str(db_path)) as connection:
+        fact_count = connection.execute(
+            """
+                SELECT COUNT(*)
+                FROM fact_scrobble
+                """
+        ).fetchone()[0]
+
+        mart_count = connection.execute(
+            """
+                SELECT SUM(scrobble_count)
+                FROM mart_daily_listening
+                """
+        ).fetchone()[0]
+
+    assert mart_count == fact_count
+
+
+def test_artist_summary_preserves_scrobble_total(
+    tmp_path: Path,
+):
+    raw_root = tmp_path / "raw"
+    db_path = tmp_path / "test.duckdb"
+
+    write_run(
+        raw_root,
+        run_id="run-1",
+        completed_at=("2026-09-14T20:00:00+00:00"),
+        tracks=[
+            historical_track(
+                artist="Artist A",
+                track="Track A",
+                album="Album A",
+                uts=100,
+            ),
+            historical_track(
+                artist="Artist A",
+                track="Track B",
+                album="Album A",
+                uts=200,
+            ),
+            historical_track(
+                artist="Artist B",
+                track="Track C",
+                album="Album B",
+                uts=300,
+            ),
+        ],
+    )
+
+    build_warehouse(
+        raw_root=raw_root,
+        db_path=db_path,
+        sql_root=Path("sql/lastfm"),
+    )
+
+    with duckdb.connect(str(db_path)) as connection:
+        result = connection.execute(
+            """
+            SELECT
+                COUNT(*) AS artists,
+                SUM(scrobble_count)
+                    AS scrobbles
+            FROM mart_artist_summary
+            """
+        ).fetchone()
+
+    assert result == (2, 3)
+
+
+def test_hour_mart_preserves_scrobble_total(
+    tmp_path: Path,
+):
+    raw_root = tmp_path / "raw"
+    db_path = tmp_path / "test.duckdb"
+
+    write_run(
+        raw_root,
+        run_id="run-1",
+        completed_at=("2026-09-14T20:00:00+00:00"),
+        tracks=[
+            historical_track(
+                artist="Artist A",
+                track="Track A",
+                album="Album A",
+                uts=100,
+            ),
+            historical_track(
+                artist="Artist B",
+                track="Track B",
+                album="Album B",
+                uts=200,
+            ),
+        ],
+    )
+
+    build_warehouse(
+        raw_root=raw_root,
+        db_path=db_path,
+        sql_root=Path("sql/lastfm"),
+    )
+
+    with duckdb.connect(str(db_path)) as connection:
+        fact_count = connection.execute(
+            """
+                SELECT COUNT(*)
+                FROM fact_scrobble
+                """
+        ).fetchone()[0]
+
+        mart_count = connection.execute(
+            """
+                SELECT SUM(scrobble_count)
+                FROM mart_listening_by_hour
+                """
+        ).fetchone()[0]
+
+    assert mart_count == fact_count
+
+
+def test_discovery_mart_counts_each_artist_once(
+    tmp_path: Path,
+):
+    raw_root = tmp_path / "raw"
+    db_path = tmp_path / "test.duckdb"
+
+    write_run(
+        raw_root,
+        run_id="run-1",
+        completed_at=("2026-09-14T20:00:00+00:00"),
+        tracks=[
+            historical_track(
+                artist="Artist A",
+                track="Track A",
+                album="Album A",
+                uts=1_735_900_000,
+            ),
+            historical_track(
+                artist="Artist A",
+                track="Track A",
+                album="Album A",
+                uts=1_738_500_000,
+            ),
+            historical_track(
+                artist="Artist B",
+                track="Track B",
+                album="Album B",
+                uts=1_738_600_000,
+            ),
+        ],
+    )
+
+    build_warehouse(
+        raw_root=raw_root,
+        db_path=db_path,
+        sql_root=Path("sql/lastfm"),
+    )
+
+    with duckdb.connect(str(db_path)) as connection:
+        total_new_artists = connection.execute(
+            """
+                SELECT SUM(new_artists)
+                FROM mart_monthly_discovery
+                """
+        ).fetchone()[0]
+
+        artist_count = connection.execute(
+            """
+                SELECT COUNT(*)
+                FROM dim_artist
+                """
+        ).fetchone()[0]
+
+        cumulative_artists = connection.execute(
+            """
+                SELECT cumulative_artists
+                FROM mart_monthly_discovery
+                ORDER BY month_start DESC
+                LIMIT 1
+                """
+        ).fetchone()[0]
+
+    assert total_new_artists == 2
+    assert total_new_artists == artist_count
+    assert cumulative_artists == artist_count

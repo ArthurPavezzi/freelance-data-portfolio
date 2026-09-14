@@ -14,9 +14,9 @@ SELECT
     album_norm,
     ARG_MAX(album, scrobbled_at_uts) AS album_name,
     MAX(album_mbid)
-        FILTER (WHERE album_mbid IS NOT NULL) AS album_mbid,
+    FILTER (WHERE album_mbid IS NOT NULL) AS album_mbid,
     MIN(scrobbled_at) AS first_scrobble_at,
-    MAX(scrobbled_at)AS latest_scrobble_at,
+    MAX(scrobbled_at) AS latest_scrobble_at,
     COUNT(*) AS scrobble_count
 
 FROM stg_scrobbles
