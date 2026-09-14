@@ -280,36 +280,6 @@ def build_reconciliation_report(
         .rename({"len": ("reconciled_leads")})
     )
 
-    crm_source_recovered = (
-        crm_members.join(
-            crm.select(
-                "crm_record_id",
-                pl.col("source_canonical").alias("crm_source"),
-            ),
-            on="crm_record_id",
-            how="left",
-        )
-        .join(
-            cluster_attribution.select(
-                "reconciled_lead_id",
-                pl.col("source_canonical").alias("reconciled_source"),
-            ),
-            on="reconciled_lead_id",
-            how="left",
-        )
-        .filter(
-            pl.col("crm_source").is_null() & pl.col("reconciled_source").is_in(TRACKABLE_SOURCES)
-        )
-        .group_by("reconciled_source")
-        .len()
-        .rename(
-            {
-                "reconciled_source": ("source_canonical"),
-                "len": ("crm_missing_source_recovered"),
-            }
-        )
-    )
-
     # --------------------------------------------------------
     # Paid-media reporting
     # --------------------------------------------------------

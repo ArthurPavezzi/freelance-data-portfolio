@@ -77,19 +77,13 @@ def main() -> None:
 
     review_matches = resolved_matches.filter(pl.col("review_status") == "manual_review")
 
-    (
-        auto_metrics,
-        auto_evaluated,
-    ) = evaluate_matches(
+    auto_metrics, _ = evaluate_matches(
         auto_matches,
         crm_map,
         marketing_map,
     )
 
-    (
-        review_metrics,
-        review_evaluated,
-    ) = evaluate_matches(
+    review_metrics, _ = evaluate_matches(
         review_matches,
         crm_map,
         marketing_map,

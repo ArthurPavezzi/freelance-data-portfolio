@@ -40,7 +40,7 @@ def _resolved_matches() -> pl.DataFrame:
 
 
 def test_connected_records_form_single_cluster() -> None:
-    clusters, membership = build_reconciliation_clusters(_resolved_matches())
+    clusters, _ = build_reconciliation_clusters(_resolved_matches())
 
     assert clusters.height == 2
 
