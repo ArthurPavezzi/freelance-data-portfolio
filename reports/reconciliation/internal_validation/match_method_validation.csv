@@ -1,0 +1,4 @@
+match_method,review_status,candidate_pairs,true_pairs,false_pairs,precision
+exact,auto_match,8757,8757,0,1.0
+fuzzy,auto_match,239,239,0,1.0
+fuzzy,manual_review,11,10,1,0.9090909090909091
