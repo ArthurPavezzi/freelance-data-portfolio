@@ -1,0 +1,65 @@
+{
+  "company_name": "BlueOak Home Services",
+  "seed": 20260907,
+  "period": {
+    "start_date": "2025-01-01",
+    "end_date": "2026-06-30"
+  },
+  "targets": {
+    "customers": 9000,
+    "leads": 12000
+  },
+  "generated": {
+    "customers": 9000,
+    "salespeople": 4,
+    "leads": 11957,
+    "estimates": 6614,
+    "jobs": 3132,
+    "crm_export": {
+      "records": 12499,
+      "observed_true_leads": 11778,
+      "omitted_true_leads": 179,
+      "corruptions": 13146
+    },
+    "marketing_export": {
+      "records": 8749,
+      "trackable_true_leads": 8972,
+      "observed_true_leads": 8381,
+      "duplicate_records": 241,
+      "noise_records": 127,
+      "corruptions": 5418
+    },
+    "marketing_performance": {
+      "rows": 4127,
+      "total_spend": 595406.09,
+      "platform_conversions": 5597,
+      "ground_truth_paid_leads": 5281
+    }
+  },
+  "files": {
+    "customers": "data/synthetic/crm/ground_truth/customers.parquet",
+    "salespeople": "data/synthetic/crm/ground_truth/salespeople.parquet",
+    "leads": "data/synthetic/crm/ground_truth/leads.parquet",
+    "estimates": "data/synthetic/crm/ground_truth/estimates.parquet",
+    "jobs": "data/synthetic/crm/ground_truth/jobs.parquet",
+    "crm_leads": "data/synthetic/crm/raw_exports/crm_leads.csv",
+    "crm_corruption_log": "data/synthetic/crm/ground_truth/crm_corruption_log.parquet",
+    "crm_observation_map": "data/synthetic/crm/ground_truth/crm_observation_map.parquet",
+    "marketing_leads": "data/synthetic/crm/raw_exports/marketing_leads.csv",
+    "marketing_corruption_log": "data/synthetic/crm/ground_truth/marketing_corruption_log.parquet",
+    "marketing_observation_map": "data/synthetic/crm/ground_truth/marketing_observation_map.parquet",
+    "marketing_spend": "data/synthetic/crm/raw_exports/marketing_spend.csv",
+    "marketing_spend_truth": "data/synthetic/crm/ground_truth/marketing_spend_truth.parquet"
+  },
+  "corruption_rates": {
+    "phone_format": 0.7,
+    "source_alias": 0.12,
+    "missing_phone": 0.02,
+    "malformed_phone": 0.03,
+    "missing_email": 0.025,
+    "malformed_email": 0.02,
+    "missing_source": 0.04,
+    "missing_crm_lead": 0.015,
+    "duplicate_record": 0.06
+  }
+}

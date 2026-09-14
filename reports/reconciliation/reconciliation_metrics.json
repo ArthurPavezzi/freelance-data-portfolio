@@ -1,0 +1,20 @@
+{
+  "raw_crm_records": 12499,
+  "raw_marketing_records": 8749,
+  "auto_match_edges": 8996,
+  "exact_auto_match_edges": 8757,
+  "fuzzy_auto_match_edges": 239,
+  "manual_review_candidates": 11,
+  "reconciled_leads": 8247,
+  "crm_records_linked": 8750,
+  "marketing_records_linked": 8481,
+  "crm_records_unlinked": 3749,
+  "marketing_records_unlinked": 268,
+  "clusters_with_crm_duplicates": 503,
+  "clusters_with_marketing_duplicates": 234,
+  "many_to_many_clusters": 12,
+  "crm_records_unlinked_total": 3749,
+  "crm_records_unlinked_in_scope_or_unknown": 757,
+  "crm_records_unlinked_out_of_scope": 2992,
+  "marketing_records_unlinked_total": 268
+}

@@ -1,0 +1,5 @@
+source_canonical,true_leads,reconstructed_leads,unique_true_leads_recovered,valid_entities,correctly_attributed_entities,volume_error,volume_error_rate,lead_recall,source_attribution_accuracy
+Google Ads,3458,3449,3449,3449,3449,-9,-0.0026026604973973396,0.9973973395026027,1.0
+Organic Search,2139,2128,2128,2128,2128,-11,-0.005142589995324918,0.9948574100046751,1.0
+Facebook Ads,1823,1820,1820,1820,1820,-3,-0.0016456390565002743,0.9983543609434997,1.0
+Direct,1552,1535,1535,1535,1535,-17,-0.01095360824742268,0.9890463917525774,1.0

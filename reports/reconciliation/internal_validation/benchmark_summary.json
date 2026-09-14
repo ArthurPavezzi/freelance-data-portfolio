@@ -1,0 +1,17 @@
+{
+  "true_trackable_leads": 8972,
+  "reconstructed_entities": 8932,
+  "valid_entities": 8932,
+  "unique_true_leads_recovered": 8932,
+  "unmapped_entities": 0,
+  "impure_entities": 0,
+  "fragmented_true_leads": 0,
+  "duplicate_entity_excess": 0,
+  "volume_error": -40,
+  "volume_absolute_error": 40,
+  "volume_relative_error": -0.004458314757021846,
+  "entity_validity_rate": 1.0,
+  "unique_truth_per_entity": 1.0,
+  "lead_recall": 0.9955416852429781,
+  "source_attribution_accuracy": 1.0
+}
