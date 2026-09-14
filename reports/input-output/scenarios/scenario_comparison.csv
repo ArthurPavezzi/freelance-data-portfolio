@@ -1,0 +1,4 @@
+scenario,description,direct_demand_shock,total_output_impact,indirect_output_impact,output_multiplier
+key_sectors_40pct,40% increase in final demand for Rasmussen-Hirschman key sectors,206964.8130023623,430599.0896767707,223634.27667440838,2.080542501066864
+exports_10pct,10% increase in exports,76703.2,148996.4599379878,72293.2599379878,1.9425064396007963
+investment_10pct,10% increase in gross fixed capital formation,93415.69999999997,164970.05792360747,71554.3579236075,1.7659778594348436
