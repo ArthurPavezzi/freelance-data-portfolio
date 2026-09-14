@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 SALESPERSONS = {
     "S001": {
         "name": "Alex Morgan",

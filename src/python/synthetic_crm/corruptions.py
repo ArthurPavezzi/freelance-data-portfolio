@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 CRM_COLUMNS = [
     "crm_record_id",
     "created_at",

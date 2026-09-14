@@ -7,7 +7,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 FIRST_LEAD_SOURCES = {
     "Google Ads": 0.32,
     "Facebook Ads": 0.18,

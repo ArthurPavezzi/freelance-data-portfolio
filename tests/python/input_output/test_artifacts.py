@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pandas as pd
-
 from input_output.artifacts import (
     write_core_outputs,
 )

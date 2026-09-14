@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import json
-import polars as pl
 from pathlib import Path
 
+import polars as pl
+
 from .config import SimulationConfig
-from .customers import generate_customers
-from .marketing import generate_leads
-from .funnel import generate_funnel
 from .corruptions import corrupt_crm_leads
+from .customers import generate_customers
+from .funnel import generate_funnel
+from .marketing import generate_leads
 from .marketing_export import TRACKABLE_SOURCES, generate_marketing_export
 from .marketing_spend import generate_marketing_spend
 

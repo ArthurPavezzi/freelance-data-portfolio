@@ -1,6 +1,5 @@
 import pandas as pd
 import pytest
-
 from input_output.validation import (
     compare_matrices,
 )

@@ -3,12 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
-
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.request import urlopen
-
 
 IBGE_BASE_URL = (
     "https://ftp.ibge.gov.br/"
@@ -120,7 +118,7 @@ def _write_manifest(
         "sha256": sha256,
         "downloaded_at_utc": (
             datetime.now(
-                timezone.utc
+                UTC
             ).isoformat()
         ),
     }

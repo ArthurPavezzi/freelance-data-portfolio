@@ -1,5 +1,4 @@
 import polars as pl
-
 from synthetic_crm.config import (
     SimulationConfig,
 )

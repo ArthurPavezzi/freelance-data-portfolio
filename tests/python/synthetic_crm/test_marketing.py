@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 import polars as pl
-
 from synthetic_crm.config import SimulationConfig
 from synthetic_crm.customers import generate_customers
 from synthetic_crm.marketing import generate_leads

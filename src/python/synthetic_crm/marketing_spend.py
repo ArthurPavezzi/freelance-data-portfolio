@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 PAID_CAMPAIGNS = {
     "Google Ads": {
         "Search | Interior Painting": {

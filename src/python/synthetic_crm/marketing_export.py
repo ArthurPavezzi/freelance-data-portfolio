@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 TRACKABLE_SOURCES = {
     "Google Ads",
     "Facebook Ads",

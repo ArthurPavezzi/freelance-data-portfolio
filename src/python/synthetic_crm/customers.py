@@ -1,9 +1,9 @@
 import re
 import unicodedata
 
-from faker import Faker
 import numpy as np
 import polars as pl
+from faker import Faker
 
 from .config import SimulationConfig
 

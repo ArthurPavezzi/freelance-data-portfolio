@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-
 from input_output.scenarios import (
     ShockScenario,
     compare_scenarios,

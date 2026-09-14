@@ -1,6 +1,5 @@
 import pandas as pd
 import pytest
-
 from input_output.linkages import (
     classify_sector,
     rasmussen_hirschman,

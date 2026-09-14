@@ -2,14 +2,12 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-
 from input_output.parse import (
     _extract_code,
     _parse_final_demand_frame,
     _parse_matrix_frame,
-    parse_ibge_workbook
+    parse_ibge_workbook,
 )
-
 
 WORKBOOK = Path(
     "data/raw/ibge_mip/2015/"

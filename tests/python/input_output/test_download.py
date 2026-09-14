@@ -1,5 +1,4 @@
 import json
-
 from pathlib import Path
 
 from input_output import download

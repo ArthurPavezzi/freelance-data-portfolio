@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
 import pytest
-
 from input_output.shocks import (
     apply_final_demand_shock,
-    build_sector_shock,
     build_group_shock,
     build_percentage_shock,
+    build_sector_shock,
     rescale_shock_to_total,
 )
 

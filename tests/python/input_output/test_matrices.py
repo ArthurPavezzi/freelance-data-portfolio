@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
-
 from input_output.matrices import (
     build_leontief_inverse,
     build_technical_matrix,
@@ -11,7 +10,6 @@ from input_output.matrices import (
 from input_output.parse import (
     parse_ibge_workbook,
 )
-
 
 WORKBOOK = Path(
     "data/raw/ibge_mip/2015/"
