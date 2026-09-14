@@ -30,6 +30,12 @@ The reconstructed universe contains 8,932 trackable acquisition entities. Paid-m
 
 The platform view is optimistic, while requiring a lead to appear in both systems is too conservative. The reconstructed KPI provides a middle ground based on observable evidence.
 
+### Business impact
+
+Across $595,406 in paid-media spend, platform reporting implied a $106.38 cost per lead. After cross-system reconciliation and deduplication, CPL was $113.00 — a **$6.62 per-lead (5.9%) understatement** in the platform view.
+
+The gap was $7.01 per lead on Facebook Ads and $5.69 on Google Ads.
+
 ## Internal synthetic benchmark
 
 Ground truth is used only after the pipeline is complete, strictly for validation. Against 8,972 true trackable leads, the workflow reconstructs 8,932 unique valid entities:
