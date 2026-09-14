@@ -148,7 +148,7 @@ The final operational denominator combines:
 | Facebook Ads | $75.53 | $86.09 | **$82.54** | $82.41 |
 | Google Ads | $123.39 | $133.09 | **$129.07** | $128.74 |
 
-![CPL comparison](../../figures/02_paid_cpl_comparison.png)
+![CPL comparison](../../figures/crm-reconciliation/02_paid_cpl_comparison.png)
 
 The two naive views fail in opposite directions:
 
@@ -164,11 +164,11 @@ The reconstructed universe explicitly recovers credible one-system observations 
 | Facebook Ads | -8.35% | **+0.16%** |
 | Google Ads | -4.16% | **+0.26%** |
 
-![CPL error reduction](../../figures/03_cpl_error_reduction.png)
+![CPL error reduction](../../figures/crm-reconciliation/03_cpl_error_reduction.png)
 
 ## How the reconstructed universe is composed
 
-![Acquisition universe composition](../../figures/04_acquisition_composition.png)
+![Acquisition universe composition](../../figures/crm-reconciliation/04_acquisition_composition.png)
 
 This composition is useful operationally because it makes uncertainty visible instead of hiding it inside one headline count.
 
