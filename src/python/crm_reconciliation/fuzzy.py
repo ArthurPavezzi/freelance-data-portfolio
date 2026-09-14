@@ -5,9 +5,7 @@ import re
 import unicodedata
 
 import polars as pl
-
 from rapidfuzz.fuzz import ratio
-
 
 MAX_TIME_DELTA_MINUTES = 24 * 60
 

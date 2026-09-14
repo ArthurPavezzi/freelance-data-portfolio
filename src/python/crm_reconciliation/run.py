@@ -1,112 +1,107 @@
 from __future__ import annotations
 
-from pathlib import Path
+from collections.abc import Callable
 
-import polars as pl
-
-from .evaluate import evaluate_matches
-from .match import generate_exact_candidates
-from .normalize import (
-    prepare_crm,
-    prepare_marketing,
+from .run_acquisition import (
+    main as run_acquisition,
+)
+from .run_clusters import (
+    main as run_clusters,
+)
+from .run_dedupe import (
+    main as run_dedupe,
+)
+from .run_exact import (
+    main as run_exact,
+)
+from .run_fuzzy import (
+    main as run_fuzzy,
+)
+from .run_ledger import (
+    main as run_ledger,
+)
+from .run_report import (
+    main as run_report,
+)
+from .run_resolution import (
+    main as run_resolution,
+)
+from .run_triage import (
+    main as run_triage,
 )
 
 
-DATA_DIR = Path(
-    "data/synthetic/crm"
-)
+PipelineStage = tuple[
+    str,
+    Callable[[], None],
+]
 
-RAW_DIR = (
-    DATA_DIR / "raw_exports"
-)
 
-TRUTH_DIR = (
-    DATA_DIR / "ground_truth"
-)
-
-OUTPUT_DIR = Path(
-    "data/processed/reconciliation"
+PIPELINE_STAGES: tuple[
+    PipelineStage,
+    ...,
+] = (
+    (
+        "Exact matching",
+        run_exact,
+    ),
+    (
+        "Fuzzy candidate recovery",
+        run_fuzzy,
+    ),
+    (
+        "Match resolution",
+        run_resolution,
+    ),
+    (
+        "Entity clustering",
+        run_clusters,
+    ),
+    (
+        "Unified lead ledger",
+        run_ledger,
+    ),
+    (
+        "Observable triage",
+        run_triage,
+    ),
+    (
+        "Within-system deduplication",
+        run_dedupe,
+    ),
+    (
+        "Acquisition reconstruction",
+        run_acquisition,
+    ),
+    (
+        "Operational reporting",
+        run_report,
+    ),
 )
 
 
 def main() -> None:
-    OUTPUT_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    total = len(PIPELINE_STAGES)
 
-    crm = pl.read_csv(
-        RAW_DIR / "crm_leads.csv",
-        try_parse_dates=True,
-    )
-
-    marketing = pl.read_csv(
-        RAW_DIR / "marketing_leads.csv",
-        try_parse_dates=True,
-    )
-
-    crm_map = pl.read_parquet(
-        TRUTH_DIR
-        / "crm_observation_map.parquet"
-    )
-
-    marketing_map = pl.read_parquet(
-        TRUTH_DIR
-        / "marketing_observation_map.parquet"
-    )
-
-    crm_clean = prepare_crm(
-        crm
-    )
-
-    marketing_clean = (
-        prepare_marketing(
-            marketing
-        )
-    )
-
-    matches = (
-        generate_exact_candidates(
-            crm_clean,
-            marketing_clean,
-        )
-    )
-
-    metrics, evaluated = (
-        evaluate_matches(
-            matches,
-            crm_map,
-            marketing_map,
-        )
-    )
-
-    matches.write_parquet(
-        OUTPUT_DIR
-        / "exact_matches.parquet"
-    )
-
-    evaluated.write_parquet(
-        OUTPUT_DIR
-        / "exact_matches_evaluated.parquet"
-    )
-
-    print(
-        "Cross-system lead reconciliation"
-    )
+    print()
+    print("CRM Reconciliation Pipeline")
+    print("=" * 27)
     print()
 
-    for key, value in metrics.items():
-        if isinstance(
-            value,
-            float,
-        ):
-            print(
-                f"{key}: {value:.4f}"
-            )
-        else:
-            print(
-                f"{key}: {value:,}"
-            )
+    for position, (name, stage,) in enumerate(PIPELINE_STAGES, start=1, ):
+        print(f"[{position}/{total}] {name}")
+
+        stage()
+
+        print()
+
+    print("=" * 27)
+    print("Pipeline complete.")
+
+    print()
+    print("Operational outputs:")
+    print("  data/processed/reconciliation/")
+    print("  reports/reconciliation/")
 
 
 if __name__ == "__main__":

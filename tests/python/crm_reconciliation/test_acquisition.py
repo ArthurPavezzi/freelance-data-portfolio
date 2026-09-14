@@ -1,5 +1,4 @@
 import polars as pl
-
 from crm_reconciliation.acquisition import (
     build_acquisition_source_summary,
     build_reconstructed_acquisition_universe,

@@ -1,5 +1,4 @@
 import polars as pl
-
 from crm_reconciliation.dedupe import (
     deduplicate_singletons,
 )

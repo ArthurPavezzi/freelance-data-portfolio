@@ -9,7 +9,6 @@ from .fuzzy import (
     score_fuzzy_candidates,
 )
 
-
 DATA_DIR = Path("data/synthetic/crm")
 
 RAW_DIR = DATA_DIR / "raw_exports"

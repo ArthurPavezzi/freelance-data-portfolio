@@ -8,7 +8,6 @@ from .ledger import (
     build_unified_ledger,
 )
 
-
 RAW_DIR = Path(
     "data/synthetic/crm/raw_exports"
 )

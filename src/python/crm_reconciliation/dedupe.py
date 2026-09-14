@@ -9,7 +9,6 @@ from .normalize import (
     prepare_marketing,
 )
 
-
 CRM_ELIGIBLE_STATUSES = [
     "crm_only_trackable",
     "crm_only_unknown_source",

@@ -6,7 +6,6 @@ import polars as pl
 
 from .triage import triage_ledger
 
-
 RAW_DIR = Path(
     "data/synthetic/crm/raw_exports"
 )
