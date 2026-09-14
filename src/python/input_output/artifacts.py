@@ -32,44 +32,27 @@ def write_core_outputs(
     technical_coefficients: pd.DataFrame,
     leontief_inverse: pd.DataFrame,
     sector_linkages: pd.DataFrame,
-    output_dir: Path | str = Path(
-        "data/processed/input_output"
-    ),
+    output_dir: Path | str = Path("data/processed/input_output"),
 ) -> CoreOutputPaths:
-    output_dir = Path(
-        output_dir
-    )
+    output_dir = Path(output_dir)
 
     output_dir.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    technical_path = (
-        output_dir
-        / "technical_coefficients.parquet"
-    )
+    technical_path = output_dir / "technical_coefficients.parquet"
 
-    leontief_path = (
-        output_dir
-        / "leontief_inverse.parquet"
-    )
+    leontief_path = output_dir / "leontief_inverse.parquet"
 
-    linkages_path = (
-        output_dir
-        / "sector_linkages.parquet"
-    )
+    linkages_path = output_dir / "sector_linkages.parquet"
 
-    _matrix_for_export(
-        technical_coefficients
-    ).to_parquet(
+    _matrix_for_export(technical_coefficients).to_parquet(
         technical_path,
         index=False,
     )
 
-    _matrix_for_export(
-        leontief_inverse
-    ).to_parquet(
+    _matrix_for_export(leontief_inverse).to_parquet(
         leontief_path,
         index=False,
     )

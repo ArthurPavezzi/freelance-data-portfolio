@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
 import pytest
-
 from input_output.shocks import (
     apply_final_demand_shock,
-    build_sector_shock,
     build_group_shock,
     build_percentage_shock,
+    build_sector_shock,
     rescale_shock_to_total,
 )
 
@@ -47,15 +46,10 @@ def test_final_demand_shock_uses_leontief_identity() -> None:
         delta_final_demand=delta_y,
     )
 
-    expected = (
-        L.to_numpy()
-        @ delta_y.to_numpy()
-    )
+    expected = L.to_numpy() @ delta_y.to_numpy()
 
     np.testing.assert_allclose(
-        result.sector_impacts[
-            "total_output_impact"
-        ],
+        result.sector_impacts["total_output_impact"],
         expected,
     )
 
@@ -72,17 +66,8 @@ def test_indirect_impact_is_total_minus_direct() -> None:
     impacts = result.sector_impacts
 
     np.testing.assert_allclose(
-        impacts[
-            "indirect_output_impact"
-        ],
-        (
-            impacts[
-                "total_output_impact"
-            ]
-            - impacts[
-                "direct_demand_shock"
-            ]
-        ),
+        impacts["indirect_output_impact"],
+        (impacts["total_output_impact"] - impacts["direct_demand_shock"]),
     )
 
 
@@ -95,20 +80,12 @@ def test_scenario_totals_are_consistent() -> None:
         ),
     )
 
-    assert (
-        result.indirect_output_impact
-        == pytest.approx(
-            result.total_output_impact
-            - result.direct_demand_shock
-        )
+    assert result.indirect_output_impact == pytest.approx(
+        result.total_output_impact - result.direct_demand_shock
     )
 
-    assert (
-        result.output_multiplier
-        == pytest.approx(
-            result.total_output_impact
-            / result.direct_demand_shock
-        )
+    assert result.output_multiplier == pytest.approx(
+        result.total_output_impact / result.direct_demand_shock
     )
 
 
@@ -124,25 +101,15 @@ def test_shock_is_reordered_to_matrix_sectors() -> None:
         ),
     )
 
-    assert (
-        result.sector_impacts[
-            "sector_code"
-        ].tolist()
-        == [
-            "S1",
-            "S2",
-        ]
-    )
+    assert result.sector_impacts["sector_code"].tolist() == [
+        "S1",
+        "S2",
+    ]
 
-    assert (
-        result.sector_impacts[
-            "direct_demand_shock"
-        ].tolist()
-        == [
-            100.0,
-            50.0,
-        ]
-    )
+    assert result.sector_impacts["direct_demand_shock"].tolist() == [
+        100.0,
+        50.0,
+    ]
 
 
 def test_sector_metadata_is_added() -> None:
@@ -168,15 +135,10 @@ def test_sector_metadata_is_added() -> None:
         sectors=sectors,
     )
 
-    assert (
-        result.sector_impacts[
-            "sector_name"
-        ].tolist()
-        == [
-            "Sector 1",
-            "Sector 2",
-        ]
-    )
+    assert result.sector_impacts["sector_name"].tolist() == [
+        "Sector 1",
+        "Sector 2",
+    ]
 
 
 def test_zero_net_shock_has_undefined_multiplier() -> None:
@@ -188,9 +150,7 @@ def test_zero_net_shock_has_undefined_multiplier() -> None:
         ),
     )
 
-    assert np.isnan(
-        result.output_multiplier
-    )
+    assert np.isnan(result.output_multiplier)
 
 
 def test_rejects_missing_sector_codes() -> None:
@@ -232,9 +192,7 @@ def test_rejects_non_square_leontief_matrix() -> None:
 
 def test_build_sector_shock() -> None:
     shock = build_sector_shock(
-        sector_codes=pd.Index(
-            ["S1", "S2", "S3"]
-        ),
+        sector_codes=pd.Index(["S1", "S2", "S3"]),
         sector_code="S2",
         amount=100.0,
     )
@@ -248,9 +206,7 @@ def test_build_sector_shock() -> None:
 
 def test_build_group_shock() -> None:
     shock = build_group_shock(
-        sector_codes=pd.Index(
-            ["S1", "S2", "S3"]
-        ),
+        sector_codes=pd.Index(["S1", "S2", "S3"]),
         shocks={
             "S1": 100.0,
             "S3": 50.0,
@@ -292,9 +248,7 @@ def test_sector_shock_rejects_unknown_sector() -> None:
         match="Unknown sector code",
     ):
         build_sector_shock(
-            sector_codes=pd.Index(
-                ["S1"]
-            ),
+            sector_codes=pd.Index(["S1"]),
             sector_code="S2",
             amount=100.0,
         )
@@ -306,9 +260,7 @@ def test_group_shock_rejects_unknown_sector() -> None:
         match="Unknown sector codes",
     ):
         build_group_shock(
-            sector_codes=pd.Index(
-                ["S1"]
-            ),
+            sector_codes=pd.Index(["S1"]),
             shocks={
                 "S2": 100.0,
             },
@@ -353,12 +305,7 @@ def test_rescale_shock_to_total() -> None:
         target_total=1_000.0,
     )
 
-    assert (
-        result.sum()
-        == pytest.approx(
-            1_000.0
-        )
-    )
+    assert result.sum() == pytest.approx(1_000.0)
 
     assert result.tolist() == pytest.approx(
         [
@@ -386,13 +333,7 @@ def test_rescale_preserves_composition() -> None:
         target_total=500.0,
     )
 
-    assert (
-        result.loc["S1"]
-        / result.loc["S2"]
-        == pytest.approx(
-            1 / 3
-        )
-    )
+    assert result.loc["S1"] / result.loc["S2"] == pytest.approx(1 / 3)
 
 
 def test_rescale_rejects_zero_net_shock() -> None:

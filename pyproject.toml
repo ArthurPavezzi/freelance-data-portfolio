@@ -31,3 +31,6 @@ dev = [
 pythonpath = ["src/python"]
 testpaths = ["tests/python"]
 addopts = "--import-mode=importlib"
+
+[tool.ruff]
+line-length = 100

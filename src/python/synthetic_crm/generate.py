@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import json
-import polars as pl
 from pathlib import Path
 
+import polars as pl
+
 from .config import SimulationConfig
-from .customers import generate_customers
-from .marketing import generate_leads
-from .funnel import generate_funnel
 from .corruptions import corrupt_crm_leads
+from .customers import generate_customers
+from .funnel import generate_funnel
+from .marketing import generate_leads
 from .marketing_export import TRACKABLE_SOURCES, generate_marketing_export
 from .marketing_spend import generate_marketing_spend
 
@@ -22,15 +23,15 @@ def main() -> None:
     config = SimulationConfig()
 
     GROUND_TRUTH_DIR.mkdir(parents=True, exist_ok=True)
-    RAW_EXPORTS_DIR.mkdir(parents=True,exist_ok=True)
+    RAW_EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
     customers = generate_customers(config)
-    
+
     base_leads = generate_leads(
         customers,
         config,
     )
-    
+
     salespeople, leads, estimates, jobs = generate_funnel(
         base_leads,
         customers,
@@ -78,7 +79,7 @@ def main() -> None:
     marketing_observation_map_path = GROUND_TRUTH_DIR / "marketing_observation_map.parquet"
     marketing_spend_path = RAW_EXPORTS_DIR / "marketing_spend.csv"
     marketing_spend_truth_path = GROUND_TRUTH_DIR / "marketing_spend_truth.parquet"
-    
+
     customers.write_parquet(customers_path)
     salespeople.write_parquet(salespeople_path)
     leads.write_parquet(leads_path)
@@ -88,52 +89,26 @@ def main() -> None:
     crm_corruption_log.write_parquet(corruption_log_path)
     crm_observation_map.write_parquet(observation_map_path)
     marketing_leads.write_csv(marketing_leads_path)
-    marketing_corruption_log.write_parquet(marketing_corruption_log_path)    
+    marketing_corruption_log.write_parquet(marketing_corruption_log_path)
     marketing_observation_map.write_parquet(marketing_observation_map_path)
     marketing_spend.write_csv(marketing_spend_path)
     marketing_spend_truth.write_parquet(marketing_spend_truth_path)
 
-    omitted_crm_leads = (
-        crm_corruption_log
-        .filter(
-            pl.col("corruption_type")
-            == "missing_crm_lead"
-        )
-        .height
+    omitted_crm_leads = crm_corruption_log.filter(
+        pl.col("corruption_type") == "missing_crm_lead"
+    ).height
+
+    trackable_true_leads = leads.filter(pl.col("source").is_in(list(TRACKABLE_SOURCES))).height
+
+    marketing_observed_true_leads = (
+        marketing_observation_map["ground_truth_lead_id"].drop_nulls().n_unique()
     )
 
-    trackable_true_leads = (
-        leads
-        .filter(
-            pl.col("source").is_in(
-                list(TRACKABLE_SOURCES)
-            )
-        )
-        .height
-    )
-    
-    marketing_observed_true_leads = (
-        marketing_observation_map[
-            "ground_truth_lead_id"
-        ]
-        .drop_nulls()
-        .n_unique()
-    )
-    
-    marketing_noise_records = (
-        marketing_observation_map
-        .filter(
-            pl.col("ground_truth_lead_id")
-            .is_null()
-        )
-        .height
-    )
-    
-    marketing_duplicate_records = (
-        marketing_observation_map[
-            "is_duplicate"
-        ].sum()
-    )
+    marketing_noise_records = marketing_observation_map.filter(
+        pl.col("ground_truth_lead_id").is_null()
+    ).height
+
+    marketing_duplicate_records = marketing_observation_map["is_duplicate"].sum()
 
     manifest = {
         "company_name": config.company_name,
@@ -153,61 +128,27 @@ def main() -> None:
             "estimates": estimates.height,
             "jobs": jobs.height,
             "crm_export": {
-                        "records": crm_leads.height,
-                        "observed_true_leads": (
-                            crm_observation_map[
-                                "ground_truth_lead_id"
-                            ].n_unique()
-                        ),
-                        "omitted_true_leads": (
-                            omitted_crm_leads
-                        ),
-                        "corruptions": (
-                            crm_corruption_log.height
-                        ),
-                    },
+                "records": crm_leads.height,
+                "observed_true_leads": (crm_observation_map["ground_truth_lead_id"].n_unique()),
+                "omitted_true_leads": (omitted_crm_leads),
+                "corruptions": (crm_corruption_log.height),
+            },
             "marketing_export": {
-                "records": (
-                    marketing_leads.height
-                ),
-                "trackable_true_leads": (
-                    trackable_true_leads
-                ),
-                "observed_true_leads": (
-                    marketing_observed_true_leads
-                ),
-                "duplicate_records": (
-                    marketing_duplicate_records
-                ),
-                "noise_records": (
-                    marketing_noise_records
-                ),
-                "corruptions": (
-                    marketing_corruption_log.height
-                ),
+                "records": (marketing_leads.height),
+                "trackable_true_leads": (trackable_true_leads),
+                "observed_true_leads": (marketing_observed_true_leads),
+                "duplicate_records": (marketing_duplicate_records),
+                "noise_records": (marketing_noise_records),
+                "corruptions": (marketing_corruption_log.height),
             },
             "marketing_performance": {
-                "rows": (
-                    marketing_spend.height
-                ),
+                "rows": (marketing_spend.height),
                 "total_spend": round(
-                    float(
-                        marketing_spend[
-                            "spend"
-                        ].sum()
-                    ),
+                    float(marketing_spend["spend"].sum()),
                     2,
                 ),
-                "platform_conversions": int(
-                    marketing_spend[
-                        "platform_conversions"
-                    ].sum()
-                ),
-                "ground_truth_paid_leads": int(
-                    marketing_spend_truth[
-                        "ground_truth_leads"
-                    ].sum()
-                ),
+                "platform_conversions": int(marketing_spend["platform_conversions"].sum()),
+                "ground_truth_paid_leads": int(marketing_spend_truth["ground_truth_leads"].sum()),
             },
         },
         "files": {
@@ -216,59 +157,25 @@ def main() -> None:
             "leads": str(leads_path),
             "estimates": str(estimates_path),
             "jobs": str(jobs_path),
-            "crm_leads": str(
-                crm_leads_path
-            ),
-            "crm_corruption_log": str(
-                corruption_log_path
-            ),
-            "crm_observation_map": str(
-                observation_map_path
-            ),
-            "marketing_leads": str(
-                marketing_leads_path
-            ),
-            "marketing_corruption_log": str(
-                marketing_corruption_log_path
-            ),
-            "marketing_observation_map": str(
-                marketing_observation_map_path
-            ),
-            "marketing_spend": str(
-                marketing_spend_path
-            ),
-            "marketing_spend_truth": str(
-                marketing_spend_truth_path
-            ),
+            "crm_leads": str(crm_leads_path),
+            "crm_corruption_log": str(corruption_log_path),
+            "crm_observation_map": str(observation_map_path),
+            "marketing_leads": str(marketing_leads_path),
+            "marketing_corruption_log": str(marketing_corruption_log_path),
+            "marketing_observation_map": str(marketing_observation_map_path),
+            "marketing_spend": str(marketing_spend_path),
+            "marketing_spend_truth": str(marketing_spend_truth_path),
         },
         "corruption_rates": {
-            "phone_format": (
-                config.phone_format_rate
-            ),
-            "source_alias": (
-                config.source_alias_rate
-            ),
-            "missing_phone": (
-                config.missing_phone_rate
-            ),
-            "malformed_phone": (
-                config.malformed_phone_rate
-            ),
-            "missing_email": (
-                config.missing_email_rate
-            ),
-            "malformed_email": (
-                config.malformed_email_rate
-            ),
-            "missing_source": (
-                config.missing_source_rate
-            ),
-            "missing_crm_lead": (
-                config.missing_crm_lead_rate
-            ),
-            "duplicate_record": (
-                config.duplicate_rate
-            ),
+            "phone_format": (config.phone_format_rate),
+            "source_alias": (config.source_alias_rate),
+            "missing_phone": (config.missing_phone_rate),
+            "malformed_phone": (config.malformed_phone_rate),
+            "missing_email": (config.missing_email_rate),
+            "malformed_email": (config.malformed_email_rate),
+            "missing_source": (config.missing_source_rate),
+            "missing_crm_lead": (config.missing_crm_lead_rate),
+            "duplicate_record": (config.duplicate_rate),
         },
     }
 

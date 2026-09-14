@@ -12,30 +12,25 @@ from input_output.matrices import (
     build_technical_matrix,
 )
 from input_output.parse import parse_ibge_workbook
-from input_output.shocks import (
-    apply_final_demand_shock,
-    build_percentage_shock,
-    rescale_shock_to_total,
-)
-
 from input_output.scenarios import (
     ShockScenario,
     compare_scenarios,
     run_scenarios,
     write_scenario_outputs,
 )
+from input_output.shocks import (
+    apply_final_demand_shock,
+    build_percentage_shock,
+    rescale_shock_to_total,
+)
+
 # %% [markdown]
 # ## 1. Load official IBGE data
 
 # %%
-WORKBOOK = (
-    "data/raw/ibge_mip/2015/"
-    "Matriz_de_Insumo_Produto_2015_Nivel_67.xls"
-)
+WORKBOOK = "data/raw/ibge_mip/2015/Matriz_de_Insumo_Produto_2015_Nivel_67.xls"
 
-tables = parse_ibge_workbook(
-    WORKBOOK
-)
+tables = parse_ibge_workbook(WORKBOOK)
 
 tables.Bn.shape, tables.D.shape
 
@@ -85,14 +80,10 @@ linkages.sort_values(
 # input-output system and a reusable shock engine.
 
 # %%
-key_sectors = (
-    linkages
-    .loc[
-        linkages["is_key_sector"],
-        "sector_code",
-    ]
-    .tolist()
-)
+key_sectors = linkages.loc[
+    linkages["is_key_sector"],
+    "sector_code",
+].tolist()
 
 delta_y_key = build_percentage_shock(
     final_demand=tables.final_demand,
@@ -120,13 +111,7 @@ key_result.sector_impacts.sort_values(
 # ## 5. Scenario 2 — 10% increase in exports
 
 # %%
-delta_y_exports = (
-    tables
-    .final_demand_by_sector[
-        "exports"
-    ]
-    * 0.10
-)
+delta_y_exports = tables.final_demand_by_sector["exports"] * 0.10
 
 export_result = apply_final_demand_shock(
     leontief=L,
@@ -148,13 +133,7 @@ export_result.sector_impacts.sort_values(
 # ## 6. Scenario 3 — 10% increase in investment
 
 # %%
-delta_y_investment = (
-    tables
-    .final_demand_by_sector[
-        "gross_fixed_capital_formation"
-    ]
-    * 0.10
-)
+delta_y_investment = tables.final_demand_by_sector["gross_fixed_capital_formation"] * 0.10
 
 investment_result = apply_final_demand_shock(
     leontief=L,
@@ -179,33 +158,18 @@ investment_result.sector_impacts.sort_values(
 scenarios = [
     ShockScenario(
         name="key_sectors_40pct",
-        description=(
-            "40% increase in final demand "
-            "for Rasmussen-Hirschman "
-            "key sectors"
-        ),
-        delta_final_demand=(
-            delta_y_key
-        ),
+        description=("40% increase in final demand for Rasmussen-Hirschman key sectors"),
+        delta_final_demand=(delta_y_key),
     ),
     ShockScenario(
         name="exports_10pct",
-        description=(
-            "10% increase in exports"
-        ),
-        delta_final_demand=(
-            delta_y_exports
-        ),
+        description=("10% increase in exports"),
+        delta_final_demand=(delta_y_exports),
     ),
     ShockScenario(
         name="investment_10pct",
-        description=(
-            "10% increase in gross fixed "
-            "capital formation"
-        ),
-        delta_final_demand=(
-            delta_y_investment
-        ),
+        description=("10% increase in gross fixed capital formation"),
+        delta_final_demand=(delta_y_investment),
     ),
 ]
 
@@ -215,11 +179,7 @@ runs = run_scenarios(
     sectors=tables.sectors,
 )
 
-scenario_comparison = (
-    compare_scenarios(
-        runs
-    )
-)
+scenario_comparison = compare_scenarios(runs)
 
 scenario_comparison
 
@@ -227,11 +187,7 @@ scenario_comparison
 # ## 8. Export scenario results
 
 # %%
-scenario_paths = (
-    write_scenario_outputs(
-        runs=runs
-    )
-)
+scenario_paths = write_scenario_outputs(runs=runs)
 
 scenario_paths
 
@@ -279,9 +235,7 @@ equal_size_scenarios = [
             "distributed according to the "
             "key-sector scenario composition"
         ),
-        delta_final_demand=(
-            delta_y_key_equal
-        ),
+        delta_final_demand=(delta_y_key_equal),
     ),
     ShockScenario(
         name="exports_100bn",
@@ -290,9 +244,7 @@ equal_size_scenarios = [
             "distributed according to baseline "
             "sectoral export composition"
         ),
-        delta_final_demand=(
-            delta_y_exports_equal
-        ),
+        delta_final_demand=(delta_y_exports_equal),
     ),
     ShockScenario(
         name="investment_100bn",
@@ -301,9 +253,7 @@ equal_size_scenarios = [
             "distributed according to baseline "
             "sectoral investment composition"
         ),
-        delta_final_demand=(
-            delta_y_investment_equal
-        ),
+        delta_final_demand=(delta_y_investment_equal),
     ),
 ]
 
@@ -313,11 +263,7 @@ equal_size_runs = run_scenarios(
     sectors=tables.sectors,
 )
 
-equal_size_comparison = (
-    compare_scenarios(
-        equal_size_runs
-    )
-)
+equal_size_comparison = compare_scenarios(equal_size_runs)
 
 equal_size_comparison
 
@@ -327,10 +273,7 @@ equal_size_comparison
 # %%
 equal_size_paths = write_scenario_outputs(
     runs=equal_size_runs,
-    output_dir=(
-        "reports/input-output/"
-        "scenarios/equal_size"
-    ),
+    output_dir=("reports/input-output/scenarios/equal_size"),
 )
 
 equal_size_paths
@@ -348,8 +291,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 plot_data = (
-    equal_size_comparison
-    .set_index("scenario")
+    equal_size_comparison.set_index("scenario")
     .loc[
         [
             "key_sectors_100bn",
@@ -381,16 +323,12 @@ ax = plot_data.plot(
     figsize=(9, 6),
 )
 
-ax.set_title(
-    "Output Effects of a R$ 100 Billion Final-Demand Shock"
-)
+ax.set_title("Output Effects of a R$ 100 Billion Final-Demand Shock")
 
 ax.set_xlabel("")
 ax.set_ylabel("R$ billion")
 
-ax.legend(
-    title=""
-)
+ax.legend(title="")
 
 ax.tick_params(
     axis="x",
@@ -400,19 +338,14 @@ ax.tick_params(
 plt.tight_layout()
 
 for container_total, patch_group in zip(
-    equal_size_comparison[
-        "total_output_impact"
-    ]
-    / 1_000,
+    equal_size_comparison["total_output_impact"] / 1_000,
     ax.containers[-1],
 ):
     ax.annotate(
         f"{container_total:.1f}",
         (
-            patch_group.get_x()
-            + patch_group.get_width() / 2,
-            patch_group.get_y()
-            + patch_group.get_height(),
+            patch_group.get_x() + patch_group.get_width() / 2,
+            patch_group.get_y() + patch_group.get_height(),
         ),
         xytext=(0, 4),
         textcoords="offset points",
@@ -420,14 +353,9 @@ for container_total, patch_group in zip(
         va="bottom",
     )
 
-figure_path = (
-    "figures/input-output/"
-    "01_equal_size_shock_comparison.png"
-)
+figure_path = "figures/input-output/01_equal_size_shock_comparison.png"
 
-figure_dir = Path(
-    "figures/input-output"
-)
+figure_dir = Path("figures/input-output")
 
 figure_dir.mkdir(
     parents=True,
@@ -456,30 +384,20 @@ plt.show()
 # %%
 from pathlib import Path
 
-figure_dir = Path(
-    "figures/input-output"
-)
+figure_dir = Path("figures/input-output")
 
 figure_dir.mkdir(
     parents=True,
     exist_ok=True,
 )
 
-fig, ax = plt.subplots(
-    figsize=(10, 8)
-)
+fig, ax = plt.subplots(figsize=(10, 8))
 
 key_mask = linkages["is_key_sector"]
 
-other_linkages = (
-    linkages
-    .loc[~key_mask]
-)
+other_linkages = linkages.loc[~key_mask]
 
-key_linkages = (
-    linkages
-    .loc[key_mask]
-)
+key_linkages = linkages.loc[key_mask]
 
 ax.scatter(
     other_linkages["backward_linkage"],
@@ -507,17 +425,11 @@ ax.axhline(
     linewidth=1,
 )
 
-ax.set_xlabel(
-    "Backward linkage"
-)
+ax.set_xlabel("Backward linkage")
 
-ax.set_ylabel(
-    "Forward linkage"
-)
+ax.set_ylabel("Forward linkage")
 
-ax.set_title(
-    "Rasmussen-Hirschman Linkages — Brazil, 2015"
-)
+ax.set_title("Rasmussen-Hirschman Linkages — Brazil, 2015")
 
 ax.legend()
 
@@ -526,7 +438,6 @@ label_offsets = {
     "4900": (8, 6),
     "3500": (8, 6),
     "2091": (8, 6),
-
     "7380": (6, 14),
     "2200": (30, 10),
     "2092": (8, -16),
@@ -537,9 +448,7 @@ label_offsets = {
 }
 
 for _, row in key_linkages.iterrows():
-    offset = label_offsets[
-        row["sector_code"]
-    ]
+    offset = label_offsets[row["sector_code"]]
 
     ax.annotate(
         row["sector_code"],
@@ -551,7 +460,7 @@ for _, row in key_linkages.iterrows():
         textcoords="offset points",
         fontsize=8,
     )
-    
+
 x_min, x_max = ax.get_xlim()
 y_min, y_max = ax.get_ylim()
 
@@ -588,8 +497,7 @@ ax.text(
 plt.tight_layout()
 
 plt.savefig(
-    figure_dir
-    / "02_rasmussen_hirschman_linkages.png",
+    figure_dir / "02_rasmussen_hirschman_linkages.png",
     dpi=300,
     bbox_inches="tight",
 )
@@ -610,9 +518,7 @@ key_sector_table = (
         "forward_linkage",
         ascending=False,
     )
-    .reset_index(
-        drop=True
-    )
+    .reset_index(drop=True)
 )
 
 key_sector_table
@@ -628,29 +534,19 @@ key_sector_table
 # R$ 100 billion scenarios.
 
 # %%
-equal_run_map = {
-    run.scenario.name: run
-    for run in equal_size_runs
-}
+equal_run_map = {run.scenario.name: run for run in equal_size_runs}
 
 TOP_N = 8
 
 top_sector_codes = set()
 
 for run in equal_size_runs:
-    top_codes = (
-        run.result.sector_impacts
-        .nlargest(
-            TOP_N,
-            "total_output_impact",
-        )[
-            "sector_code"
-        ]
-    )
+    top_codes = run.result.sector_impacts.nlargest(
+        TOP_N,
+        "total_output_impact",
+    )["sector_code"]
 
-    top_sector_codes.update(
-        top_codes
-    )
+    top_sector_codes.update(top_codes)
 
 len(top_sector_codes)
 
@@ -666,130 +562,74 @@ scenario_labels = {
 impact_frames = []
 
 for run in equal_size_runs:
-    frame = (
-        run.result.sector_impacts
-        .loc[
-            lambda df:
-                df[
-                    "sector_code"
-                ].isin(
-                    top_sector_codes
-                )
-        ]
+    frame = run.result.sector_impacts.loc[lambda df: df["sector_code"].isin(top_sector_codes)][
         [
-            [
-                "sector_code",
-                "sector_name",
-                "total_output_impact",
-            ]
+            "sector_code",
+            "sector_name",
+            "total_output_impact",
         ]
-        .copy()
-    )
+    ].copy()
 
-    frame["scenario"] = (
-        scenario_labels[
-            run.scenario.name
-        ]
-    )
+    frame["scenario"] = scenario_labels[run.scenario.name]
 
-    impact_frames.append(
-        frame
-    )
+    impact_frames.append(frame)
 
-sector_scenario_impacts = (
-    pd.concat(
-        impact_frames,
-        ignore_index=True,
-    )
+sector_scenario_impacts = pd.concat(
+    impact_frames,
+    ignore_index=True,
 )
 
-sector_scenario_impacts[
-    "impact_billion"
-] = (
-    sector_scenario_impacts[
-        "total_output_impact"
-    ]
-    / 1_000
-)
+sector_scenario_impacts["impact_billion"] = sector_scenario_impacts["total_output_impact"] / 1_000
 
 sector_scenario_impacts.head()
 
 # %%
-impact_pivot = (
-    sector_scenario_impacts
-    .pivot(
-        index=[
-            "sector_code",
-            "sector_name",
-        ],
-        columns="scenario",
-        values="impact_billion",
-    )
-    .fillna(0.0)
-)
+impact_pivot = sector_scenario_impacts.pivot(
+    index=[
+        "sector_code",
+        "sector_name",
+    ],
+    columns="scenario",
+    values="impact_billion",
+).fillna(0.0)
 
-impact_pivot[
-    "max_impact"
-] = (
-    impact_pivot.max(
-        axis=1
-    )
-)
+impact_pivot["max_impact"] = impact_pivot.max(axis=1)
 
-impact_pivot = (
-    impact_pivot
-    .sort_values(
-        "max_impact",
-        ascending=True,
-    )
-    .drop(
-        columns="max_impact"
-    )
-)
+impact_pivot = impact_pivot.sort_values(
+    "max_impact",
+    ascending=True,
+).drop(columns="max_impact")
 
 impact_pivot
 
 # %%
-plot_sector_impacts = (
-    impact_pivot[
-        [
-            "Key sectors",
-            "Exports",
-            "Investment",
-        ]
+plot_sector_impacts = impact_pivot[
+    [
+        "Key sectors",
+        "Exports",
+        "Investment",
     ]
-)
-
-plot_sector_impacts.index = [
-    f"{code} — {name}"
-    for code, name
-    in plot_sector_impacts.index
 ]
+
+plot_sector_impacts.index = [f"{code} — {name}" for code, name in plot_sector_impacts.index]
 
 ax = plot_sector_impacts.plot(
     kind="barh",
     figsize=(11, 9),
 )
 
-ax.set_title(
-    "Sectoral Output Effects of Equal-Size Demand Shocks"
-)
+ax.set_title("Sectoral Output Effects of Equal-Size Demand Shocks")
 
-ax.set_xlabel(
-    "Output impact (R$ billion)"
-)
+ax.set_xlabel("Output impact (R$ billion)")
 
 ax.set_ylabel("")
 
-ax.legend(
-    title=""
-)
+ax.legend(title="")
 
 plt.tight_layout()
 
 plt.savefig(
-    figure_dir
-    / "03_sectoral_shock_profiles.png",
+    figure_dir / "03_sectoral_shock_profiles.png",
     dpi=300,
     bbox_inches="tight",
 )

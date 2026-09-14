@@ -9,17 +9,11 @@ from .report import (
     build_reconciliation_report,
 )
 
-RAW_DIR = Path(
-    "data/synthetic/crm/raw_exports"
-)
+RAW_DIR = Path("data/synthetic/crm/raw_exports")
 
-PROCESSED_DIR = Path(
-    "data/processed/reconciliation"
-)
+PROCESSED_DIR = Path("data/processed/reconciliation")
 
-REPORT_DIR = Path(
-    "reports/reconciliation"
-)
+REPORT_DIR = Path("reports/reconciliation")
 
 
 def main() -> None:
@@ -29,37 +23,25 @@ def main() -> None:
     )
 
     crm = pl.read_csv(
-        RAW_DIR
-        / "crm_leads.csv",
+        RAW_DIR / "crm_leads.csv",
         try_parse_dates=True,
     )
 
     marketing = pl.read_csv(
-        RAW_DIR
-        / "marketing_leads.csv",
+        RAW_DIR / "marketing_leads.csv",
         try_parse_dates=True,
     )
 
     spend = pl.read_csv(
-        RAW_DIR
-        / "marketing_spend.csv",
+        RAW_DIR / "marketing_spend.csv",
         try_parse_dates=True,
     )
 
-    clusters = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciled_leads.parquet"
-    )
+    clusters = pl.read_parquet(PROCESSED_DIR / "reconciled_leads.parquet")
 
-    membership = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciled_record_membership.parquet"
-    )
+    membership = pl.read_parquet(PROCESSED_DIR / "reconciled_record_membership.parquet")
 
-    resolved = pl.read_parquet(
-        PROCESSED_DIR
-        / "reconciliation_results.parquet"
-    )
+    resolved = pl.read_parquet(PROCESSED_DIR / "reconciliation_results.parquet")
 
     (
         metrics,
@@ -77,38 +59,21 @@ def main() -> None:
 
     summary = pl.DataFrame(
         {
-            "metric": list(
-                metrics.keys()
-            ),
-            "value": list(
-                metrics.values()
-            ),
+            "metric": list(metrics.keys()),
+            "value": list(metrics.values()),
         }
     )
 
-    summary.write_csv(
-        REPORT_DIR
-        / "reconciliation_summary.csv"
-    )
+    summary.write_csv(REPORT_DIR / "reconciliation_summary.csv")
 
-    source_report.write_csv(
-        REPORT_DIR
-        / "source_reconciliation.csv"
-    )
+    source_report.write_csv(REPORT_DIR / "source_reconciliation.csv")
 
-    campaign_report.write_csv(
-        REPORT_DIR
-        / "campaign_performance.csv"
-    )
+    campaign_report.write_csv(REPORT_DIR / "campaign_performance.csv")
 
-    unresolved.write_csv(
-        REPORT_DIR
-        / "unresolved_records.csv"
-    )
+    unresolved.write_csv(REPORT_DIR / "unresolved_records.csv")
 
     with open(
-        REPORT_DIR
-        / "reconciliation_metrics.json",
+        REPORT_DIR / "reconciliation_metrics.json",
         "w",
         encoding="utf-8",
     ) as file:
@@ -118,53 +83,31 @@ def main() -> None:
             indent=2,
         )
 
-    print(
-        "Reconciliation KPI audit"
-    )
+    print("Reconciliation KPI audit")
     print()
 
-    print(
-        "=== OVERALL ==="
-    )
+    print("=== OVERALL ===")
 
-    for key, value in (
-        metrics.items()
-    ):
-        print(
-            f"{key}: {value:,}"
-        )
+    for key, value in metrics.items():
+        print(f"{key}: {value:,}")
 
     print()
 
-    print(
-        "=== SOURCE RECONCILIATION ==="
-    )
+    print("=== SOURCE RECONCILIATION ===")
 
-    print(
-        source_report
-    )
+    print(source_report)
 
     print()
 
-    print(
-        "=== PAID CAMPAIGNS ==="
-    )
+    print("=== PAID CAMPAIGNS ===")
 
-    print(
-        campaign_report
-    )
+    print(campaign_report)
 
     print()
 
-    print(
-        "=== UNRESOLVED ==="
-    )
+    print("=== UNRESOLVED ===")
 
-    print(
-        unresolved
-        .group_by("system")
-        .len()
-    )
+    print(unresolved.group_by("system").len())
 
 
 if __name__ == "__main__":

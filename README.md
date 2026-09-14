@@ -1,10 +1,16 @@
 # Freelance Data Portfolio
 
-End-to-end data projects combining **data engineering, analytics, automation, quantitative research, and economic modeling**.
+[![Tests](https://github.com/ArthurPavezzi/freelance-data-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/ArthurPavezzi/freelance-data-portfolio/actions/workflows/tests.yml)
 
-This repository contains reproducible portfolio cases built around realistic business and research problems. The emphasis is not only on analysis, but on the full workflow: messy source data, validation, reusable code, automated testing, reporting, and decision-ready outputs.
+**Arthur Pavezzi — Economist, Quantitative Researcher & Data Analyst**
 
-My work combines economics and quantitative research with Python, data engineering, analytical modeling, reproducible workflows, and decision-oriented reporting.
+Reproducible, end-to-end projects in **data engineering, analytics, automation, quantitative research, and economic modeling**.
+
+Available for freelance and contract data work.
+
+[GitHub](https://github.com/ArthurPavezzi) · [LinkedIn](https://www.linkedin.com/in/arthur-pavezzi/)
+
+This repository showcases realistic business and research cases, with an emphasis on the full analytical workflow: messy source data, validation, reusable code, automated testing, reporting, and decision-ready outputs.
 
 ---
 

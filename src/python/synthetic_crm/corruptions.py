@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 CRM_COLUMNS = [
     "crm_record_id",
     "created_at",
@@ -82,10 +81,7 @@ def _corrupt_name(
         )
     )
 
-    variants.append(
-        name[:idx]
-        + name[idx + 1:]
-    )
+    variants.append(name[:idx] + name[idx + 1 :])
 
     # Swap adjacent characters.
     idx = int(
@@ -102,29 +98,20 @@ def _corrupt_name(
         chars[idx],
     )
 
-    variants.append(
-        "".join(chars)
-    )
+    variants.append("".join(chars))
 
     # Initial + surname.
     if len(parts) >= 2:
-        variants.append(
-            f"{parts[0][0]}. "
-            f"{' '.join(parts[1:])}"
-        )
+        variants.append(f"{parts[0][0]}. {' '.join(parts[1:])}")
 
-    return str(
-        rng.choice(variants)
-    )
+    return str(rng.choice(variants))
 
 
 def _corrupt_zip(
     zip_code: str,
     rng: np.random.Generator,
 ) -> str:
-    digits = list(
-        str(zip_code)
-    )
+    digits = list(str(zip_code))
 
     if len(digits) != 5:
         return str(zip_code)
@@ -164,17 +151,9 @@ def _corrupt_zip(
 
         original = digits[idx]
 
-        alternatives = [
-            str(x)
-            for x in range(10)
-            if str(x) != original
-        ]
+        alternatives = [str(x) for x in range(10) if str(x) != original]
 
-        digits[idx] = str(
-            rng.choice(
-                alternatives
-            )
-        )
+        digits[idx] = str(rng.choice(alternatives))
 
         return "".join(digits)
 
@@ -189,7 +168,7 @@ def _corrupt_zip(
 
     return "".join(digits)
 
-    
+
 def _alias_source(
     source: str,
     rng: np.random.Generator,
@@ -200,18 +179,12 @@ def _alias_source(
     if not aliases:
         return source
 
-    alternatives = [
-        alias
-        for alias in aliases
-        if alias != source
-    ]
+    alternatives = [alias for alias in aliases if alias != source]
 
     if not alternatives:
         return source
 
-    return str(
-        rng.choice(alternatives)
-    )
+    return str(rng.choice(alternatives))
 
 
 def _format_phone(
@@ -239,11 +212,7 @@ def _format_phone(
         f"+1 ({area}) {exchange}-{subscriber}",
     ]
 
-    alternatives = [
-        value
-        for value in variants
-        if value != phone
-    ]
+    alternatives = [value for value in variants if value != phone]
 
     return str(rng.choice(alternatives))
 
@@ -271,38 +240,20 @@ def _corrupt_phone(
     )
 
     if operation == "replace_digit":
-        position = int(
-            rng.integers(0, len(digits))
-        )
+        position = int(rng.integers(0, len(digits)))
 
         original_digit = digits[position]
 
-        alternatives = [
-            digit
-            for digit in string.digits
-            if digit != original_digit
-        ]
+        alternatives = [digit for digit in string.digits if digit != original_digit]
 
-        digits[position] = str(
-            rng.choice(alternatives)
-        )
+        digits[position] = str(rng.choice(alternatives))
 
-    elif (
-        operation == "drop_digit"
-        and len(digits) > 1
-    ):
-        position = int(
-            rng.integers(0, len(digits))
-        )
+    elif operation == "drop_digit" and len(digits) > 1:
+        position = int(rng.integers(0, len(digits)))
         del digits[position]
 
-    elif (
-        operation == "swap_digits"
-        and len(digits) > 1
-    ):
-        position = int(
-            rng.integers(0, len(digits) - 1)
-        )
+    elif operation == "swap_digits" and len(digits) > 1:
+        position = int(rng.integers(0, len(digits) - 1))
 
         digits[position], digits[position + 1] = (
             digits[position + 1],
@@ -313,11 +264,7 @@ def _corrupt_phone(
 
     if corrupted == phone:
         # Extremely defensive fallback.
-        return phone[:-1] + (
-            "0"
-            if phone[-1] != "0"
-            else "1"
-        )
+        return phone[:-1] + ("0" if phone[-1] != "0" else "1")
 
     return corrupted
 
@@ -351,28 +298,18 @@ def _corrupt_email(
     characters = list(local)
 
     if operation == "drop_character":
-        position = int(
-            rng.integers(0, len(characters))
-        )
+        position = int(rng.integers(0, len(characters)))
 
         del characters[position]
 
     elif operation == "replace_character":
-        position = int(
-            rng.integers(0, len(characters))
-        )
+        position = int(rng.integers(0, len(characters)))
 
         original = characters[position]
 
-        alternatives = [
-            char
-            for char in string.ascii_lowercase
-            if char != original
-        ]
+        alternatives = [char for char in string.ascii_lowercase if char != original]
 
-        characters[position] = str(
-            rng.choice(alternatives)
-        )
+        characters[position] = str(rng.choice(alternatives))
 
     elif operation == "swap_characters":
         position = int(
@@ -391,20 +328,14 @@ def _corrupt_email(
         )
 
     else:
-        position = int(
-            rng.integers(0, len(characters))
-        )
+        position = int(rng.integers(0, len(characters)))
 
         characters.insert(
             position,
             characters[position],
         )
 
-    corrupted = (
-        "".join(characters)
-        + "@"
-        + domain
-    )
+    corrupted = "".join(characters) + "@" + domain
 
     if corrupted == email:
         return f"{local}x@{domain}"
@@ -435,20 +366,10 @@ def _create_duplicate_variant(
         )
     )
 
-    if (
-        operation == "phone"
-        and duplicate["phone"] is not None
-    ):
-        raw_phone = "".join(
-            char
-            for char in str(duplicate["phone"])
-            if char.isdigit()
-        )
+    if operation == "phone" and duplicate["phone"] is not None:
+        raw_phone = "".join(char for char in str(duplicate["phone"]) if char.isdigit())
 
-        if (
-            len(raw_phone) == 11
-            and raw_phone.startswith("1")
-        ):
+        if len(raw_phone) == 11 and raw_phone.startswith("1"):
             raw_phone = raw_phone[1:]
 
         duplicate["phone"] = _format_phone(
@@ -456,10 +377,7 @@ def _create_duplicate_variant(
             rng,
         )
 
-    elif (
-        operation == "name"
-        and duplicate["name"] is not None
-    ):
+    elif operation == "name" and duplicate["name"] is not None:
         name = str(duplicate["name"])
 
         duplicate["name"] = str(
@@ -472,21 +390,12 @@ def _create_duplicate_variant(
             )
         )
 
-    elif (
-        operation == "email_case"
-        and duplicate["email"] is not None
-    ):
+    elif operation == "email_case" and duplicate["email"] is not None:
         email = str(duplicate["email"])
 
-        local, separator, domain = (
-            email.partition("@")
-        )
+        local, separator, domain = email.partition("@")
 
-        duplicate["email"] = (
-            local.capitalize()
-            + separator
-            + domain
-        )
+        duplicate["email"] = local.capitalize() + separator + domain
 
     return duplicate
 
@@ -515,20 +424,11 @@ def corrupt_crm_leads(
             entities. This will later allow objective evaluation of record
             linkage and duplicate detection.
     """
-    rng = np.random.default_rng(
-        config.seed + 3
-    )
+    rng = np.random.default_rng(config.seed + 3)
 
-    hard_rng = np.random.default_rng(
-        config.seed + 30
-    )
+    hard_rng = np.random.default_rng(config.seed + 30)
 
-    customer_lookup = {
-        row["customer_id"]: row
-        for row in customers.iter_rows(
-            named=True
-        )
-    }
+    customer_lookup = {row["customer_id"]: row for row in customers.iter_rows(named=True)}
 
     crm_rows: list[dict[str, Any]] = []
     log_rows: list[dict[str, Any]] = []
@@ -540,9 +440,7 @@ def corrupt_crm_leads(
     def next_crm_id() -> str:
         nonlocal crm_record_number
 
-        crm_record_id = (
-            f"CRM{crm_record_number:07d}"
-        )
+        crm_record_id = f"CRM{crm_record_number:07d}"
 
         crm_record_number += 1
 
@@ -561,27 +459,15 @@ def corrupt_crm_leads(
 
         log_rows.append(
             {
-                "corruption_id": (
-                    f"C{corruption_number:07d}"
-                ),
+                "corruption_id": (f"C{corruption_number:07d}"),
                 "system": "crm",
                 "record_type": "lead",
                 "crm_record_id": crm_record_id,
                 "ground_truth_lead_id": lead_id,
                 "field": field,
-                "corruption_type": (
-                    corruption_type
-                ),
-                "original_value": (
-                    None
-                    if original_value is None
-                    else str(original_value)
-                ),
-                "corrupted_value": (
-                    None
-                    if corrupted_value is None
-                    else str(corrupted_value)
-                ),
+                "corruption_type": (corruption_type),
+                "original_value": (None if original_value is None else str(original_value)),
+                "corrupted_value": (None if corrupted_value is None else str(corrupted_value)),
             }
         )
 
@@ -589,22 +475,15 @@ def corrupt_crm_leads(
 
     for lead in leads.iter_rows(named=True):
         lead_id = str(lead["lead_id"])
-        customer_id = int(
-            lead["customer_id"]
-        )
+        customer_id = int(lead["customer_id"])
 
-        customer = customer_lookup[
-            customer_id
-        ]
+        customer = customer_lookup[customer_id]
 
         # ------------------------------------------------------------
         # Lead entirely missing from CRM
         # ------------------------------------------------------------
 
-        if (
-            rng.random()
-            < config.missing_crm_lead_rate
-        ):
+        if rng.random() < config.missing_crm_lead_rate:
             log_corruption(
                 crm_record_id=None,
                 lead_id=lead_id,
@@ -621,37 +500,19 @@ def corrupt_crm_leads(
         row: dict[str, Any] = {
             "crm_record_id": crm_record_id,
             "created_at": lead["created_at"],
-            "name": customer[
-                "canonical_name"
-            ],
-            "email": customer[
-                "canonical_email"
-            ],
-            "phone": customer[
-                "canonical_phone"
-            ],
-            "zip_code": customer[
-                "zip_code"
-            ],
+            "name": customer["canonical_name"],
+            "email": customer["canonical_email"],
+            "phone": customer["canonical_phone"],
+            "zip_code": customer["zip_code"],
             "source": lead["source"],
             "campaign": lead["campaign"],
             "service": lead["service"],
-            "salesperson_id": lead[
-                "salesperson_id"
-            ],
-            "response_minutes": lead[
-                "response_minutes"
-            ],
-            "qualified": lead[
-                "qualified"
-            ],
-            "estimate_id": lead[
-                "estimate_id"
-            ],
+            "salesperson_id": lead["salesperson_id"],
+            "response_minutes": lead["response_minutes"],
+            "qualified": lead["qualified"],
+            "estimate_id": lead["estimate_id"],
             "won": lead["won"],
-            "funnel_stage": lead[
-                "funnel_stage"
-            ],
+            "funnel_stage": lead["funnel_stage"],
         }
 
         # ------------------------------------------------------------
@@ -661,13 +522,8 @@ def corrupt_crm_leads(
         if row["phone"] is not None:
             phone_draw = rng.random()
 
-            if (
-                phone_draw
-                < config.missing_phone_rate
-            ):
-                original = str(
-                    row["phone"]
-                )
+            if phone_draw < config.missing_phone_rate:
+                original = str(row["phone"])
 
                 row["phone"] = None
 
@@ -680,16 +536,8 @@ def corrupt_crm_leads(
                     corrupted_value=None,
                 )
 
-            elif (
-                phone_draw
-                < (
-                    config.missing_phone_rate
-                    + config.malformed_phone_rate
-                )
-            ):
-                original = str(
-                    row["phone"]
-                )
+            elif phone_draw < (config.missing_phone_rate + config.malformed_phone_rate):
+                original = str(row["phone"])
 
                 corrupted = _corrupt_phone(
                     original,
@@ -707,13 +555,8 @@ def corrupt_crm_leads(
                     corrupted_value=corrupted,
                 )
 
-            elif (
-                rng.random()
-                < config.phone_format_rate
-            ):
-                original = str(
-                    row["phone"]
-                )
+            elif rng.random() < config.phone_format_rate:
+                original = str(row["phone"])
 
                 formatted = _format_phone(
                     original,
@@ -738,13 +581,8 @@ def corrupt_crm_leads(
         if row["email"] is not None:
             email_draw = rng.random()
 
-            if (
-                email_draw
-                < config.missing_email_rate
-            ):
-                original = str(
-                    row["email"]
-                )
+            if email_draw < config.missing_email_rate:
+                original = str(row["email"])
 
                 row["email"] = None
 
@@ -757,16 +595,8 @@ def corrupt_crm_leads(
                     corrupted_value=None,
                 )
 
-            elif (
-                email_draw
-                < (
-                    config.missing_email_rate
-                    + config.malformed_email_rate
-                )
-            ):
-                original = str(
-                    row["email"]
-                )
+            elif email_draw < (config.missing_email_rate + config.malformed_email_rate):
+                original = str(row["email"])
 
                 corrupted = _corrupt_email(
                     original,
@@ -791,13 +621,8 @@ def corrupt_crm_leads(
         if row["source"] is not None:
             source_draw = rng.random()
 
-            if (
-                source_draw
-                < config.missing_source_rate
-            ):
-                original = str(
-                    row["source"]
-                )
+            if source_draw < config.missing_source_rate:
+                original = str(row["source"])
 
                 row["source"] = None
 
@@ -810,16 +635,8 @@ def corrupt_crm_leads(
                     corrupted_value=None,
                 )
 
-            elif (
-                source_draw
-                < (
-                    config.missing_source_rate
-                    + config.source_alias_rate
-                )
-            ):
-                original = str(
-                    row["source"]
-                )
+            elif source_draw < (config.missing_source_rate + config.source_alias_rate):
+                original = str(row["source"])
 
                 aliased = _alias_source(
                     original,
@@ -837,24 +654,17 @@ def corrupt_crm_leads(
                     corrupted_value=aliased,
                 )
 
-        if (
-            hard_rng.random()
-            < config.crm_hard_identity_rate
-        ):
+        if hard_rng.random() < config.crm_hard_identity_rate:
             selected_fields: list[str] = []
-        
+
             # Exact email matching must fail.
             if row["email"] is not None:
-                selected_fields.append(
-                    "email"
-                )
-        
+                selected_fields.append("email")
+
             # Exact phone matching must fail.
             if row["phone"] is not None:
-                selected_fields.append(
-                    "phone"
-                )
-        
+                selected_fields.append("phone")
+
             # Break the name + ZIP fallback.
             secondary_fields = [
                 field
@@ -864,55 +674,47 @@ def corrupt_crm_leads(
                 ]
                 if row[field] is not None
             ]
-        
+
             if secondary_fields:
-                selected_fields.append(
-                    str(
-                        hard_rng.choice(
-                            secondary_fields
-                        )
-                    )
-                )
-        
+                selected_fields.append(str(hard_rng.choice(secondary_fields)))
+
             for field in selected_fields:
                 original = row[field]
-        
+
                 if field == "name":
                     corrupted = _corrupt_name(
                         str(original),
                         hard_rng,
                     )
-        
+
                 elif field == "email":
                     corrupted = _corrupt_email(
                         str(original),
                         hard_rng,
                     )
-        
+
                 elif field == "phone":
                     corrupted = _corrupt_phone(
                         str(original),
                         hard_rng,
                     )
-        
+
                 elif field == "zip_code":
                     corrupted = _corrupt_zip(
                         str(original),
                         hard_rng,
                     )
-        
+
                 else:
                     continue
-        
+
                 row[field] = corrupted
-        
+
                 log_corruption(
                     crm_record_id=crm_record_id,
                     lead_id=lead_id,
                     field=field,
-                    corruption_type=(
-                        "hard_identity_corruption"
-                    ),
+                    corruption_type=("hard_identity_corruption"),
                     original_value=original,
                     corrupted_value=corrupted,
                 )
@@ -922,7 +724,7 @@ def corrupt_crm_leads(
         # ------------------------------------------------------------
 
         crm_rows.append(row)
-        
+
         mapping_rows.append(
             {
                 "crm_record_id": crm_record_id,
@@ -937,42 +739,25 @@ def corrupt_crm_leads(
         # Duplicate CRM observation
         # ------------------------------------------------------------
 
-        if (
-            rng.random()
-            < config.duplicate_rate
-        ):
+        if rng.random() < config.duplicate_rate:
             duplicate_id = next_crm_id()
 
-            duplicate = (
-                _create_duplicate_variant(
-                    row,
-                    rng,
-                )
+            duplicate = _create_duplicate_variant(
+                row,
+                rng,
             )
 
-            duplicate[
-                "crm_record_id"
-            ] = duplicate_id
+            duplicate["crm_record_id"] = duplicate_id
 
-            crm_rows.append(
-                duplicate
-            )
+            crm_rows.append(duplicate)
 
             mapping_rows.append(
                 {
-                    "crm_record_id": (
-                        duplicate_id
-                    ),
-                    "ground_truth_lead_id": (
-                        lead_id
-                    ),
-                    "ground_truth_customer_id": (
-                        customer_id
-                    ),
+                    "crm_record_id": (duplicate_id),
+                    "ground_truth_lead_id": (lead_id),
+                    "ground_truth_customer_id": (customer_id),
                     "is_duplicate": True,
-                    "duplicate_of_crm_record_id": (
-                        crm_record_id
-                    ),
+                    "duplicate_of_crm_record_id": (crm_record_id),
                 }
             )
 
@@ -980,24 +765,16 @@ def corrupt_crm_leads(
                 crm_record_id=duplicate_id,
                 lead_id=lead_id,
                 field="record",
-                corruption_type=(
-                    "duplicate_record"
-                ),
+                corruption_type=("duplicate_record"),
                 original_value=crm_record_id,
                 corrupted_value=duplicate_id,
             )
 
-    crm_export = pl.DataFrame(
-        crm_rows
-    ).select(CRM_COLUMNS)
+    crm_export = pl.DataFrame(crm_rows).select(CRM_COLUMNS)
 
-    corruption_log = pl.DataFrame(
-        log_rows
-    )
+    corruption_log = pl.DataFrame(log_rows)
 
-    observation_map = pl.DataFrame(
-        mapping_rows
-    )
+    observation_map = pl.DataFrame(mapping_rows)
 
     return (
         crm_export,

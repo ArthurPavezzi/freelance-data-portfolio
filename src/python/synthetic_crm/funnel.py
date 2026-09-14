@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 SALESPERSONS = {
     "S001": {
         "name": "Alex Morgan",
@@ -117,9 +116,7 @@ def _generate_salespeople() -> pl.DataFrame:
                 "salesperson_id": salesperson_id,
                 "salesperson_name": attributes["name"],
                 "assignment_weight": attributes["assignment_weight"],
-                "response_multiplier": attributes[
-                    "response_multiplier"
-                ],
+                "response_multiplier": attributes["response_multiplier"],
                 "close_bonus": attributes["close_bonus"],
             }
         )
@@ -178,9 +175,7 @@ def _sample_response_minutes(
     """
     median = SOURCE_RESPONSE_MEDIANS[source]
 
-    salesperson_multiplier = float(
-        SALESPERSONS[salesperson_id]["response_multiplier"]
-    )
+    salesperson_multiplier = float(SALESPERSONS[salesperson_id]["response_multiplier"])
 
     median *= salesperson_multiplier
     median *= _after_hours_multiplier(created_at)
@@ -219,9 +214,7 @@ def _qualification_probability(
     if repeat_lead:
         score += 0.60
 
-    score -= 0.25 * log(
-        1.0 + response_minutes / 30.0
-    )
+    score -= 0.25 * log(1.0 + response_minutes / 30.0)
 
     return _sigmoid(score)
 
@@ -238,9 +231,7 @@ def _estimate_probability(
     if repeat_lead:
         score += 0.25
 
-    score -= 0.20 * log(
-        1.0 + response_minutes / 60.0
-    )
+    score -= 0.20 * log(1.0 + response_minutes / 60.0)
 
     return _sigmoid(score)
 
@@ -287,24 +278,18 @@ def _win_probability(
     """
     service_baseline = SERVICE_MEDIAN_ESTIMATES[service]
 
-    relative_price = (
-        estimate_value / service_baseline
-    )
+    relative_price = estimate_value / service_baseline
 
     score = -0.55
 
     score += SOURCE_WIN_EFFECTS[source]
 
-    score += float(
-        SALESPERSONS[salesperson_id]["close_bonus"]
-    )
+    score += float(SALESPERSONS[salesperson_id]["close_bonus"])
 
     if repeat_lead:
         score += 0.65
 
-    score -= 0.30 * log(
-        1.0 + response_minutes / 60.0
-    )
+    score -= 0.30 * log(1.0 + response_minutes / 60.0)
 
     score -= 0.80 * log(relative_price)
 
@@ -319,20 +304,14 @@ def _sample_estimate_timestamp(
     """
     Generate the time at which an estimate is formally created.
     """
-    initial_contact = (
-        created_at
-        + timedelta(minutes=response_minutes)
-    )
+    initial_contact = created_at + timedelta(minutes=response_minutes)
 
     additional_days = rng.gamma(
         shape=1.5,
         scale=1.2,
     )
 
-    return (
-        initial_contact
-        + timedelta(days=float(additional_days))
-    )
+    return initial_contact + timedelta(days=float(additional_days))
 
 
 def _sample_job_schedule(
@@ -342,18 +321,12 @@ def _sample_job_schedule(
     """
     Generate the scheduled job start after a won estimate.
     """
-    wait_days = (
-        2.0
-        + rng.gamma(
-            shape=2.0,
-            scale=3.5,
-        )
+    wait_days = 2.0 + rng.gamma(
+        shape=2.0,
+        scale=3.5,
     )
 
-    return (
-        estimate_created_at
-        + timedelta(days=float(wait_days))
-    )
+    return estimate_created_at + timedelta(days=float(wait_days))
 
 
 def generate_funnel(
@@ -377,13 +350,10 @@ def generate_funnel(
     """
     rng = np.random.default_rng(config.seed + 2)
 
-    simulation_end = (
-        datetime.fromisoformat(config.end_date)
-        + timedelta(
-            hours=23,
-            minutes=59,
-            seconds=59,
-        )
+    simulation_end = datetime.fromisoformat(config.end_date) + timedelta(
+        hours=23,
+        minutes=59,
+        seconds=59,
     )
 
     customer_zip_lookup = dict(
@@ -423,19 +393,14 @@ def generate_funnel(
             rng=rng,
         )
 
-        qualification_probability = (
-            _qualification_probability(
-                source=source,
-                service=service,
-                response_minutes=response_minutes,
-                repeat_lead=repeat_lead,
-            )
+        qualification_probability = _qualification_probability(
+            source=source,
+            service=service,
+            response_minutes=response_minutes,
+            repeat_lead=repeat_lead,
         )
 
-        qualified = (
-            rng.random()
-            < qualification_probability
-        )
+        qualified = rng.random() < qualification_probability
 
         funnel_stage = "Unqualified"
         estimate_id: str | None = None
@@ -444,25 +409,18 @@ def generate_funnel(
         if qualified:
             funnel_stage = "Qualified - No Estimate"
 
-            estimate_probability = (
-                _estimate_probability(
-                    response_minutes=response_minutes,
-                    repeat_lead=repeat_lead,
-                )
+            estimate_probability = _estimate_probability(
+                response_minutes=response_minutes,
+                repeat_lead=repeat_lead,
             )
 
-            estimate_created = (
-                rng.random()
-                < estimate_probability
-            )
+            estimate_created = rng.random() < estimate_probability
 
             if estimate_created:
-                estimate_created_at = (
-                    _sample_estimate_timestamp(
-                        created_at=created_at,
-                        response_minutes=response_minutes,
-                        rng=rng,
-                    )
+                estimate_created_at = _sample_estimate_timestamp(
+                    created_at=created_at,
+                    response_minutes=response_minutes,
+                    rng=rng,
                 )
 
                 # Estimates outside the observation window are censored.
@@ -470,46 +428,29 @@ def generate_funnel(
                     funnel_stage = "Qualified - Pending"
 
                 else:
-                    estimate_id = (
-                        f"E{estimate_number:07d}"
-                    )
+                    estimate_id = f"E{estimate_number:07d}"
                     estimate_number += 1
 
-                    estimate_value = (
-                        _sample_estimate_value(
-                            service=service,
-                            zip_code=zip_code,
-                            rng=rng,
-                        )
+                    estimate_value = _sample_estimate_value(
+                        service=service,
+                        zip_code=zip_code,
+                        rng=rng,
                     )
 
-                    win_probability = (
-                        _win_probability(
-                            source=source,
-                            salesperson_id=salesperson_id,
-                            service=service,
-                            estimate_value=estimate_value,
-                            response_minutes=response_minutes,
-                            repeat_lead=repeat_lead,
-                        )
+                    win_probability = _win_probability(
+                        source=source,
+                        salesperson_id=salesperson_id,
+                        service=service,
+                        estimate_value=estimate_value,
+                        response_minutes=response_minutes,
+                        repeat_lead=repeat_lead,
                     )
 
-                    won = (
-                        rng.random()
-                        < win_probability
-                    )
+                    won = rng.random() < win_probability
 
-                    estimate_status = (
-                        "Won"
-                        if won
-                        else "Lost"
-                    )
+                    estimate_status = "Won" if won else "Lost"
 
-                    funnel_stage = (
-                        "Won"
-                        if won
-                        else "Estimate Lost"
-                    )
+                    funnel_stage = "Won" if won else "Estimate Lost"
 
                     estimate_rows.append(
                         {
@@ -518,39 +459,22 @@ def generate_funnel(
                             "customer_id": customer_id,
                             "salesperson_id": salesperson_id,
                             "service": service,
-                            "estimate_created_at": (
-                                estimate_created_at
-                            ),
-                            "estimate_value": (
-                                estimate_value
-                            ),
+                            "estimate_created_at": (estimate_created_at),
+                            "estimate_value": (estimate_value),
                             "status": estimate_status,
-                            "win_probability": (
-                                win_probability
-                            ),
+                            "win_probability": (win_probability),
                         }
                     )
 
                     if won:
-                        scheduled_at = (
-                            _sample_job_schedule(
-                                estimate_created_at,
-                                rng,
-                            )
+                        scheduled_at = _sample_job_schedule(
+                            estimate_created_at,
+                            rng,
                         )
 
-                        duration_days = (
-                            SERVICE_JOB_DURATION_DAYS[
-                                service
-                            ]
-                        )
+                        duration_days = SERVICE_JOB_DURATION_DAYS[service]
 
-                        completed_at = (
-                            scheduled_at
-                            + timedelta(
-                                days=duration_days
-                            )
-                        )
+                        completed_at = scheduled_at + timedelta(days=duration_days)
 
                         if scheduled_at > simulation_end:
                             job_status = "Booked"
@@ -564,14 +488,10 @@ def generate_funnel(
 
                         else:
                             job_status = "Completed"
-                            observed_completed_at = (
-                                completed_at
-                            )
+                            observed_completed_at = completed_at
                             revenue = estimate_value
 
-                        job_id = (
-                            f"J{job_number:07d}"
-                        )
+                        job_id = f"J{job_number:07d}"
                         job_number += 1
 
                         job_rows.append(
@@ -583,12 +503,8 @@ def generate_funnel(
                                 "salesperson_id": salesperson_id,
                                 "service": service,
                                 "scheduled_at": scheduled_at,
-                                "completed_at": (
-                                    observed_completed_at
-                                ),
-                                "contract_value": (
-                                    estimate_value
-                                ),
+                                "completed_at": (observed_completed_at),
+                                "contract_value": (estimate_value),
                                 "revenue": revenue,
                                 "status": job_status,
                             }
@@ -600,9 +516,7 @@ def generate_funnel(
                 "zip_code": zip_code,
                 "salesperson_id": salesperson_id,
                 "response_minutes": response_minutes,
-                "qualification_probability": (
-                    qualification_probability
-                ),
+                "qualification_probability": (qualification_probability),
                 "qualified": qualified,
                 "estimate_id": estimate_id,
                 "won": won,

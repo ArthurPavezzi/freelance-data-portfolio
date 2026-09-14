@@ -1,5 +1,4 @@
 import json
-
 from pathlib import Path
 
 from input_output import download
@@ -19,9 +18,7 @@ def test_download_is_idempotent(
 
         calls += 1
 
-        destination.write_bytes(
-            b"synthetic-xls-content"
-        )
+        destination.write_bytes(b"synthetic-xls-content")
 
     monkeypatch.setattr(
         download,
@@ -42,10 +39,7 @@ def test_download_is_idempotent(
     assert first.downloaded
     assert not second.downloaded
 
-    assert (
-        first.sha256
-        == second.sha256
-    )
+    assert first.sha256 == second.sha256
 
 
 def test_download_writes_manifest(
@@ -56,9 +50,7 @@ def test_download_writes_manifest(
         url: str,
         destination: Path,
     ) -> None:
-        destination.write_bytes(
-            b"workbook"
-        )
+        destination.write_bytes(b"workbook")
 
     monkeypatch.setattr(
         download,
@@ -70,33 +62,14 @@ def test_download_writes_manifest(
         raw_root=tmp_path,
     )
 
-    manifest = json.loads(
-        result.manifest.read_text(
-            encoding="utf-8"
-        )
-    )
+    manifest = json.loads(result.manifest.read_text(encoding="utf-8"))
 
-    assert (
-        manifest["source"]
-        == "IBGE"
-    )
+    assert manifest["source"] == "IBGE"
 
-    assert (
-        manifest["year"]
-        == 2015
-    )
+    assert manifest["year"] == 2015
 
-    assert (
-        manifest["level"]
-        == 67
-    )
+    assert manifest["level"] == 67
 
-    assert (
-        manifest["sha256"]
-        == result.sha256
-    )
+    assert manifest["sha256"] == result.sha256
 
-    assert (
-        manifest["size_bytes"]
-        == len(b"workbook")
-    )
+    assert manifest["size_bytes"] == len(b"workbook")

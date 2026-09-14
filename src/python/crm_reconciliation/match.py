@@ -9,10 +9,7 @@ def _add_time_delta(
     candidates: pl.DataFrame,
 ) -> pl.DataFrame:
     return candidates.with_columns(
-        (
-            pl.col("created_at")
-            - pl.col("captured_at")
-        )
+        (pl.col("created_at") - pl.col("captured_at"))
         .abs()
         .dt.total_minutes()
         .alias("time_delta_minutes")
@@ -22,10 +19,7 @@ def _add_time_delta(
 def _filter_time_window(
     candidates: pl.DataFrame,
 ) -> pl.DataFrame:
-    return candidates.filter(
-        pl.col("time_delta_minutes")
-        <= MAX_TIME_DELTA_MINUTES
-    )
+    return candidates.filter(pl.col("time_delta_minutes") <= MAX_TIME_DELTA_MINUTES)
 
 
 def _candidate_join(
@@ -54,13 +48,9 @@ def _candidate_join(
 
     # Null identifiers should never create exact matches.
     for field in on:
-        left = left.filter(
-            pl.col(field).is_not_null()
-        )
+        left = left.filter(pl.col(field).is_not_null())
 
-        right = right.filter(
-            pl.col(field).is_not_null()
-        )
+        right = right.filter(pl.col(field).is_not_null())
 
     candidates = left.join(
         right,
@@ -68,25 +58,17 @@ def _candidate_join(
         how="inner",
     )
 
-    candidates = _add_time_delta(
-        candidates
-    )
+    candidates = _add_time_delta(candidates)
 
-    candidates = _filter_time_window(
-        candidates
-    )
+    candidates = _filter_time_window(candidates)
 
     return candidates.select(
         "crm_record_id",
         "marketing_record_id",
         "time_delta_minutes",
     ).with_columns(
-        pl.lit(rule).alias(
-            "match_rule"
-        ),
-        pl.lit(score).alias(
-            "match_score"
-        ),
+        pl.lit(rule).alias("match_rule"),
+        pl.lit(score).alias("match_score"),
     )
 
 
@@ -149,25 +131,21 @@ def generate_exact_candidates(
 
     # The same pair may satisfy multiple rules.
     # Keep the strongest one.
-    candidates = (
-        candidates
-        .sort(
-            [
-                "match_score",
-                "time_delta_minutes",
-            ],
-            descending=[
-                True,
-                False,
-            ],
-        )
-        .unique(
-            subset=[
-                "crm_record_id",
-                "marketing_record_id",
-            ],
-            keep="first",
-        )
+    candidates = candidates.sort(
+        [
+            "match_score",
+            "time_delta_minutes",
+        ],
+        descending=[
+            True,
+            False,
+        ],
+    ).unique(
+        subset=[
+            "crm_record_id",
+            "marketing_record_id",
+        ],
+        keep="first",
     )
 
     return candidates

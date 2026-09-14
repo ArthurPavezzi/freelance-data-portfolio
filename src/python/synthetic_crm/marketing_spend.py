@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 PAID_CAMPAIGNS = {
     "Google Ads": {
         "Search | Interior Painting": {
@@ -119,13 +118,9 @@ def _date_range(
     start_date: str,
     end_date: str,
 ) -> list[date]:
-    start = datetime.fromisoformat(
-        start_date
-    ).date()
+    start = datetime.fromisoformat(start_date).date()
 
-    end = datetime.fromisoformat(
-        end_date
-    ).date()
+    end = datetime.fromisoformat(end_date).date()
 
     dates: list[date] = []
 
@@ -147,21 +142,11 @@ def _count_true_paid_leads(
     """
     Count true paid leads by day, source, and campaign.
     """
-    paid_sources = list(
-        PAID_CAMPAIGNS
-    )
+    paid_sources = list(PAID_CAMPAIGNS)
 
     counts = (
-        leads
-        .filter(
-            pl.col("source")
-            .is_in(paid_sources)
-        )
-        .with_columns(
-            pl.col("created_at")
-            .dt.date()
-            .alias("date")
-        )
+        leads.filter(pl.col("source").is_in(paid_sources))
+        .with_columns(pl.col("created_at").dt.date().alias("date"))
         .group_by(
             "date",
             "source",
@@ -176,9 +161,7 @@ def _count_true_paid_leads(
             row["source"],
             row["campaign"],
         ): int(row["len"])
-        for row in counts.iter_rows(
-            named=True
-        )
+        for row in counts.iter_rows(named=True)
     }
 
 
@@ -193,43 +176,20 @@ def _sample_platform_conversions(
     Platforms may fail to observe some real conversions while also
     reporting modeled, attributed, or occasional phantom conversions.
     """
-    params = (
-        ATTRIBUTION_PARAMETERS[
-            source
-        ]
-    )
+    params = ATTRIBUTION_PARAMETERS[source]
 
     captured = int(
         rng.binomial(
             true_leads,
-            params[
-                "capture_probability"
-            ],
+            params["capture_probability"],
         )
     )
 
-    modeled = int(
-        rng.poisson(
-            true_leads
-            * params[
-                "modeled_conversion_rate"
-            ]
-        )
-    )
+    modeled = int(rng.poisson(true_leads * params["modeled_conversion_rate"]))
 
-    phantom = int(
-        rng.poisson(
-            params[
-                "phantom_conversion_lambda"
-            ]
-        )
-    )
+    phantom = int(rng.poisson(params["phantom_conversion_lambda"]))
 
-    return (
-        captured
-        + modeled
-        + phantom
-    )
+    return captured + modeled + phantom
 
 
 def _sample_spend(
@@ -244,12 +204,9 @@ def _sample_spend(
     A small latent-demand component keeps campaigns spending on days
     when no lead happens to convert.
     """
-    latent_demand = (
-        true_leads
-        + rng.gamma(
-            shape=1.4,
-            scale=0.25,
-        )
+    latent_demand = true_leads + rng.gamma(
+        shape=1.4,
+        scale=0.25,
     )
 
     noise = rng.lognormal(
@@ -257,11 +214,7 @@ def _sample_spend(
         sigma=0.18,
     )
 
-    spend = (
-        target_cpl
-        * latent_demand
-        * noise
-    )
+    spend = target_cpl * latent_demand * noise
 
     return round(
         max(spend, 5.0),
@@ -274,17 +227,12 @@ def _sample_clicks(
     baseline_cpc: float,
     rng: np.random.Generator,
 ) -> int:
-    realized_cpc = (
-        baseline_cpc
-        * rng.lognormal(
-            mean=0.0,
-            sigma=0.10,
-        )
+    realized_cpc = baseline_cpc * rng.lognormal(
+        mean=0.0,
+        sigma=0.10,
     )
 
-    clicks = round(
-        spend / realized_cpc
-    )
+    clicks = round(spend / realized_cpc)
 
     return max(
         int(clicks),
@@ -297,12 +245,9 @@ def _sample_impressions(
     baseline_ctr: float,
     rng: np.random.Generator,
 ) -> int:
-    realized_ctr = (
-        baseline_ctr
-        * rng.lognormal(
-            mean=0.0,
-            sigma=0.08,
-        )
+    realized_ctr = baseline_ctr * rng.lognormal(
+        mean=0.0,
+        sigma=0.08,
     )
 
     realized_ctr = float(
@@ -313,9 +258,7 @@ def _sample_impressions(
         )
     )
 
-    impressions = round(
-        clicks / realized_ctr
-    )
+    impressions = round(clicks / realized_ctr)
 
     return max(
         int(impressions),
@@ -339,23 +282,13 @@ def generate_marketing_spend(
     associated with each campaign-day so reporting discrepancies can
     later be evaluated objectively.
     """
-    rng = np.random.default_rng(
-        config.seed + 5
-    )
+    rng = np.random.default_rng(config.seed + 5)
 
-    true_lead_counts = (
-        _count_true_paid_leads(
-            leads
-        )
-    )
+    true_lead_counts = _count_true_paid_leads(leads)
 
-    spend_rows: list[
-        dict[str, Any]
-    ] = []
+    spend_rows: list[dict[str, Any]] = []
 
-    truth_rows: list[
-        dict[str, Any]
-    ] = []
+    truth_rows: list[dict[str, Any]] = []
 
     for current_date in _date_range(
         config.start_date,
@@ -365,142 +298,78 @@ def generate_marketing_spend(
             source,
             campaigns,
         ) in PAID_CAMPAIGNS.items():
-            platform = (
-                PLATFORM_BY_SOURCE[
-                    source
-                ]
-            )
+            platform = PLATFORM_BY_SOURCE[source]
 
             for (
                 campaign,
                 parameters,
             ) in campaigns.items():
-
                 active_months = parameters.get("active_months")
-                
-                if (
-                    active_months is not None
-                    and current_date.month
-                    not in active_months
-                ):
+
+                if active_months is not None and current_date.month not in active_months:
                     continue
 
-                true_leads = (
-                    true_lead_counts.get(
-                        (
-                            current_date,
-                            source,
-                            campaign,
-                        ),
-                        0,
-                    )
+                true_leads = true_lead_counts.get(
+                    (
+                        current_date,
+                        source,
+                        campaign,
+                    ),
+                    0,
                 )
 
-                platform_conversions = (
-                    _sample_platform_conversions(
-                        true_leads,
-                        source,
-                        rng,
-                    )
+                platform_conversions = _sample_platform_conversions(
+                    true_leads,
+                    source,
+                    rng,
                 )
 
                 spend = _sample_spend(
                     true_leads,
-                    float(
-                        parameters[
-                            "target_cpl"
-                        ]
-                    ),
+                    float(parameters["target_cpl"]),
                     rng,
                 )
 
                 clicks = _sample_clicks(
                     spend,
-                    float(
-                        parameters[
-                            "cpc"
-                        ]
-                    ),
+                    float(parameters["cpc"]),
                     rng,
                 )
 
-                impressions = (
-                    _sample_impressions(
-                        clicks,
-                        float(
-                            parameters[
-                                "ctr"
-                            ]
-                        ),
-                        rng,
-                    )
+                impressions = _sample_impressions(
+                    clicks,
+                    float(parameters["ctr"]),
+                    rng,
                 )
 
                 spend_rows.append(
                     {
-                        "date": (
-                            current_date
-                        ),
-                        "platform": (
-                            platform
-                        ),
+                        "date": (current_date),
+                        "platform": (platform),
                         "source": source,
-                        "campaign": (
-                            campaign
-                        ),
+                        "campaign": (campaign),
                         "spend": spend,
-                        "impressions": (
-                            impressions
-                        ),
+                        "impressions": (impressions),
                         "clicks": clicks,
-                        "platform_conversions": (
-                            platform_conversions
-                        ),
+                        "platform_conversions": (platform_conversions),
                     }
                 )
 
                 truth_rows.append(
                     {
-                        "date": (
-                            current_date
-                        ),
-                        "platform": (
-                            platform
-                        ),
+                        "date": (current_date),
+                        "platform": (platform),
                         "source": source,
-                        "campaign": (
-                            campaign
-                        ),
-                        "ground_truth_leads": (
-                            true_leads
-                        ),
-                        "platform_conversions": (
-                            platform_conversions
-                        ),
-                        "conversion_reporting_gap": (
-                            platform_conversions
-                            - true_leads
-                        ),
+                        "campaign": (campaign),
+                        "ground_truth_leads": (true_leads),
+                        "platform_conversions": (platform_conversions),
+                        "conversion_reporting_gap": (platform_conversions - true_leads),
                     }
                 )
 
-    spend_export = (
-        pl.DataFrame(
-            spend_rows
-        )
-        .select(
-            SPEND_COLUMNS
-        )
-    )
+    spend_export = pl.DataFrame(spend_rows).select(SPEND_COLUMNS)
 
-    spend_truth = (
-        pl.DataFrame(
-            truth_rows
-        )
-        .select(
-            TRUTH_COLUMNS
-        )
-    )
+    spend_truth = pl.DataFrame(truth_rows).select(TRUTH_COLUMNS)
 
     return (
         spend_export,

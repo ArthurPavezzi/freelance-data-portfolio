@@ -1,6 +1,5 @@
 import pandas as pd
 import pytest
-
 from input_output.validation import (
     compare_matrices,
 )
@@ -37,20 +36,11 @@ def test_identical_matrices_have_zero_error() -> None:
         official,
     )
 
-    assert (
-        result.max_abs_error
-        == 0.0
-    )
+    assert result.max_abs_error == 0.0
 
-    assert (
-        result.mean_abs_error
-        == 0.0
-    )
+    assert result.mean_abs_error == 0.0
 
-    assert (
-        result.rmse
-        == 0.0
-    )
+    assert result.rmse == 0.0
 
     assert result.allclose
 
@@ -77,17 +67,11 @@ def test_validation_measures_known_error() -> None:
         rtol=1e-12,
     )
 
-    assert result.max_abs_error == pytest.approx(
-        0.1
-    )
+    assert result.max_abs_error == pytest.approx(0.1)
 
-    assert result.mean_abs_error == pytest.approx(
-        0.025
-    )
+    assert result.mean_abs_error == pytest.approx(0.025)
 
-    assert result.rmse == pytest.approx(
-        0.05
-    )
+    assert result.rmse == pytest.approx(0.05)
 
     assert not result.allclose
 

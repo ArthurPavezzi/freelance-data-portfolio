@@ -2,19 +2,14 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-
 from input_output.parse import (
     _extract_code,
     _parse_final_demand_frame,
     _parse_matrix_frame,
-    parse_ibge_workbook
+    parse_ibge_workbook,
 )
 
-
-WORKBOOK = Path(
-    "data/raw/ibge_mip/2015/"
-    "Matriz_de_Insumo_Produto_2015_Nivel_67.xls"
-)
+WORKBOOK = Path("data/raw/ibge_mip/2015/Matriz_de_Insumo_Produto_2015_Nivel_67.xls")
 
 
 @pytest.mark.parametrize(
@@ -93,37 +88,23 @@ def test_parse_matrix_frame() -> None:
         ),
     )
 
-    assert (
-        parsed.values.shape
-        == (3, 2)
-    )
+    assert parsed.values.shape == (3, 2)
 
-    assert (
-        parsed.values.index.tolist()
-        == [
-            "01911",
-            "01912",
-            "01913",
-        ]
-    )
+    assert parsed.values.index.tolist() == [
+        "01911",
+        "01912",
+        "01913",
+    ]
 
-    assert (
-        parsed.values.columns.tolist()
-        == [
-            "0191",
-            "0192",
-        ]
-    )
+    assert parsed.values.columns.tolist() == [
+        "0191",
+        "0192",
+    ]
 
-    assert (
-        parsed.column_labels[
-            "name"
-        ].tolist()
-        == [
-            "Sector A",
-            "Sector B",
-        ]
-    )
+    assert parsed.column_labels["name"].tolist() == [
+        "Sector A",
+        "Sector B",
+    ]
 
 
 def test_parser_rejects_wrong_shape() -> None:
@@ -198,11 +179,9 @@ def test_parse_final_demand_frame() -> None:
         }
     )
 
-    result = (
-        _parse_final_demand_frame(
-            raw,
-            expected_rows=2,
-        )
+    result = _parse_final_demand_frame(
+        raw,
+        expected_rows=2,
     )
 
     assert result.shape == (
@@ -210,26 +189,20 @@ def test_parse_final_demand_frame() -> None:
         7,
     )
 
-    assert (
-        result.index.tolist()
-        == [
-            "01911",
-            "01912",
-        ]
-    )
+    assert result.index.tolist() == [
+        "01911",
+        "01912",
+    ]
 
-    assert (
-        result.columns.tolist()
-        == [
-            "exports",
-            "government_consumption",
-            "npish_consumption",
-            "household_consumption",
-            "gross_fixed_capital_formation",
-            "inventory_change",
-            "total_final_demand",
-        ]
-    )
+    assert result.columns.tolist() == [
+        "exports",
+        "government_consumption",
+        "npish_consumption",
+        "household_consumption",
+        "gross_fixed_capital_formation",
+        "inventory_change",
+        "total_final_demand",
+    ]
 
 
 def test_final_demand_components_sum_to_total() -> None:
@@ -265,11 +238,9 @@ def test_final_demand_components_sum_to_total() -> None:
         }
     )
 
-    result = (
-        _parse_final_demand_frame(
-            raw,
-            expected_rows=1,
-        )
+    result = _parse_final_demand_frame(
+        raw,
+        expected_rows=1,
     )
 
     components = [
@@ -281,51 +252,28 @@ def test_final_demand_components_sum_to_total() -> None:
         "inventory_change",
     ]
 
-    assert (
+    assert result.loc[
+        "01911",
+        components,
+    ].sum() == pytest.approx(
         result.loc[
             "01911",
-            components,
-        ].sum()
-        == pytest.approx(
-            result.loc[
-                "01911",
-                "total_final_demand",
-            ]
-        )
+            "total_final_demand",
+        ]
     )
 
 
 @pytest.mark.skipif(
     not WORKBOOK.exists(),
-    reason=(
-        "IBGE workbook has not been "
-        "downloaded."
-    ),
+    reason=("IBGE workbook has not been downloaded."),
 )
 def test_real_workbook_final_demand() -> None:
-    tables = parse_ibge_workbook(
-        WORKBOOK
-    )
+    tables = parse_ibge_workbook(WORKBOOK)
 
-    assert (
-        tables.final_demand_by_product.shape
-        == (127, 7)
-    )
+    assert tables.final_demand_by_product.shape == (127, 7)
 
-    assert (
-        tables.final_demand_by_sector.shape
-        == (67, 7)
-    )
+    assert tables.final_demand_by_sector.shape == (67, 7)
 
-    assert (
-        len(
-            tables.final_demand
-        )
-        == 67
-    )
+    assert len(tables.final_demand) == 67
 
-    assert not (
-        tables.final_demand
-        .isna()
-        .any()
-    )
+    assert not (tables.final_demand.isna().any())

@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-
 from input_output.scenarios import (
     ShockScenario,
     compare_scenarios,
@@ -67,35 +66,18 @@ def test_run_scenario() -> None:
         sectors=_sectors(),
     )
 
-    assert (
-        run.scenario.name
-        == "baseline"
-    )
+    assert run.scenario.name == "baseline"
 
-    assert (
-        run.result.direct_demand_shock
-        == pytest.approx(
-            100.0
-        )
-    )
+    assert run.result.direct_demand_shock == pytest.approx(100.0)
 
-    assert (
-        run.result.total_output_impact
-        == pytest.approx(
-            190.0
-        )
-    )
+    assert run.result.total_output_impact == pytest.approx(190.0)
 
 
 def test_run_multiple_scenarios() -> None:
     runs = run_scenarios(
         scenarios=[
-            _scenario(
-                "scenario_a"
-            ),
-            _scenario(
-                "scenario_b"
-            ),
+            _scenario("scenario_a"),
+            _scenario("scenario_b"),
         ],
         leontief=_leontief(),
         sectors=_sectors(),
@@ -103,10 +85,7 @@ def test_run_multiple_scenarios() -> None:
 
     assert len(runs) == 2
 
-    assert [
-        run.scenario.name
-        for run in runs
-    ] == [
+    assert [run.scenario.name for run in runs] == [
         "scenario_a",
         "scenario_b",
     ]
@@ -119,12 +98,8 @@ def test_duplicate_scenario_names_are_rejected() -> None:
     ):
         run_scenarios(
             scenarios=[
-                _scenario(
-                    "duplicate"
-                ),
-                _scenario(
-                    "duplicate"
-                ),
+                _scenario("duplicate"),
+                _scenario("duplicate"),
             ],
             leontief=_leontief(),
             sectors=_sectors(),
@@ -138,9 +113,7 @@ def test_invalid_scenario_name_is_rejected() -> None:
     ):
         ShockScenario(
             name="Investment +10%",
-            description=(
-                "Invalid name"
-            ),
+            description=("Invalid name"),
             delta_final_demand=pd.Series(
                 [100.0],
                 index=["S1"],
@@ -151,14 +124,10 @@ def test_invalid_scenario_name_is_rejected() -> None:
 def test_compare_scenarios() -> None:
     runs = run_scenarios(
         scenarios=[
-            _scenario(
-                "scenario_a"
-            ),
+            _scenario("scenario_a"),
             ShockScenario(
                 name="scenario_b",
-                description=(
-                    "Second scenario"
-                ),
+                description=("Second scenario"),
                 delta_final_demand=pd.Series(
                     [
                         0.0,
@@ -175,29 +144,19 @@ def test_compare_scenarios() -> None:
         sectors=_sectors(),
     )
 
-    comparison = compare_scenarios(
-        runs
-    )
+    comparison = compare_scenarios(runs)
 
     assert comparison.shape == (
         2,
         6,
     )
 
-    assert (
-        comparison[
-            "scenario"
-        ].tolist()
-        == [
-            "scenario_a",
-            "scenario_b",
-        ]
-    )
+    assert comparison["scenario"].tolist() == [
+        "scenario_a",
+        "scenario_b",
+    ]
 
-    assert (
-        "output_multiplier"
-        in comparison.columns
-    )
+    assert "output_multiplier" in comparison.columns
 
 
 def test_write_scenario_outputs(
@@ -205,12 +164,8 @@ def test_write_scenario_outputs(
 ) -> None:
     runs = run_scenarios(
         scenarios=[
-            _scenario(
-                "scenario_a"
-            ),
-            _scenario(
-                "scenario_b"
-            ),
+            _scenario("scenario_a"),
+            _scenario("scenario_b"),
         ],
         leontief=_leontief(),
         sectors=_sectors(),
@@ -221,21 +176,11 @@ def test_write_scenario_outputs(
         output_dir=tmp_path,
     )
 
-    assert (
-        paths.summary.exists()
-    )
+    assert paths.summary.exists()
 
-    assert (
-        paths.impacts[
-            "scenario_a"
-        ].exists()
-    )
+    assert paths.impacts["scenario_a"].exists()
 
-    assert (
-        paths.impacts[
-            "scenario_b"
-        ].exists()
-    )
+    assert paths.impacts["scenario_b"].exists()
 
 
 def test_written_summary_roundtrip(
@@ -254,9 +199,7 @@ def test_written_summary_roundtrip(
         output_dir=tmp_path,
     )
 
-    summary = pd.read_csv(
-        paths.summary
-    )
+    summary = pd.read_csv(paths.summary)
 
     assert (
         summary.loc[
@@ -266,15 +209,10 @@ def test_written_summary_roundtrip(
         == "baseline"
     )
 
-    assert (
-        summary.loc[
-            0,
-            "direct_demand_shock",
-        ]
-        == pytest.approx(
-            100.0
-        )
-    )
+    assert summary.loc[
+        0,
+        "direct_demand_shock",
+    ] == pytest.approx(100.0)
 
 
 def test_written_impacts_roundtrip(
@@ -293,20 +231,11 @@ def test_written_impacts_roundtrip(
         output_dir=tmp_path,
     )
 
-    impacts = pd.read_csv(
-        paths.impacts[
-            "baseline"
-        ]
-    )
+    impacts = pd.read_csv(paths.impacts["baseline"])
 
     assert len(impacts) == 2
 
-    assert (
-        impacts[
-            "sector_code"
-        ].tolist()
-        == [
-            "S1",
-            "S2",
-        ]
-    )
+    assert impacts["sector_code"].tolist() == [
+        "S1",
+        "S2",
+    ]

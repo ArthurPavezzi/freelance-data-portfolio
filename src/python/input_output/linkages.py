@@ -19,61 +19,29 @@ def rasmussen_hirschman(
         overall matrix mean.
     """
     if leontief.shape[0] != leontief.shape[1]:
-        raise ValueError(
-            "Leontief matrix must be square."
-        )
+        raise ValueError("Leontief matrix must be square.")
 
-    if list(leontief.index) != list(
-        leontief.columns
-    ):
-        raise ValueError(
-            "Sector rows and columns must be aligned."
-        )
+    if list(leontief.index) != list(leontief.columns):
+        raise ValueError("Sector rows and columns must be aligned.")
 
     required_columns = {
         "code",
         "name",
     }
 
-    if not required_columns.issubset(
-        sectors.columns
-    ):
-        raise ValueError(
-            "sectors must contain "
-            "'code' and 'name' columns."
-        )
+    if not required_columns.issubset(sectors.columns):
+        raise ValueError("sectors must contain 'code' and 'name' columns.")
 
-    sector_codes = (
-        sectors["code"]
-        .astype(str)
-        .tolist()
-    )
+    sector_codes = sectors["code"].astype(str).tolist()
 
-    if sector_codes != list(
-        leontief.index
-    ):
-        raise ValueError(
-            "Sector metadata is not aligned "
-            "with the Leontief matrix."
-        )
+    if sector_codes != list(leontief.index):
+        raise ValueError("Sector metadata is not aligned with the Leontief matrix.")
 
-    overall_mean = (
-        leontief
-        .to_numpy()
-        .mean()
-    )
+    overall_mean = leontief.to_numpy().mean()
 
-    backward = (
-        leontief
-        .mean(axis=0)
-        / overall_mean
-    )
+    backward = leontief.mean(axis=0) / overall_mean
 
-    forward = (
-        leontief
-        .mean(axis=1)
-        / overall_mean
-    )
+    forward = leontief.mean(axis=1) / overall_mean
 
     result = sectors[
         [
@@ -89,39 +57,22 @@ def rasmussen_hirschman(
         }
     )
 
-    result[
-        "forward_linkage"
-    ] = forward.to_numpy()
+    result["forward_linkage"] = forward.to_numpy()
 
-    result[
-        "backward_linkage"
-    ] = backward.to_numpy()
+    result["backward_linkage"] = backward.to_numpy()
 
-    result[
-        "sector_type"
-    ] = [
+    result["sector_type"] = [
         classify_sector(
             forward_linkage=f,
             backward_linkage=b,
         )
         for f, b in zip(
-            result[
-                "forward_linkage"
-            ],
-            result[
-                "backward_linkage"
-            ],
+            result["forward_linkage"],
+            result["backward_linkage"],
         )
     ]
 
-    result[
-        "is_key_sector"
-    ] = (
-        result[
-            "sector_type"
-        ]
-        == "III"
-    )
+    result["is_key_sector"] = result["sector_type"] == "III"
 
     return result
 
@@ -146,22 +97,13 @@ def classify_sector(
     Type IV:
         forward < 1 and backward >= 1
     """
-    if (
-        forward_linkage < 1
-        and backward_linkage < 1
-    ):
+    if forward_linkage < 1 and backward_linkage < 1:
         return "I"
 
-    if (
-        forward_linkage >= 1
-        and backward_linkage < 1
-    ):
+    if forward_linkage >= 1 and backward_linkage < 1:
         return "II"
 
-    if (
-        forward_linkage >= 1
-        and backward_linkage >= 1
-    ):
+    if forward_linkage >= 1 and backward_linkage >= 1:
         return "III"
 
     return "IV"

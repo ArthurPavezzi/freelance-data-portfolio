@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
-
 from input_output.matrices import (
     build_leontief_inverse,
     build_technical_matrix,
@@ -12,11 +11,7 @@ from input_output.parse import (
     parse_ibge_workbook,
 )
 
-
-WORKBOOK = Path(
-    "data/raw/ibge_mip/2015/"
-    "Matriz_de_Insumo_Produto_2015_Nivel_67.xls"
-)
+WORKBOOK = Path("data/raw/ibge_mip/2015/Matriz_de_Insumo_Produto_2015_Nivel_67.xls")
 
 
 def test_build_technical_matrix() -> None:
@@ -75,15 +70,9 @@ def test_build_technical_matrix() -> None:
         expected.to_numpy(),
     )
 
-    assert (
-        result.index.tolist()
-        == ["S1", "S2"]
-    )
+    assert result.index.tolist() == ["S1", "S2"]
 
-    assert (
-        result.columns.tolist()
-        == ["S1", "S2"]
-    )
+    assert result.columns.tolist() == ["S1", "S2"]
 
 
 def test_build_technical_matrix_requires_aligned_products() -> None:
@@ -131,29 +120,18 @@ def test_build_leontief_inverse() -> None:
         ],
     )
 
-    result = build_leontief_inverse(
-        A
-    )
+    result = build_leontief_inverse(A)
 
-    expected = np.linalg.inv(
-        np.eye(2)
-        - A.to_numpy()
-    )
+    expected = np.linalg.inv(np.eye(2) - A.to_numpy())
 
     np.testing.assert_allclose(
         result.to_numpy(),
         expected,
     )
 
-    assert (
-        result.index.tolist()
-        == A.index.tolist()
-    )
+    assert result.index.tolist() == A.index.tolist()
 
-    assert (
-        result.columns.tolist()
-        == A.columns.tolist()
-    )
+    assert result.columns.tolist() == A.columns.tolist()
 
 
 def test_build_leontief_inverse_requires_square_matrix() -> None:
@@ -172,9 +150,7 @@ def test_build_leontief_inverse_requires_square_matrix() -> None:
         ValueError,
         match="must be square",
     ):
-        build_leontief_inverse(
-            A
-        )
+        build_leontief_inverse(A)
 
 
 def test_build_leontief_inverse_requires_aligned_sector_labels() -> None:
@@ -195,36 +171,24 @@ def test_build_leontief_inverse_requires_aligned_sector_labels() -> None:
 
     with pytest.raises(
         ValueError,
-        match=(
-            "Sector rows and columns "
-            "must be aligned"
-        ),
+        match=("Sector rows and columns must be aligned"),
     ):
-        build_leontief_inverse(
-            A
-        )
+        build_leontief_inverse(A)
 
 
 @pytest.mark.skipif(
     not WORKBOOK.exists(),
-    reason=(
-        "IBGE workbook has not been "
-        "downloaded."
-    ),
+    reason=("IBGE workbook has not been downloaded."),
 )
 def test_reconstructed_ibge_matrices_match_official_tables() -> None:
-    tables = parse_ibge_workbook(
-        WORKBOOK
-    )
+    tables = parse_ibge_workbook(WORKBOOK)
 
     A = build_technical_matrix(
         tables.D,
         tables.Bn,
     )
 
-    L = build_leontief_inverse(
-        A
-    )
+    L = build_leontief_inverse(A)
 
     np.testing.assert_allclose(
         A.to_numpy(),

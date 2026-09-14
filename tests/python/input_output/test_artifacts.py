@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pandas as pd
-
 from input_output.artifacts import (
     write_core_outputs,
 )
@@ -65,17 +64,11 @@ def test_write_core_outputs_creates_files(
         output_dir=tmp_path,
     )
 
-    assert (
-        paths.technical_coefficients.exists()
-    )
+    assert paths.technical_coefficients.exists()
 
-    assert (
-        paths.leontief_inverse.exists()
-    )
+    assert paths.leontief_inverse.exists()
 
-    assert (
-        paths.sector_linkages.exists()
-    )
+    assert paths.sector_linkages.exists()
 
 
 def test_written_outputs_roundtrip(
@@ -92,45 +85,25 @@ def test_written_outputs_roundtrip(
         output_dir=tmp_path,
     )
 
-    stored_A = pd.read_parquet(
-        paths.technical_coefficients
-    )
+    stored_A = pd.read_parquet(paths.technical_coefficients)
 
-    stored_L = pd.read_parquet(
-        paths.leontief_inverse
-    )
+    stored_L = pd.read_parquet(paths.leontief_inverse)
 
-    stored_linkages = pd.read_parquet(
-        paths.sector_linkages
-    )
+    stored_linkages = pd.read_parquet(paths.sector_linkages)
 
-    assert (
-        stored_A["sector_code"].tolist()
-        == ["S1", "S2"]
-    )
+    assert stored_A["sector_code"].tolist() == ["S1", "S2"]
 
-    assert (
-        stored_L["sector_code"].tolist()
-        == ["S1", "S2"]
-    )
+    assert stored_L["sector_code"].tolist() == ["S1", "S2"]
 
     pd.testing.assert_frame_equal(
-        stored_A.drop(
-            columns="sector_code"
-        ),
-        A.reset_index(
-            drop=True
-        ),
+        stored_A.drop(columns="sector_code"),
+        A.reset_index(drop=True),
         check_names=False,
     )
 
     pd.testing.assert_frame_equal(
-        stored_L.drop(
-            columns="sector_code"
-        ),
-        L.reset_index(
-            drop=True
-        ),
+        stored_L.drop(columns="sector_code"),
+        L.reset_index(drop=True),
         check_names=False,
     )
 

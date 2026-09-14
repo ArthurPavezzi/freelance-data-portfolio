@@ -8,7 +8,6 @@ import polars as pl
 
 from .config import SimulationConfig
 
-
 TRACKABLE_SOURCES = {
     "Google Ads",
     "Facebook Ads",
@@ -85,9 +84,7 @@ def _format_phone(
         f"+1 {area} {exchange} {subscriber}",
     ]
 
-    return str(
-        rng.choice(variants)
-    )
+    return str(rng.choice(variants))
 
 
 def _variant_name(
@@ -106,13 +103,9 @@ def _variant_name(
     ]
 
     if len(parts) >= 2:
-        variants.append(
-            f"{parts[0][0]}. {' '.join(parts[1:])}"
-        )
+        variants.append(f"{parts[0][0]}. {' '.join(parts[1:])}")
 
-    return str(
-        rng.choice(variants)
-    )
+    return str(rng.choice(variants))
 
 
 def _jitter_timestamp(
@@ -136,12 +129,7 @@ def _jitter_timestamp(
         )
     )
 
-    return (
-        created_at
-        + timedelta(
-            minutes=jitter_minutes
-        )
-    )
+    return created_at + timedelta(minutes=jitter_minutes)
 
 
 def generate_marketing_export(
@@ -164,16 +152,9 @@ def generate_marketing_export(
         marketing_corruption_log
         marketing_observation_map
     """
-    rng = np.random.default_rng(
-        config.seed + 4
-    )
+    rng = np.random.default_rng(config.seed + 4)
 
-    customer_lookup = {
-        row["customer_id"]: row
-        for row in customers.iter_rows(
-            named=True
-        )
-    }
+    customer_lookup = {row["customer_id"]: row for row in customers.iter_rows(named=True)}
 
     export_rows: list[dict[str, Any]] = []
     log_rows: list[dict[str, Any]] = []
@@ -185,9 +166,7 @@ def generate_marketing_export(
     def next_record_id() -> str:
         nonlocal record_number
 
-        record_id = (
-            f"MKT{record_number:07d}"
-        )
+        record_id = f"MKT{record_number:07d}"
 
         record_number += 1
 
@@ -206,57 +185,31 @@ def generate_marketing_export(
 
         log_rows.append(
             {
-                "corruption_id": (
-                    f"MC{corruption_number:07d}"
-                ),
+                "corruption_id": (f"MC{corruption_number:07d}"),
                 "system": "marketing",
                 "record_type": "lead",
-                "marketing_record_id": (
-                    marketing_record_id
-                ),
-                "ground_truth_lead_id": (
-                    lead_id
-                ),
+                "marketing_record_id": (marketing_record_id),
+                "ground_truth_lead_id": (lead_id),
                 "field": field,
-                "corruption_type": (
-                    corruption_type
-                ),
-                "original_value": (
-                    None
-                    if original_value is None
-                    else str(original_value)
-                ),
-                "corrupted_value": (
-                    None
-                    if corrupted_value is None
-                    else str(corrupted_value)
-                ),
+                "corruption_type": (corruption_type),
+                "original_value": (None if original_value is None else str(original_value)),
+                "corrupted_value": (None if corrupted_value is None else str(corrupted_value)),
             }
         )
 
         corruption_number += 1
 
-    for lead in leads.iter_rows(
-        named=True
-    ):
-        source = str(
-            lead["source"]
-        )
+    for lead in leads.iter_rows(named=True):
+        source = str(lead["source"])
 
         if source not in TRACKABLE_SOURCES:
             continue
 
-        lead_id = str(
-            lead["lead_id"]
-        )
+        lead_id = str(lead["lead_id"])
 
-        customer_id = int(
-            lead["customer_id"]
-        )
+        customer_id = int(lead["customer_id"])
 
-        capture_rate = (
-            CAPTURE_RATES[source]
-        )
+        capture_rate = CAPTURE_RATES[source]
 
         # ------------------------------------------------------------
         # Trackable lead not captured by marketing system
@@ -267,84 +220,43 @@ def generate_marketing_export(
                 marketing_record_id=None,
                 lead_id=lead_id,
                 field="record",
-                corruption_type=(
-                    "missing_marketing_record"
-                ),
+                corruption_type=("missing_marketing_record"),
                 original_value=lead_id,
                 corrupted_value=None,
             )
 
             continue
 
-        customer = customer_lookup[
-            customer_id
-        ]
+        customer = customer_lookup[customer_id]
 
-        marketing_record_id = (
-            next_record_id()
-        )
+        marketing_record_id = next_record_id()
 
         row: dict[str, Any] = {
-            "marketing_record_id": (
-                marketing_record_id
-            ),
+            "marketing_record_id": (marketing_record_id),
             "captured_at": (
                 _jitter_timestamp(
                     lead["created_at"],
                     rng,
                 )
             ),
-            "platform": (
-                PLATFORM_BY_SOURCE[
-                    source
-                ]
-            ),
-            "source_label": (
-                SOURCE_LABEL_BY_SOURCE[
-                    source
-                ]
-            ),
-            "campaign": lead[
-                "campaign"
-            ],
-            "name": customer[
-                "canonical_name"
-            ],
-            "email": customer[
-                "canonical_email"
-            ],
-            "phone": customer[
-                "canonical_phone"
-            ],
-            "zip_code": customer[
-                "zip_code"
-            ],
-            "service": lead[
-                "service"
-            ],
-            "form_name": (
-                FORM_BY_SOURCE[
-                    source
-                ]
-            ),
-            "landing_page": (
-                LANDING_PAGE_BY_SOURCE[
-                    source
-                ]
-            ),
+            "platform": (PLATFORM_BY_SOURCE[source]),
+            "source_label": (SOURCE_LABEL_BY_SOURCE[source]),
+            "campaign": lead["campaign"],
+            "name": customer["canonical_name"],
+            "email": customer["canonical_email"],
+            "phone": customer["canonical_phone"],
+            "zip_code": customer["zip_code"],
+            "service": lead["service"],
+            "form_name": (FORM_BY_SOURCE[source]),
+            "landing_page": (LANDING_PAGE_BY_SOURCE[source]),
         }
 
         # ------------------------------------------------------------
         # Name representation noise
         # ------------------------------------------------------------
 
-        if (
-            rng.random()
-            < config.marketing_name_variant_rate
-        ):
-            original = str(
-                row["name"]
-            )
+        if rng.random() < config.marketing_name_variant_rate:
+            original = str(row["name"])
 
             variant = _variant_name(
                 original,
@@ -354,14 +266,10 @@ def generate_marketing_export(
             row["name"] = variant
 
             log_event(
-                marketing_record_id=(
-                    marketing_record_id
-                ),
+                marketing_record_id=(marketing_record_id),
                 lead_id=lead_id,
                 field="name",
-                corruption_type=(
-                    "name_variant"
-                ),
+                corruption_type=("name_variant"),
                 original_value=original,
                 corrupted_value=variant,
             )
@@ -370,25 +278,16 @@ def generate_marketing_export(
         # Email missingness
         # ------------------------------------------------------------
 
-        if (
-            rng.random()
-            < config.marketing_missing_email_rate
-        ):
-            original = str(
-                row["email"]
-            )
+        if rng.random() < config.marketing_missing_email_rate:
+            original = str(row["email"])
 
             row["email"] = None
 
             log_event(
-                marketing_record_id=(
-                    marketing_record_id
-                ),
+                marketing_record_id=(marketing_record_id),
                 lead_id=lead_id,
                 field="email",
-                corruption_type=(
-                    "missing_email"
-                ),
+                corruption_type=("missing_email"),
                 original_value=original,
                 corrupted_value=None,
             )
@@ -399,36 +298,22 @@ def generate_marketing_export(
 
         phone_draw = rng.random()
 
-        if (
-            phone_draw
-            < config.marketing_missing_phone_rate
-        ):
-            original = str(
-                row["phone"]
-            )
+        if phone_draw < config.marketing_missing_phone_rate:
+            original = str(row["phone"])
 
             row["phone"] = None
 
             log_event(
-                marketing_record_id=(
-                    marketing_record_id
-                ),
+                marketing_record_id=(marketing_record_id),
                 lead_id=lead_id,
                 field="phone",
-                corruption_type=(
-                    "missing_phone"
-                ),
+                corruption_type=("missing_phone"),
                 original_value=original,
                 corrupted_value=None,
             )
 
-        elif (
-            rng.random()
-            < config.marketing_phone_format_rate
-        ):
-            original = str(
-                row["phone"]
-            )
+        elif rng.random() < config.marketing_phone_format_rate:
+            original = str(row["phone"])
 
             formatted = _format_phone(
                 original,
@@ -439,40 +324,24 @@ def generate_marketing_export(
 
             if formatted != original:
                 log_event(
-                    marketing_record_id=(
-                        marketing_record_id
-                    ),
+                    marketing_record_id=(marketing_record_id),
                     lead_id=lead_id,
                     field="phone",
-                    corruption_type=(
-                        "phone_format"
-                    ),
+                    corruption_type=("phone_format"),
                     original_value=original,
                     corrupted_value=formatted,
                 )
 
-        export_rows.append(
-            row
-        )
+        export_rows.append(row)
 
         mapping_rows.append(
             {
-                "marketing_record_id": (
-                    marketing_record_id
-                ),
-                "ground_truth_lead_id": (
-                    lead_id
-                ),
-                "ground_truth_customer_id": (
-                    customer_id
-                ),
-                "record_kind": (
-                    "true_lead"
-                ),
+                "marketing_record_id": (marketing_record_id),
+                "ground_truth_lead_id": (lead_id),
+                "ground_truth_customer_id": (customer_id),
+                "record_kind": ("true_lead"),
                 "is_duplicate": False,
-                "duplicate_of_marketing_record_id": (
-                    None
-                ),
+                "duplicate_of_marketing_record_id": (None),
             }
         )
 
@@ -480,83 +349,49 @@ def generate_marketing_export(
         # Duplicate submission
         # ------------------------------------------------------------
 
-        if (
-            rng.random()
-            < config.marketing_duplicate_rate
-        ):
-            duplicate_id = (
-                next_record_id()
-            )
+        if rng.random() < config.marketing_duplicate_rate:
+            duplicate_id = next_record_id()
 
             duplicate = row.copy()
 
-            duplicate[
-                "marketing_record_id"
-            ] = duplicate_id
+            duplicate["marketing_record_id"] = duplicate_id
 
-            duplicate[
-                "captured_at"
-            ] = (
-                row["captured_at"]
-                + timedelta(
-                    minutes=int(
-                        rng.integers(
-                            1,
-                            11,
-                        )
+            duplicate["captured_at"] = row["captured_at"] + timedelta(
+                minutes=int(
+                    rng.integers(
+                        1,
+                        11,
                     )
                 )
             )
 
-            export_rows.append(
-                duplicate
-            )
+            export_rows.append(duplicate)
 
             mapping_rows.append(
                 {
-                    "marketing_record_id": (
-                        duplicate_id
-                    ),
-                    "ground_truth_lead_id": (
-                        lead_id
-                    ),
-                    "ground_truth_customer_id": (
-                        customer_id
-                    ),
-                    "record_kind": (
-                        "duplicate"
-                    ),
+                    "marketing_record_id": (duplicate_id),
+                    "ground_truth_lead_id": (lead_id),
+                    "ground_truth_customer_id": (customer_id),
+                    "record_kind": ("duplicate"),
                     "is_duplicate": True,
-                    "duplicate_of_marketing_record_id": (
-                        marketing_record_id
-                    ),
+                    "duplicate_of_marketing_record_id": (marketing_record_id),
                 }
             )
 
             log_event(
-                marketing_record_id=(
-                    duplicate_id
-                ),
+                marketing_record_id=(duplicate_id),
                 lead_id=lead_id,
                 field="record",
-                corruption_type=(
-                    "duplicate_submission"
-                ),
-                original_value=(
-                    marketing_record_id
-                ),
-                corrupted_value=(
-                    duplicate_id
-                ),
+                corruption_type=("duplicate_submission"),
+                original_value=(marketing_record_id),
+                corrupted_value=(duplicate_id),
             )
 
     # ------------------------------------------------------------
     # Synthetic noise records: test submissions and spam
     # ------------------------------------------------------------
 
-    true_record_count = len(
-        export_rows
-    )
+    true_record_count = len(export_rows)
 
     n_test = int(
         rng.binomial(
@@ -573,9 +408,7 @@ def generate_marketing_export(
     )
 
     if export_rows:
-        template_indices = np.arange(
-            len(export_rows)
-        )
+        template_indices = np.arange(len(export_rows))
 
         for noise_kind, count in [
             ("test", n_test),
@@ -585,125 +418,60 @@ def generate_marketing_export(
                 1,
                 count + 1,
             ):
-                template = export_rows[
-                    int(
-                        rng.choice(
-                            template_indices
-                        )
-                    )
-                ]
+                template = export_rows[int(rng.choice(template_indices))]
 
-                record_id = (
-                    next_record_id()
-                )
+                record_id = next_record_id()
 
-                noise = (
-                    template.copy()
-                )
+                noise = template.copy()
 
-                noise[
-                    "marketing_record_id"
-                ] = record_id
+                noise["marketing_record_id"] = record_id
 
-                noise[
-                    "captured_at"
-                ] = (
-                    template[
-                        "captured_at"
-                    ]
-                    + timedelta(
-                        minutes=int(
-                            rng.integers(
-                                1,
-                                60,
-                            )
+                noise["captured_at"] = template["captured_at"] + timedelta(
+                    minutes=int(
+                        rng.integers(
+                            1,
+                            60,
                         )
                     )
                 )
 
                 if noise_kind == "test":
-                    noise["name"] = (
-                        "Test Lead"
-                    )
-                    noise["email"] = (
-                        f"test{noise_index}"
-                        "@example.com"
-                    )
+                    noise["name"] = "Test Lead"
+                    noise["email"] = f"test{noise_index}@example.com"
                     noise["phone"] = None
 
                 else:
-                    noise["name"] = (
-                        "Promotional Contact"
-                    )
-                    noise["email"] = (
-                        f"promo{noise_index}"
-                        "@example.net"
-                    )
-                    noise["phone"] = (
-                        f"210555"
-                        f"{noise_index % 10000:04d}"
-                    )
+                    noise["name"] = "Promotional Contact"
+                    noise["email"] = f"promo{noise_index}@example.net"
+                    noise["phone"] = f"210555{noise_index % 10000:04d}"
 
-                export_rows.append(
-                    noise
-                )
+                export_rows.append(noise)
 
                 mapping_rows.append(
                     {
-                        "marketing_record_id": (
-                            record_id
-                        ),
-                        "ground_truth_lead_id": (
-                            None
-                        ),
-                        "ground_truth_customer_id": (
-                            None
-                        ),
-                        "record_kind": (
-                            noise_kind
-                        ),
+                        "marketing_record_id": (record_id),
+                        "ground_truth_lead_id": (None),
+                        "ground_truth_customer_id": (None),
+                        "record_kind": (noise_kind),
                         "is_duplicate": False,
-                        "duplicate_of_marketing_record_id": (
-                            None
-                        ),
+                        "duplicate_of_marketing_record_id": (None),
                     }
                 )
 
                 log_event(
-                    marketing_record_id=(
-                        record_id
-                    ),
+                    marketing_record_id=(record_id),
                     lead_id=None,
                     field="record",
-                    corruption_type=(
-                        f"{noise_kind}_record"
-                    ),
+                    corruption_type=(f"{noise_kind}_record"),
                     original_value=None,
-                    corrupted_value=(
-                        record_id
-                    ),
+                    corrupted_value=(record_id),
                 )
 
-    marketing_export = (
-        pl.DataFrame(
-            export_rows
-        )
-        .select(
-            MARKETING_COLUMNS
-        )
-    )
+    marketing_export = pl.DataFrame(export_rows).select(MARKETING_COLUMNS)
 
-    marketing_corruption_log = (
-        pl.DataFrame(
-            log_rows
-        )
-    )
+    marketing_corruption_log = pl.DataFrame(log_rows)
 
-    marketing_observation_map = (
-        pl.DataFrame(
-            mapping_rows
-        )
-    )
+    marketing_observation_map = pl.DataFrame(mapping_rows)
 
     return (
         marketing_export,
