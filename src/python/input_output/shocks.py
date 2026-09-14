@@ -212,3 +212,102 @@ def apply_final_demand_shock(
             multiplier
         ),
     )
+
+
+def build_sector_shock(
+    *,
+    sector_codes: pd.Index,
+    sector_code: str,
+    amount: float,
+) -> pd.Series:
+    if sector_code not in sector_codes:
+        raise ValueError(
+            f"Unknown sector code: {sector_code}"
+        )
+
+    shock = pd.Series(
+        0.0,
+        index=sector_codes,
+        dtype=float,
+        name="delta_final_demand",
+    )
+
+    shock.loc[sector_code] = float(amount)
+
+    return shock
+
+
+def build_group_shock(
+    *,
+    sector_codes: pd.Index,
+    shocks: dict[str, float],
+) -> pd.Series:
+    unknown = (
+        set(shocks)
+        - set(sector_codes)
+    )
+
+    if unknown:
+        raise ValueError(
+            "Unknown sector codes: "
+            + ", ".join(
+                sorted(unknown)
+            )
+        )
+
+    result = pd.Series(
+        0.0,
+        index=sector_codes,
+        dtype=float,
+        name="delta_final_demand",
+    )
+
+    for code, amount in shocks.items():
+        result.loc[code] = float(
+            amount
+        )
+
+    return result
+    
+
+def build_percentage_shock(
+    *,
+    final_demand: pd.Series,
+    sector_codes: list[str] | pd.Index,
+    rate: float,
+) -> pd.Series:
+    if final_demand.index.has_duplicates:
+        raise ValueError(
+            "Final demand contains duplicate sector codes."
+        )
+
+    unknown = (
+        set(sector_codes)
+        - set(final_demand.index)
+    )
+
+    if unknown:
+        raise ValueError(
+            "Unknown sector codes: "
+            + ", ".join(
+                sorted(unknown)
+            )
+        )
+
+    shock = pd.Series(
+        0.0,
+        index=final_demand.index,
+        dtype=float,
+        name="delta_final_demand",
+    )
+
+    selected = list(
+        sector_codes
+    )
+
+    shock.loc[selected] = (
+        final_demand.loc[selected]
+        * float(rate)
+    )
+
+    return shock

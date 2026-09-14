@@ -4,6 +4,9 @@ import pytest
 
 from input_output.shocks import (
     apply_final_demand_shock,
+    build_sector_shock,
+    build_group_shock,
+    build_percentage_shock,
 )
 
 
@@ -223,4 +226,108 @@ def test_rejects_non_square_leontief_matrix() -> None:
                 [100.0],
                 index=["S1"],
             ),
+        )
+
+
+def test_build_sector_shock() -> None:
+    shock = build_sector_shock(
+        sector_codes=pd.Index(
+            ["S1", "S2", "S3"]
+        ),
+        sector_code="S2",
+        amount=100.0,
+    )
+
+    assert shock.tolist() == [
+        0.0,
+        100.0,
+        0.0,
+    ]
+
+
+def test_build_group_shock() -> None:
+    shock = build_group_shock(
+        sector_codes=pd.Index(
+            ["S1", "S2", "S3"]
+        ),
+        shocks={
+            "S1": 100.0,
+            "S3": 50.0,
+        },
+    )
+
+    assert shock.tolist() == [
+        100.0,
+        0.0,
+        50.0,
+    ]
+
+
+def test_build_percentage_shock() -> None:
+    final_demand = pd.Series(
+        [100.0, 200.0, 300.0],
+        index=["S1", "S2", "S3"],
+    )
+
+    shock = build_percentage_shock(
+        final_demand=final_demand,
+        sector_codes=[
+            "S1",
+            "S3",
+        ],
+        rate=0.40,
+    )
+
+    assert shock.tolist() == [
+        40.0,
+        0.0,
+        120.0,
+    ]
+
+
+def test_sector_shock_rejects_unknown_sector() -> None:
+    with pytest.raises(
+        ValueError,
+        match="Unknown sector code",
+    ):
+        build_sector_shock(
+            sector_codes=pd.Index(
+                ["S1"]
+            ),
+            sector_code="S2",
+            amount=100.0,
+        )
+
+
+def test_group_shock_rejects_unknown_sector() -> None:
+    with pytest.raises(
+        ValueError,
+        match="Unknown sector codes",
+    ):
+        build_group_shock(
+            sector_codes=pd.Index(
+                ["S1"]
+            ),
+            shocks={
+                "S2": 100.0,
+            },
+        )
+
+
+def test_percentage_shock_rejects_unknown_sector() -> None:
+    final_demand = pd.Series(
+        [100.0],
+        index=["S1"],
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Unknown sector codes",
+    ):
+        build_percentage_shock(
+            final_demand=final_demand,
+            sector_codes=[
+                "S2",
+            ],
+            rate=0.40,
         )
