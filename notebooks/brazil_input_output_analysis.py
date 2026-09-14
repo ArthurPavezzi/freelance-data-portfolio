@@ -15,6 +15,7 @@ from input_output.parse import parse_ibge_workbook
 from input_output.shocks import (
     apply_final_demand_shock,
     build_percentage_shock,
+    rescale_shock_to_total,
 )
 
 from input_output.scenarios import (

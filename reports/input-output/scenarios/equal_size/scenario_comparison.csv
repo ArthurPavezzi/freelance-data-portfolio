@@ -1,0 +1,4 @@
+scenario,description,direct_demand_shock,total_output_impact,indirect_output_impact,output_multiplier
+key_sectors_100bn,R$ 100 billion final-demand shock distributed according to the key-sector scenario composition,100000.0,208054.2501066864,108054.2501066864,2.080542501066864
+exports_100bn,R$ 100 billion export shock distributed according to baseline sectoral export composition,99999.99999999999,194250.64396007964,94250.64396007966,1.9425064396007967
+investment_100bn,R$ 100 billion investment shock distributed according to baseline sectoral investment composition,100000.00000000003,176597.7859434844,76597.78594348437,1.7659778594348434

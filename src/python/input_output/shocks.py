@@ -311,3 +311,69 @@ def build_percentage_shock(
     )
 
     return shock
+
+
+def rescale_shock_to_total(
+    *,
+    delta_final_demand: pd.Series,
+    target_total: float,
+) -> pd.Series:
+    """
+    Rescale a final-demand shock while preserving its
+    sectoral composition.
+
+    The returned shock sums to target_total.
+    """
+    shock = (
+        delta_final_demand
+        .astype(float)
+        .copy()
+    )
+
+    if shock.index.has_duplicates:
+        raise ValueError(
+            "Final-demand shock contains "
+            "duplicate sector codes."
+        )
+
+    if not np.isfinite(
+        shock.to_numpy()
+    ).all():
+        raise ValueError(
+            "Final-demand shock contains "
+            "non-finite values."
+        )
+
+    if not np.isfinite(
+        target_total
+    ):
+        raise ValueError(
+            "Target total must be finite."
+        )
+
+    current_total = float(
+        shock.sum()
+    )
+
+    if np.isclose(
+        current_total,
+        0.0,
+    ):
+        raise ValueError(
+            "Cannot rescale a shock with "
+            "zero net total."
+        )
+
+    scaled = (
+        shock
+        * (
+            float(target_total)
+            / current_total
+        )
+    )
+
+    scaled.name = (
+        "delta_final_demand"
+    )
+
+    return scaled

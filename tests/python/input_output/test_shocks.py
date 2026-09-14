@@ -7,6 +7,7 @@ from input_output.shocks import (
     build_sector_shock,
     build_group_shock,
     build_percentage_shock,
+    rescale_shock_to_total,
 )
 
 
@@ -330,4 +331,107 @@ def test_percentage_shock_rejects_unknown_sector() -> None:
                 "S2",
             ],
             rate=0.40,
+        )
+
+
+def test_rescale_shock_to_total() -> None:
+    shock = pd.Series(
+        [
+            20.0,
+            30.0,
+            50.0,
+        ],
+        index=[
+            "S1",
+            "S2",
+            "S3",
+        ],
+    )
+
+    result = rescale_shock_to_total(
+        delta_final_demand=shock,
+        target_total=1_000.0,
+    )
+
+    assert (
+        result.sum()
+        == pytest.approx(
+            1_000.0
+        )
+    )
+
+    assert result.tolist() == pytest.approx(
+        [
+            200.0,
+            300.0,
+            500.0,
+        ]
+    )
+
+
+def test_rescale_preserves_composition() -> None:
+    shock = pd.Series(
+        [
+            25.0,
+            75.0,
+        ],
+        index=[
+            "S1",
+            "S2",
+        ],
+    )
+
+    result = rescale_shock_to_total(
+        delta_final_demand=shock,
+        target_total=500.0,
+    )
+
+    assert (
+        result.loc["S1"]
+        / result.loc["S2"]
+        == pytest.approx(
+            1 / 3
+        )
+    )
+
+
+def test_rescale_rejects_zero_net_shock() -> None:
+    shock = pd.Series(
+        [
+            100.0,
+            -100.0,
+        ],
+        index=[
+            "S1",
+            "S2",
+        ],
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="zero net total",
+    ):
+        rescale_shock_to_total(
+            delta_final_demand=shock,
+            target_total=1_000.0,
+        )
+
+
+def test_rescale_rejects_nonfinite_target() -> None:
+    shock = pd.Series(
+        [
+            100.0,
+        ],
+        index=[
+            "S1",
+        ],
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="must be finite",
+    ):
+        rescale_shock_to_total(
+            delta_final_demand=shock,
+            target_total=np.inf,
         )
