@@ -13,6 +13,24 @@ RETRYABLE_STATUS_CODES = {
     504,
 }
 
+RETRYABLE_API_ERRORS = {
+    11,  # Service offline
+    16,  # Temporary error
+    29,  # Rate limit
+}
+
+
+class LastFMAPIError(RuntimeError):
+    def __init__(
+        self,
+        code: int,
+        message: str,
+    ) -> None:
+        self.code = code
+        self.message = message
+
+        super().__init__(f"Last.fm API error {code}: {message}")
+
 
 class LastFMClient:
     def __init__(
@@ -66,41 +84,28 @@ class LastFMClient:
 
         time.sleep(delay)
 
-    def get_recent_tracks(
+    def _get(
         self,
-        *,
-        page: int = 1,
-        limit: int = 200,
-        from_timestamp: int | None = None,
-        to_timestamp: int | None = None,
+        method: str,
+        params: dict[str, Any],
     ) -> dict[str, Any]:
-        params: dict[str, Any] = {
-            "method": "user.getrecenttracks",
-            "user": self.config.username,
+        request_params = {
+            "method": method,
             "api_key": self.config.api_key,
             "format": "json",
-            "page": page,
-            "limit": limit,
+            **params,
         }
-
-        if from_timestamp is not None:
-            params["from"] = from_timestamp
-
-        if to_timestamp is not None:
-            params["to"] = to_timestamp
 
         for attempt in range(self.max_retries + 1):
             try:
                 response = self.client.get(
                     "",
-                    params=params,
+                    params=request_params,
                 )
             except httpx.RequestError:
                 if attempt >= self.max_retries:
                     raise RuntimeError(
-                        "Last.fm request failed after "
-                        f"{self.max_retries + 1} attempts "
-                        f"on page {page}"
+                        f"Last.fm request failed after {self.max_retries + 1} attempts"
                     ) from None
 
                 self._sleep_before_retry(attempt)
@@ -111,8 +116,7 @@ class LastFMClient:
                     raise RuntimeError(
                         "Last.fm API returned "
                         f"HTTP {response.status_code} "
-                        f"after {self.max_retries + 1} attempts "
-                        f"on page {page}"
+                        f"after {self.max_retries + 1} attempts"
                     ) from None
 
                 self._sleep_before_retry(
@@ -122,28 +126,74 @@ class LastFMClient:
                 continue
 
             if response.is_error:
-                raise RuntimeError(
-                    f"Last.fm API returned HTTP {response.status_code} on page {page}"
-                ) from None
+                raise RuntimeError(f"Last.fm API returned HTTP {response.status_code}") from None
 
             payload = response.json()
 
             if "error" in payload:
-                api_error = int(payload["error"])
+                code = int(payload["error"])
 
-                # Last.fm error 29:
-                # rate limit exceeded
-                if api_error == 29 and attempt < self.max_retries:
+                message = payload.get(
+                    "message",
+                    "Unknown error",
+                )
+
+                if code in RETRYABLE_API_ERRORS and attempt < self.max_retries:
                     self._sleep_before_retry(
                         attempt,
                         response,
                     )
                     continue
 
-                raise RuntimeError(
-                    f"Last.fm API error {api_error}: {payload.get('message', 'Unknown error')}"
+                raise LastFMAPIError(
+                    code,
+                    message,
                 )
 
             return payload
 
         raise RuntimeError("Unexpected Last.fm retry state")
+
+    def get_recent_tracks(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 200,
+        from_timestamp: int | None = None,
+        to_timestamp: int | None = None,
+    ) -> dict[str, Any]:
+        params: dict[str, Any] = {
+            "user": self.config.username,
+            "page": page,
+            "limit": limit,
+        }
+
+        if from_timestamp is not None:
+            params["from"] = from_timestamp
+
+        if to_timestamp is not None:
+            params["to"] = to_timestamp
+
+        return self._get(
+            "user.getrecenttracks",
+            params,
+        )
+
+    def get_artist_top_tags(self, *, artist: str, autocorrect: bool = False) -> dict[str, Any]:
+        return self._get("artist.gettoptags", {"artist": artist, "autocorrect": int(autocorrect)})
+
+    def get_album_top_tags(
+        self,
+        *,
+        artist: str,
+        album: str,
+        autocorrect: bool = False,
+    ) -> dict[str, Any]:
+        return self._get(
+            "album.gettoptags",
+            {
+                "artist": artist,
+                "album": album,
+                "autocorrect": int(autocorrect),
+            },
+        )

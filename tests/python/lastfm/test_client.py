@@ -102,3 +102,112 @@ def test_recent_tracks_stops_after_max_retries(
     # Important: secrets must never
     # appear in our own error messages.
     assert "test-key" not in message
+
+
+def test_album_top_tags_request():
+    captured_request = None
+
+    def handler(
+        request: httpx.Request,
+    ) -> httpx.Response:
+        nonlocal captured_request
+        captured_request = request
+
+        return httpx.Response(
+            200,
+            request=request,
+            json={
+                "toptags": {
+                    "tag": [
+                        {
+                            "name": "progressive rock",
+                            "count": 100,
+                            "url": "https://example.com/tag",
+                        }
+                    ],
+                    "@attr": {
+                        "artist": "Rush",
+                        "album": "Moving Pictures",
+                    },
+                }
+            },
+        )
+
+    config = LastFMConfig(
+        api_key="test-key",
+        username="test-user",
+    )
+
+    transport = httpx.MockTransport(handler)
+
+    with LastFMClient(
+        config,
+        transport=transport,
+    ) as client:
+        payload = client.get_album_top_tags(
+            artist="Rush",
+            album="Moving Pictures",
+        )
+
+    assert payload["toptags"]["tag"][0]["name"] == "progressive rock"
+
+    assert captured_request is not None
+
+    params = captured_request.url.params
+
+    assert params["method"] == "album.gettoptags"
+    assert params["artist"] == "Rush"
+    assert params["album"] == "Moving Pictures"
+
+
+def test_artist_top_tags_request():
+    captured_request = None
+
+    def handler(
+        request: httpx.Request,
+    ) -> httpx.Response:
+        nonlocal captured_request
+        captured_request = request
+
+        return httpx.Response(
+            200,
+            request=request,
+            json={
+                "toptags": {
+                    "tag": [
+                        {
+                            "name": ("progressive rock"),
+                            "count": 100,
+                            "url": ("https://example.com/tag"),
+                        }
+                    ],
+                    "@attr": {
+                        "artist": "Rush",
+                    },
+                }
+            },
+        )
+
+    config = LastFMConfig(
+        api_key="test-key",
+        username="test-user",
+    )
+
+    transport = httpx.MockTransport(handler)
+
+    with LastFMClient(
+        config,
+        transport=transport,
+    ) as client:
+        payload = client.get_artist_top_tags(
+            artist="Rush",
+        )
+
+    assert payload["toptags"]["tag"][0]["name"] == "progressive rock"
+
+    assert captured_request is not None
+
+    params = captured_request.url.params
+
+    assert params["method"] == "artist.gettoptags"
+    assert params["artist"] == "Rush"
