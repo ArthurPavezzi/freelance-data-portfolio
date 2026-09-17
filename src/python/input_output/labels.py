@@ -68,6 +68,7 @@ SECTOR_NAME_EN = {
     "9700": "Domestic services",
 }
 
+
 def sector_label(
     sector_code: str,
     sector_name_pt: str,
