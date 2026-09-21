@@ -238,3 +238,73 @@ def test_retryable_error_is_reported(monkeypatch: pytest.MonkeyPatch) -> None:
     assert calls == 2
     assert exc_info.value.status_code == 503
     assert exc_info.value.retryable is True
+
+
+def test_missing_primary_type_falls_back_to_album_search() -> None:
+    release_mbid = "99999999-9999-9999-9999-999999999999"
+
+    incomplete_group_mbid = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+
+    correct_group_mbid = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        path = request.url.path
+
+        if path.endswith(f"/release-group/{release_mbid}"):
+            return httpx.Response(404)
+
+        if path.endswith(f"/release/{release_mbid}"):
+            return httpx.Response(
+                200,
+                json={
+                    "id": release_mbid,
+                    "title": "Example Album",
+                    "release-group": {
+                        "id": incomplete_group_mbid,
+                        "title": "Example Album",
+                        "primary-type": None,
+                    },
+                },
+            )
+
+        if path.endswith(f"/release-group/{incomplete_group_mbid}"):
+            return httpx.Response(
+                200,
+                json={
+                    "id": incomplete_group_mbid,
+                    "title": "Example Album",
+                    "primary-type": None,
+                    "first-release-date": "2005",
+                },
+            )
+
+        if path.rstrip("/").endswith("/release-group"):
+            return httpx.Response(
+                200,
+                json={
+                    "release-groups": [
+                        {
+                            "id": correct_group_mbid,
+                            "title": "Example Album",
+                            "primary-type": "Album",
+                            "first-release-date": "2004-11-02",
+                            "score": 100,
+                        }
+                    ]
+                },
+            )
+
+        raise AssertionError(f"Unexpected request: {request.url}")
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.resolve_album_release_date(
+            release_mbid, artist="Example Artist", album="Example Album"
+        )
+
+    assert result is not None
+    assert result.resolution_method == "release_group_search"
+    assert result.release_group_mbid == correct_group_mbid
+    assert result.matched_primary_type == "Album"
+    assert result.first_release_year == 2004

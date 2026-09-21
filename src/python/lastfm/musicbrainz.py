@@ -302,8 +302,8 @@ def _quote_lucene(value: str) -> str:
 
 
 def _is_matching_album_group(release_group: dict[str, Any], *, album: str) -> bool:
-    primary_type = release_group.get("primary-type", "")
+    primary_type = release_group.get("primary-type") or ""
 
-    title = release_group.get("title", "")
+    title = release_group.get("title") or ""
 
     return primary_type.casefold() == "album" and _normalize_name(title) == _normalize_name(album)
