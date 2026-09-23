@@ -1,4 +1,6 @@
+import re
 import time
+import unicodedata
 from dataclasses import dataclass
 from typing import Any, Self
 
@@ -13,24 +15,39 @@ RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 REQUEST_INTERVAL_SECONDS = 1.1
 MAX_RETRIES = 5
 
+REDIRECT_STATUS_CODES = {301, 302, 307, 308}
+
+MAX_REDIRECTS = 5
+
+_RELEASE_VARIANT_MARKERS = (
+    "edition",
+    "version",
+    "release",
+    "expanded",
+    "deluxe",
+    "bonus",
+    "remaster",
+    "remastered",
+    "remix",
+    "anniversary",
+    "reissue",
+    "live from",
+    " anos",
+)
+
 
 class MusicBrainzError(RuntimeError):
-    def __init__(
-        self, message: str, *, status_code: int | None = None, retryable: bool = False
-    ) -> None:
+    def __init__(self, message: str, *, status_code: int | None = None, retryable: bool = False) -> None:
         super().__init__(message)
 
         self.status_code = status_code
         self.retryable = retryable
 
 
-@dataclass(
-    frozen=True,
-    slots=True,
-)
+@dataclass(frozen=True, slots=True)
 class AlbumReleaseDateResult:
     input_entity_type: str
-    input_mbid: str
+    input_mbid: str | None
     resolution_method: str
     release_group_mbid: str
     first_release_date: str | None
@@ -83,30 +100,53 @@ class MusicBrainzClient:
         if delay > 0:
             time.sleep(delay)
 
-    def _request_json(
-        self,
-        path: str,
-        *,
-        params: dict[str, str] | None = None,
-    ) -> dict[str, Any] | None:
-        for attempt in range(self.max_retries + 1):
+    def _request_json(self, path: str, *, params: dict[str, str] | None = None) -> dict[str, Any] | None:
+        current_url = path
+        current_params = params
+
+        retry_attempt = 0
+        redirect_count = 0
+
+        while True:
             self._wait_for_rate_limit()
 
             try:
-                response = self.client.get(path, params=params)
-
+                response = self.client.get(current_url, params=current_params)
                 self._last_request_at = time.monotonic()
 
             except httpx.RequestError:
                 self._last_request_at = time.monotonic()
 
-                if attempt >= self.max_retries:
+                if retry_attempt >= self.max_retries:
                     raise MusicBrainzError(
-                        (f"MusicBrainz request failed after {self.max_retries + 1} attempts"),
-                        retryable=True,
+                        f"MusicBrainz request failed after {self.max_retries + 1} attempts", retryable=True
                     ) from None
 
-                time.sleep(max(2**attempt, 1.0))
+                time.sleep(max(2**retry_attempt, 1.0))
+                retry_attempt += 1
+                continue
+
+            if response.status_code in REDIRECT_STATUS_CODES:
+                location = response.headers.get("Location")
+
+                if not location:
+                    raise MusicBrainzError(
+                        (f"MusicBrainz returned HTTP {response.status_code} without a Location header"),
+                        status_code=response.status_code,
+                        retryable=False,
+                    )
+
+                redirect_count += 1
+
+                if redirect_count > MAX_REDIRECTS:
+                    raise MusicBrainzError(
+                        f"MusicBrainz exceeded {MAX_REDIRECTS} redirects",
+                        status_code=response.status_code,
+                        retryable=False,
+                    )
+
+                current_url = location
+                current_params = None
 
                 continue
 
@@ -114,12 +154,12 @@ class MusicBrainzClient:
                 return None
 
             if response.status_code in RETRYABLE_STATUS_CODES:
-                if attempt >= self.max_retries:
+                if retry_attempt >= self.max_retries:
                     raise MusicBrainzError(
                         (
                             "MusicBrainz returned "
                             f"HTTP {response.status_code} "
-                            "after {self.max_retries + 1} attempts"
+                            f"after {self.max_retries + 1} attempts"
                         ),
                         status_code=response.status_code,
                         retryable=True,
@@ -130,57 +170,131 @@ class MusicBrainzClient:
                 try:
                     delay = max(float(retry_after), 1.0)
                 except TypeError, ValueError:
-                    delay = max(2**attempt, 1.0)
+                    delay = max(2**retry_attempt, 1.0)
 
                 time.sleep(delay)
 
+                retry_attempt += 1
                 continue
 
             try:
                 response.raise_for_status()
             except httpx.HTTPStatusError as exc:
                 raise MusicBrainzError(
-                    (f"MusicBrainz returned HTTP {response.status_code}"),
+                    f"MusicBrainz returned HTTP {response.status_code}",
                     status_code=response.status_code,
                     retryable=False,
                 ) from exc
 
             return response.json()
 
-        raise RuntimeError("Unexpected MusicBrainz retry state")
-
     def get_release_group(self, mbid: str) -> dict[str, Any] | None:
         return self._request_json(f"/release-group/{mbid}", params={"fmt": "json"})
 
     def get_release(self, mbid: str) -> dict[str, Any] | None:
-        return self._request_json(
-            f"/release/{mbid}",
-            params={"fmt": "json", "inc": "release-groups"},
-        )
+        return self._request_json(f"/release/{mbid}", params={"fmt": "json", "inc": "release-groups"})
 
     def search_album_release_groups(self, *, artist: str, album: str) -> dict[str, Any]:
-        query = (
-            f"releasegroup:{_quote_lucene(album)} "
-            f"AND artist:{_quote_lucene(artist)} "
-            "AND primarytype:album"
-        )
+        query = f"releasegroup:{_quote_lucene(album)} AND artistname:{_quote_lucene(artist)}"
 
-        payload = self._request_json(
-            "/release-group/",
-            params={"fmt": "json", "query": query, "limit": "10"},
-        )
+        payload = self._request_json("/release-group/", params={"fmt": "json", "query": query, "limit": "10"})
 
         if payload is None:
             return {"release-groups": []}
 
         return payload
 
+    def search_album_release_date(self, *, artist: str, album: str) -> AlbumReleaseDateResult | None:
+        base_title = _strip_release_variant(album)
+
+        search_titles = []
+
+        if _normalize_search_title(base_title) != _normalize_search_title(album):
+            # Explicit edition/remaster variants should
+            # prefer the underlying canonical title.
+            search_titles.append(base_title)
+
+        search_titles.append(album)
+
+        search_attempts = []
+
+        for search_title in search_titles:
+            search_payload = self.search_album_release_groups(artist=artist, album=search_title)
+
+            candidates = search_payload.get("release-groups", [])
+
+            candidate_matches = []
+
+            for candidate in candidates:
+                if not _artist_credit_matches(candidate, artist=artist):
+                    continue
+
+                match_level = _search_title_match_level(
+                    candidate.get("title") or "", artist=artist, album=search_title
+                )
+
+                if match_level == 0:
+                    continue
+
+                candidate_matches.append((match_level, candidate))
+
+            search_attempts.append({"album": search_title, "response": search_payload})
+
+            if not candidate_matches:
+                continue
+
+            best_match_level = max(match_level for match_level, _ in candidate_matches)
+
+            strongest_candidates = [
+                candidate for match_level, candidate in candidate_matches if match_level == best_match_level
+            ]
+
+            unique_candidates = {
+                candidate["id"]: candidate for candidate in strongest_candidates if candidate.get("id")
+            }
+
+            strongest_candidates = list(unique_candidates.values())
+
+            selection = _select_search_candidate(strongest_candidates)
+
+            if selection is None:
+                continue
+
+            matched, used_consensus = selection
+
+            first_release_date = matched.get("first-release-date") or None
+
+            is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
+
+            if is_variant:
+                resolution_method = "release_group_search_variant"
+            else:
+                resolution_method = "release_group_search"
+
+            if used_consensus:
+                resolution_method += "_consensus"
+
+            return AlbumReleaseDateResult(
+                input_entity_type="search",
+                input_mbid=None,
+                resolution_method=resolution_method,
+                release_group_mbid=matched["id"],
+                first_release_date=first_release_date,
+                first_release_year=_extract_year(first_release_date),
+                matched_title=matched.get("title"),
+                matched_primary_type=matched.get("primary-type"),
+                match_score=int(matched.get("score", 0)),
+                response={
+                    "search_attempts": search_attempts,
+                    "strongest_candidates": strongest_candidates,
+                    "matched_release_group": matched,
+                },
+            )
+
+        return None
+
     def resolve_album_release_date(
-        self,
-        mbid: str,
-        *,
-        artist: str,
-        album: str,
+        self, mbid: str, *, artist: str, album: str
     ) -> AlbumReleaseDateResult | None:
         direct_release_group = self.get_release_group(mbid)
 
@@ -207,12 +321,10 @@ class MusicBrainzClient:
 
         else:
             input_entity_type = "release"
-
             direct_release = self.get_release(mbid)
 
             if direct_release is not None:
                 release_group_info = direct_release.get("release-group") or {}
-
                 release_group_mbid = release_group_info.get("id")
 
                 if release_group_mbid:
@@ -221,9 +333,7 @@ class MusicBrainzClient:
                     if resolved_release_group is not None and _is_matching_album_group(
                         resolved_release_group, album=album
                     ):
-                        first_release_date = (
-                            resolved_release_group.get("first-release-date") or None
-                        )
+                        first_release_date = resolved_release_group.get("first-release-date") or None
 
                         return AlbumReleaseDateResult(
                             input_entity_type="release",
@@ -241,40 +351,25 @@ class MusicBrainzClient:
                             },
                         )
 
-        search_payload = self.search_album_release_groups(artist=artist, album=album)
+        search_result = self.search_album_release_date(artist=artist, album=album)
 
-        candidates = search_payload.get("release-groups", [])
-
-        matching_candidates = [
-            candidate
-            for candidate in candidates
-            if _is_matching_album_group(candidate, album=album)
-        ]
-
-        if not matching_candidates:
+        if search_result is None:
             return None
-
-        matching_candidates.sort(key=lambda candidate: int(candidate.get("score", 0)), reverse=True)
-
-        matched = matching_candidates[0]
-
-        first_release_date = matched.get("first-release-date") or None
 
         return AlbumReleaseDateResult(
             input_entity_type=input_entity_type,
             input_mbid=mbid,
-            resolution_method="release_group_search",
-            release_group_mbid=(matched["id"]),
-            first_release_date=(first_release_date),
-            first_release_year=(_extract_year(first_release_date)),
-            matched_title=matched.get("title"),
-            matched_primary_type=matched.get("primary-type"),
-            match_score=int(matched.get("score", 0)),
+            resolution_method=search_result.resolution_method,
+            release_group_mbid=search_result.release_group_mbid,
+            first_release_date=search_result.first_release_date,
+            first_release_year=search_result.first_release_year,
+            matched_title=search_result.matched_title,
+            matched_primary_type=search_result.matched_primary_type,
+            match_score=search_result.match_score,
             response={
                 "direct_release": direct_release,
                 "direct_release_group": direct_release_group or resolved_release_group,
-                "release_group_search": search_payload,
-                "matched_release_group": matched,
+                "search_fallback": search_result.response,
             },
         )
 
@@ -295,6 +390,16 @@ def _normalize_name(value: str) -> str:
     return " ".join(value.casefold().split())
 
 
+def _normalize_artist_name(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+
+    without_diacritics = "".join(
+        character for character in normalized if not unicodedata.combining(character)
+    )
+
+    return _normalize_name(without_diacritics)
+
+
 def _quote_lucene(value: str) -> str:
     escaped = value.replace("\\", "\\\\").replace('"', '\\"')
 
@@ -307,3 +412,142 @@ def _is_matching_album_group(release_group: dict[str, Any], *, album: str) -> bo
     title = release_group.get("title") or ""
 
     return primary_type.casefold() == "album" and _normalize_name(title) == _normalize_name(album)
+
+
+def _looks_like_release_variant(value: str) -> bool:
+    normalized = _normalize_name(value)
+
+    return any(marker in normalized for marker in (_RELEASE_VARIANT_MARKERS))
+
+
+def _strip_release_variant(value: str) -> str:
+    title = value.strip()
+
+    bracket_match = re.search(r"\s*[\(\[]" r"(?P<qualifier>[^()\[\]]+)" r"[\)\]]\s*$", title)
+
+    if bracket_match and _looks_like_release_variant(bracket_match.group("qualifier")):
+        return title[: bracket_match.start()].rstrip(" -–—")
+
+    suffix_match = re.search(r"\s+[-–—]\s+" r"(?P<qualifier>.+?)\s*$", title)
+
+    if suffix_match and _looks_like_release_variant(suffix_match.group("qualifier")):
+        return title[: suffix_match.start()].strip()
+
+    return title
+
+
+def _strip_artist_title_prefix(title: str, *, artist: str) -> str:
+    normalized_title = _normalize_search_title(title)
+
+    normalized_artist = _normalize_search_title(artist)
+
+    prefix = f"{normalized_artist} - "
+
+    if normalized_title.startswith(prefix):
+        return normalized_title[len(prefix) :]
+
+    return normalized_title
+
+
+def _search_title_match_level(candidate_title: str, *, artist: str, album: str) -> int:
+    candidate = _strip_artist_title_prefix(candidate_title, artist=artist)
+
+    requested = _normalize_search_title(album)
+
+    # Strongest match:
+    # exact canonical title.
+    if candidate == requested:
+        return 2
+
+    # Conservative extensions:
+    #
+    # Ramilonga
+    # → Ramilonga: A estética do frio
+    #
+    # Dead Star
+    # → Dead Star / In Your World
+    for separator in (": ", " / "):
+        if candidate.startswith(f"{requested}{separator}"):
+            return 1
+
+    return 0
+
+
+def _artist_credit_matches(release_group: dict[str, Any], *, artist: str) -> bool:
+    requested_artist = _normalize_artist_name(artist)
+
+    artist_names = set()
+
+    for credit in release_group.get("artist-credit") or []:
+        if not isinstance(credit, dict):
+            continue
+
+        credit_name = credit.get("name")
+
+        if credit_name:
+            artist_names.add(_normalize_artist_name(credit_name))
+
+        artist_info = credit.get("artist") or {}
+
+        artist_name = artist_info.get("name")
+
+        if artist_name:
+            artist_names.add(_normalize_artist_name(artist_name))
+
+    return requested_artist in artist_names
+
+
+def _normalize_search_title(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+
+    normalized = "".join(character for character in normalized if not unicodedata.combining(character))
+
+    normalized = (
+        normalized.casefold()
+        .replace("’", "'")
+        .replace("‘", "'")
+        .replace("‐", "-")
+        .replace("-", "-")
+        .replace("–", "-")
+        .replace("—", "-")
+        .replace("&", " and ")
+    )
+
+    return " ".join(normalized.split())
+
+
+def _select_search_candidate(candidates: list[dict[str, Any]]) -> tuple[dict[str, Any], bool] | None:
+    if not candidates:
+        return None
+
+    if len(candidates) == 1:
+        return candidates[0], False
+
+    candidates_with_year = [
+        (candidate, _extract_year(candidate.get("first-release-date") or None)) for candidate in candidates
+    ]
+
+    known_years = {year for _, year in candidates_with_year if year is not None}
+
+    # Multiple equally strong candidates
+    # with conflicting years are genuinely
+    # ambiguous.
+    if len(known_years) != 1:
+        return None
+
+    consensus_year = next(iter(known_years))
+
+    dated_candidates = [candidate for candidate, year in candidates_with_year if year == consensus_year]
+
+    primary_type_rank = {"Album": 4, "EP": 3, "Single": 2, "Broadcast": 1, "Other": 0}
+
+    matched = max(
+        dated_candidates,
+        key=lambda candidate: (
+            primary_type_rank.get(candidate.get("primary-type") or "", 0),
+            int(candidate.get("score", 0)),
+            len(candidate.get("first-release-date") or ""),
+        ),
+    )
+
+    return matched, True
