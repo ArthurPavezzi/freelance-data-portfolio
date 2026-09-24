@@ -901,3 +901,286 @@ def test_mbid_resolution_fallback_rejects_conflicting_years() -> None:
         result = client.resolve_album_release_date(input_mbid, artist="Deep Purple", album="Machine Head")
 
     assert result is None
+
+
+def test_artist_mbid_search_uses_exact_release_title_fallback() -> None:
+    artist_mbid = "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
+    group_mbid = "11111111-aaaa-bbbb-cccc-222222222222"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        query = request.url.params["query"]
+
+        assert f"arid:{artist_mbid}" in query
+        assert "alias:" not in query
+
+        if query.startswith("releasegroup:"):
+            return httpx.Response(200, json={"release-groups": []})
+
+        assert query.startswith("release:")
+        assert "The Art Of War Re-armed" in query
+
+        return httpx.Response(
+            200,
+            json={
+                "release-groups": [
+                    {
+                        "id": group_mbid,
+                        "title": "The Art of War",
+                        "primary-type": "Album",
+                        "first-release-date": "2008-05-30",
+                        "score": 100,
+                    }
+                ]
+            },
+        )
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Sabaton", artist_mbid=artist_mbid, album="The Art Of War Re-armed"
+        )
+
+    assert result is not None
+    assert result.input_entity_type == "search"
+    assert result.input_mbid is None
+    assert result.release_group_mbid == group_mbid
+    assert result.first_release_year == 2008
+    assert result.resolution_method == "release_title_search_artist_mbid"
+
+
+def test_artist_mbid_search_uses_only_exact_release_hits() -> None:
+    artist_mbid = "bbbbbbbb-1111-2222-3333-cccccccccccc"
+    ep_mbid = "22222222-aaaa-bbbb-cccc-333333333333"
+    album_mbid = "33333333-aaaa-bbbb-cccc-444444444444"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        query = request.url.params["query"]
+
+        assert f"arid:{artist_mbid}" in query
+
+        if query.startswith("releasegroup:"):
+            return httpx.Response(200, json={"release-groups": []})
+
+        return httpx.Response(
+            200,
+            json={
+                "release-groups": [
+                    {
+                        "id": ep_mbid,
+                        "title": "HAARP",
+                        "primary-type": "EP",
+                        "first-release-date": "2008",
+                        "score": 100,
+                    },
+                    {
+                        "id": album_mbid,
+                        "title": "HAARP",
+                        "primary-type": "Album",
+                        "first-release-date": "2008-03-17",
+                        "score": 82,
+                    },
+                ]
+            },
+        )
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Muse", artist_mbid=artist_mbid, album="H.A.A.R.P."
+        )
+
+    assert result is not None
+    assert result.release_group_mbid == ep_mbid
+    assert result.first_release_year == 2008
+    assert result.match_score == 100
+    assert result.resolution_method == "release_title_search_artist_mbid"
+
+
+def test_artist_mbid_search_prefers_exact_release_hit_over_weaker_results() -> None:
+    artist_mbid = "cccccccc-1111-2222-3333-dddddddddddd"
+    exact_mbid = "44444444-aaaa-bbbb-cccc-555555555555"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        query = request.url.params["query"]
+
+        if query.startswith("releasegroup:"):
+            return httpx.Response(
+                200,
+                json={
+                    "release-groups": [
+                        {
+                            "id": exact_mbid,
+                            "title": "Mutantes",
+                            "primary-type": "Album",
+                            "first-release-date": "1969-02",
+                            "score": 100,
+                        },
+                        {
+                            "id": "55555555-aaaa-bbbb-cccc-666666666666",
+                            "title": "Os Mutantes",
+                            "primary-type": "Album",
+                            "first-release-date": "1968-06",
+                            "score": 91,
+                        },
+                    ]
+                },
+            )
+
+        return httpx.Response(
+            200,
+            json={
+                "release-groups": [
+                    {
+                        "id": exact_mbid,
+                        "title": "Mutantes",
+                        "primary-type": "Album",
+                        "first-release-date": "1969-02",
+                        "score": 100,
+                    },
+                    {
+                        "id": "66666666-aaaa-bbbb-cccc-777777777777",
+                        "title": "Os Mutantes",
+                        "primary-type": "Album",
+                        "first-release-date": "2014",
+                        "score": 86,
+                    },
+                ]
+            },
+        )
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Os Mutantes", artist_mbid=artist_mbid, album='"Mutantes"'
+        )
+
+    assert result is not None
+    assert result.release_group_mbid == exact_mbid
+    assert result.first_release_year == 1969
+    assert result.match_score == 100
+
+
+def test_artist_mbid_search_accepts_release_with_artist_name_prefix() -> None:
+    artist_mbid = "dddddddd-1111-2222-3333-eeeeeeeeeeee"
+    group_mbid = "77777777-aaaa-bbbb-cccc-888888888888"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        query = request.url.params["query"]
+
+        if query.startswith("releasegroup:"):
+            return httpx.Response(
+                200,
+                json={
+                    "release-groups": [
+                        {
+                            "id": group_mbid,
+                            "title": "Hermeto Pascoal e sua Visão Original do Forró",
+                            "primary-type": "Album",
+                            "first-release-date": "2018-06-01",
+                            "score": 100,
+                        }
+                    ]
+                },
+            )
+
+        return httpx.Response(
+            200,
+            json={
+                "release-groups": [
+                    {
+                        "id": group_mbid,
+                        "title": "Hermeto Pascoal e sua Visão Original do Forró",
+                        "primary-type": "Album",
+                        "first-release-date": "2018-06-01",
+                        "score": 100,
+                    }
+                ]
+            },
+        )
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Hermeto Pascoal", artist_mbid=artist_mbid, album="e sua Visão Original do Forró"
+        )
+
+    assert result is not None
+    assert result.release_group_mbid == group_mbid
+    assert result.first_release_year == 2018
+    assert result.resolution_method == "release_title_search_artist_mbid"
+
+
+def test_artist_mbid_search_does_not_break_release_group_year_conflict() -> None:
+    artist_mbid = "eeeeeeee-1111-2222-3333-ffffffffffff"
+    release_search_called = False
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal release_search_called
+
+        query = request.url.params["query"]
+
+        if query.startswith("release:"):
+            release_search_called = True
+            raise AssertionError("Release-title search must not break a strong release-group year conflict")
+
+        return httpx.Response(
+            200,
+            json={
+                "release-groups": [
+                    {
+                        "id": "88888888-aaaa-bbbb-cccc-999999999999",
+                        "title": "Machine Head",
+                        "primary-type": "Album",
+                        "first-release-date": "1972-03-25",
+                        "score": 100,
+                    },
+                    {
+                        "id": "99999999-aaaa-bbbb-cccc-000000000000",
+                        "title": "Machine Head",
+                        "primary-type": "Album",
+                        "first-release-date": "2002",
+                        "score": 100,
+                    },
+                ]
+            },
+        )
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Deep Purple", artist_mbid=artist_mbid, album="Machine Head"
+        )
+
+    assert result is None
+    assert release_search_called is False
+
+
+def test_artist_mbid_search_does_not_use_alias_field() -> None:
+    artist_mbid = "ffffffff-1111-2222-3333-aaaaaaaaaaaa"
+    queries = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        query = request.url.params["query"]
+        queries.append(query)
+
+        assert "alias:" not in query
+        assert f"arid:{artist_mbid}" in query
+
+        return httpx.Response(200, json={"release-groups": []})
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Tim Maia", artist_mbid=artist_mbid, album="Tim Maia 1971"
+        )
+
+    assert result is None
+    assert len(queries) == 2
+    assert queries[0].startswith('releasegroup:"Tim Maia 1971"')
+    assert queries[1].startswith('release:"Tim Maia 1971"')

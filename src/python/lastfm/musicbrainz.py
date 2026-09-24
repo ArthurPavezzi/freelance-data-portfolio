@@ -204,6 +204,21 @@ class MusicBrainzClient:
 
         return payload
 
+    def _search_album_release_groups_by_artist_mbid(
+        self, *, artist_mbid: str, album: str, search_field: str
+    ) -> dict[str, Any]:
+        if search_field not in {"releasegroup", "release"}:
+            raise ValueError(f"Unsupported MusicBrainz search field: {search_field}")
+
+        query = f"{search_field}:{_quote_lucene(album)} AND arid:{artist_mbid}"
+
+        payload = self._request_json("/release-group/", params={"fmt": "json", "query": query, "limit": "10"})
+
+        if payload is None:
+            return {"release-groups": []}
+
+        return payload
+
     def search_album_release_date(self, *, artist: str, album: str) -> AlbumReleaseDateResult | None:
         base_title = _strip_release_variant(album)
 
@@ -285,6 +300,146 @@ class MusicBrainzClient:
                 matched_primary_type=matched.get("primary-type"),
                 match_score=int(matched.get("score", 0)),
                 response={
+                    "search_attempts": search_attempts,
+                    "strongest_candidates": strongest_candidates,
+                    "matched_release_group": matched,
+                },
+            )
+
+        return None
+
+    def search_album_release_date_by_artist_mbid(
+        self, *, artist: str, artist_mbid: str, album: str
+    ) -> AlbumReleaseDateResult | None:
+        base_title = _strip_release_variant(album)
+
+        search_titles = []
+
+        if _normalize_search_title(base_title) != _normalize_search_title(album):
+            search_titles.append(base_title)
+
+        search_titles.append(album)
+
+        search_attempts = []
+
+        for search_title in search_titles:
+            release_group_payload = self._search_album_release_groups_by_artist_mbid(
+                artist_mbid=artist_mbid, album=search_title, search_field="releasegroup"
+            )
+
+            release_group_candidates = release_group_payload.get("release-groups", [])
+            candidate_matches = []
+
+            for candidate in release_group_candidates:
+                match_level = _search_title_match_level(
+                    candidate.get("title") or "", artist=artist, album=search_title
+                )
+
+                if match_level == 0:
+                    continue
+
+                candidate_matches.append((match_level, candidate))
+
+            search_attempts.append(
+                {"album": search_title, "search_field": "releasegroup", "response": release_group_payload}
+            )
+
+            if candidate_matches:
+                best_match_level = max(match_level for match_level, _ in candidate_matches)
+
+                strongest_candidates = [
+                    candidate
+                    for match_level, candidate in candidate_matches
+                    if match_level == best_match_level
+                ]
+
+                unique_candidates = {
+                    candidate["id"]: candidate for candidate in strongest_candidates if candidate.get("id")
+                }
+
+                strongest_candidates = list(unique_candidates.values())
+                selection = _select_search_candidate(strongest_candidates)
+
+                if selection is None:
+                    continue
+
+                matched, used_consensus = selection
+                first_release_date = matched.get("first-release-date") or None
+                is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
+
+                resolution_method = "release_group_search_artist_mbid"
+
+                if is_variant:
+                    resolution_method += "_variant"
+
+                if used_consensus:
+                    resolution_method += "_consensus"
+
+                return AlbumReleaseDateResult(
+                    input_entity_type="search",
+                    input_mbid=None,
+                    resolution_method=resolution_method,
+                    release_group_mbid=matched["id"],
+                    first_release_date=first_release_date,
+                    first_release_year=_extract_year(first_release_date),
+                    matched_title=matched.get("title"),
+                    matched_primary_type=matched.get("primary-type"),
+                    match_score=int(matched.get("score", 0)),
+                    response={
+                        "artist_mbid": artist_mbid,
+                        "search_attempts": search_attempts,
+                        "strongest_candidates": strongest_candidates,
+                        "matched_release_group": matched,
+                    },
+                )
+
+            release_payload = self._search_album_release_groups_by_artist_mbid(
+                artist_mbid=artist_mbid, album=search_title, search_field="release"
+            )
+
+            release_candidates = release_payload.get("release-groups", [])
+            exact_release_candidates = [
+                candidate
+                for candidate in release_candidates
+                if candidate.get("id") and int(candidate.get("score", 0)) == 100
+            ]
+
+            search_attempts.append(
+                {"album": search_title, "search_field": "release", "response": release_payload}
+            )
+
+            unique_candidates = {candidate["id"]: candidate for candidate in exact_release_candidates}
+
+            strongest_candidates = list(unique_candidates.values())
+            selection = _select_search_candidate(strongest_candidates)
+
+            if selection is None:
+                continue
+
+            matched, used_consensus = selection
+            first_release_date = matched.get("first-release-date") or None
+            is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
+
+            resolution_method = "release_title_search_artist_mbid"
+
+            if is_variant:
+                resolution_method += "_variant"
+
+            if used_consensus:
+                resolution_method += "_consensus"
+
+            return AlbumReleaseDateResult(
+                input_entity_type="search",
+                input_mbid=None,
+                resolution_method=resolution_method,
+                release_group_mbid=matched["id"],
+                first_release_date=first_release_date,
+                first_release_year=_extract_year(first_release_date),
+                matched_title=matched.get("title"),
+                matched_primary_type=matched.get("primary-type"),
+                match_score=int(matched.get("score", 0)),
+                response={
+                    "artist_mbid": artist_mbid,
                     "search_attempts": search_attempts,
                     "strongest_candidates": strongest_candidates,
                     "matched_release_group": matched,
