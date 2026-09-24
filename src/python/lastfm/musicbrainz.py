@@ -37,7 +37,9 @@ _RELEASE_VARIANT_MARKERS = (
 
 
 class MusicBrainzError(RuntimeError):
-    def __init__(self, message: str, *, status_code: int | None = None, retryable: bool = False) -> None:
+    def __init__(
+        self, message: str, *, status_code: int | None = None, retryable: bool = False
+    ) -> None:
         super().__init__(message)
 
         self.status_code = status_code
@@ -100,7 +102,9 @@ class MusicBrainzClient:
         if delay > 0:
             time.sleep(delay)
 
-    def _request_json(self, path: str, *, params: dict[str, str] | None = None) -> dict[str, Any] | None:
+    def _request_json(
+        self, path: str, *, params: dict[str, str] | None = None
+    ) -> dict[str, Any] | None:
         current_url = path
         current_params = params
 
@@ -119,7 +123,8 @@ class MusicBrainzClient:
 
                 if retry_attempt >= self.max_retries:
                     raise MusicBrainzError(
-                        f"MusicBrainz request failed after {self.max_retries + 1} attempts", retryable=True
+                        f"MusicBrainz request failed after {self.max_retries + 1} attempts",
+                        retryable=True,
                     ) from None
 
                 time.sleep(max(2**retry_attempt, 1.0))
@@ -131,7 +136,9 @@ class MusicBrainzClient:
 
                 if not location:
                     raise MusicBrainzError(
-                        (f"MusicBrainz returned HTTP {response.status_code} without a Location header"),
+                        (
+                            f"MusicBrainz returned HTTP {response.status_code} without a Location header"
+                        ),
                         status_code=response.status_code,
                         retryable=False,
                     )
@@ -192,12 +199,16 @@ class MusicBrainzClient:
         return self._request_json(f"/release-group/{mbid}", params={"fmt": "json"})
 
     def get_release(self, mbid: str) -> dict[str, Any] | None:
-        return self._request_json(f"/release/{mbid}", params={"fmt": "json", "inc": "release-groups"})
+        return self._request_json(
+            f"/release/{mbid}", params={"fmt": "json", "inc": "release-groups"}
+        )
 
     def search_album_release_groups(self, *, artist: str, album: str) -> dict[str, Any]:
         query = f"releasegroup:{_quote_lucene(album)} AND artistname:{_quote_lucene(artist)}"
 
-        payload = self._request_json("/release-group/", params={"fmt": "json", "query": query, "limit": "10"})
+        payload = self._request_json(
+            "/release-group/", params={"fmt": "json", "query": query, "limit": "10"}
+        )
 
         if payload is None:
             return {"release-groups": []}
@@ -205,21 +216,95 @@ class MusicBrainzClient:
         return payload
 
     def _search_album_release_groups_by_artist_mbid(
-        self, *, artist_mbid: str, album: str, search_field: str
+        self, *, artist_mbid: str, album: str
     ) -> dict[str, Any]:
-        if search_field not in {"releasegroup", "release"}:
-            raise ValueError(f"Unsupported MusicBrainz search field: {search_field}")
+        query = f"releasegroup:{_quote_lucene(album)} AND arid:{artist_mbid}"
 
-        query = f"{search_field}:{_quote_lucene(album)} AND arid:{artist_mbid}"
-
-        payload = self._request_json("/release-group/", params={"fmt": "json", "query": query, "limit": "10"})
+        payload = self._request_json(
+            "/release-group/", params={"fmt": "json", "query": query, "limit": "10"}
+        )
 
         if payload is None:
             return {"release-groups": []}
 
         return payload
 
-    def search_album_release_date(self, *, artist: str, album: str) -> AlbumReleaseDateResult | None:
+    def _search_album_releases_by_artist_mbid(
+        self, *, artist_mbid: str, album: str
+    ) -> dict[str, Any]:
+        query = f"release:{_quote_lucene(album)} AND arid:{artist_mbid}"
+
+        payload = self._request_json(
+            "/release/",
+            params={"fmt": "json", "query": query, "limit": "10"},
+        )
+
+        if payload is None:
+            return {"releases": []}
+
+        return payload
+
+    def _search_release_groups_by_release_title_artist_mbid(
+        self, *, artist_mbid: str, album: str
+    ) -> dict[str, Any]:
+        query = f"release:{_quote_lucene(album)} AND arid:{artist_mbid}"
+
+        payload = self._request_json(
+            "/release-group/",
+            params={"fmt": "json", "query": query, "limit": "10"},
+        )
+
+        if payload is None:
+            return {"release-groups": []}
+
+        return payload
+
+    def _browse_release_group_releases(self, *, release_group_mbid: str) -> list[dict[str, Any]]:
+        releases = []
+        offset = 0
+        limit = 100
+
+        while True:
+            payload = self._request_json(
+                "/release/",
+                params={
+                    "fmt": "json",
+                    "release-group": release_group_mbid,
+                    "limit": str(limit),
+                    "offset": str(offset),
+                },
+            )
+
+            if payload is None:
+                break
+
+            page = payload.get("releases", [])
+
+            if not page:
+                break
+
+            releases.extend(page)
+            offset += len(page)
+
+            release_count = payload.get("release-count")
+
+            if release_count is not None:
+                try:
+                    total = int(release_count)
+                except TypeError, ValueError:
+                    total = None
+
+                if total is not None and offset >= total:
+                    break
+
+            elif len(page) < limit:
+                break
+
+        return releases
+
+    def search_album_release_date(
+        self, *, artist: str, album: str
+    ) -> AlbumReleaseDateResult | None:
         base_title = _strip_release_variant(album)
 
         search_titles = []
@@ -261,11 +346,15 @@ class MusicBrainzClient:
             best_match_level = max(match_level for match_level, _ in candidate_matches)
 
             strongest_candidates = [
-                candidate for match_level, candidate in candidate_matches if match_level == best_match_level
+                candidate
+                for match_level, candidate in candidate_matches
+                if match_level == best_match_level
             ]
 
             unique_candidates = {
-                candidate["id"]: candidate for candidate in strongest_candidates if candidate.get("id")
+                candidate["id"]: candidate
+                for candidate in strongest_candidates
+                if candidate.get("id")
             }
 
             strongest_candidates = list(unique_candidates.values())
@@ -313,26 +402,29 @@ class MusicBrainzClient:
     ) -> AlbumReleaseDateResult | None:
         base_title = _strip_release_variant(album)
 
-        search_titles = []
+        release_group_titles = []
 
         if _normalize_search_title(base_title) != _normalize_search_title(album):
-            search_titles.append(base_title)
+            release_group_titles.append(base_title)
 
-        search_titles.append(album)
+        release_group_titles.append(album)
 
         search_attempts = []
 
-        for search_title in search_titles:
+        for search_title in release_group_titles:
             release_group_payload = self._search_album_release_groups_by_artist_mbid(
-                artist_mbid=artist_mbid, album=search_title, search_field="releasegroup"
+                artist_mbid=artist_mbid,
+                album=search_title,
             )
 
             release_group_candidates = release_group_payload.get("release-groups", [])
             candidate_matches = []
 
             for candidate in release_group_candidates:
-                match_level = _search_title_match_level(
-                    candidate.get("title") or "", artist=artist, album=search_title
+                match_level = _artist_mbid_search_title_match_level(
+                    candidate.get("title") or "",
+                    artist=artist,
+                    album=search_title,
                 )
 
                 if match_level == 0:
@@ -341,86 +433,44 @@ class MusicBrainzClient:
                 candidate_matches.append((match_level, candidate))
 
             search_attempts.append(
-                {"album": search_title, "search_field": "releasegroup", "response": release_group_payload}
-            )
-
-            if candidate_matches:
-                best_match_level = max(match_level for match_level, _ in candidate_matches)
-
-                strongest_candidates = [
-                    candidate
-                    for match_level, candidate in candidate_matches
-                    if match_level == best_match_level
-                ]
-
-                unique_candidates = {
-                    candidate["id"]: candidate for candidate in strongest_candidates if candidate.get("id")
+                {
+                    "album": search_title,
+                    "search_field": "releasegroup",
+                    "response": release_group_payload,
                 }
-
-                strongest_candidates = list(unique_candidates.values())
-                selection = _select_search_candidate(strongest_candidates)
-
-                if selection is None:
-                    continue
-
-                matched, used_consensus = selection
-                first_release_date = matched.get("first-release-date") or None
-                is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
-
-                resolution_method = "release_group_search_artist_mbid"
-
-                if is_variant:
-                    resolution_method += "_variant"
-
-                if used_consensus:
-                    resolution_method += "_consensus"
-
-                return AlbumReleaseDateResult(
-                    input_entity_type="search",
-                    input_mbid=None,
-                    resolution_method=resolution_method,
-                    release_group_mbid=matched["id"],
-                    first_release_date=first_release_date,
-                    first_release_year=_extract_year(first_release_date),
-                    matched_title=matched.get("title"),
-                    matched_primary_type=matched.get("primary-type"),
-                    match_score=int(matched.get("score", 0)),
-                    response={
-                        "artist_mbid": artist_mbid,
-                        "search_attempts": search_attempts,
-                        "strongest_candidates": strongest_candidates,
-                        "matched_release_group": matched,
-                    },
-                )
-
-            release_payload = self._search_album_release_groups_by_artist_mbid(
-                artist_mbid=artist_mbid, album=search_title, search_field="release"
             )
 
-            release_candidates = release_payload.get("release-groups", [])
-            exact_release_candidates = [
+            if not candidate_matches:
+                continue
+
+            best_match_level = max(match_level for match_level, _ in candidate_matches)
+
+            strongest_candidates = [
                 candidate
-                for candidate in release_candidates
-                if candidate.get("id") and int(candidate.get("score", 0)) == 100
+                for match_level, candidate in candidate_matches
+                if match_level == best_match_level
             ]
 
-            search_attempts.append(
-                {"album": search_title, "search_field": "release", "response": release_payload}
-            )
-
-            unique_candidates = {candidate["id"]: candidate for candidate in exact_release_candidates}
+            unique_candidates = {
+                candidate["id"]: candidate
+                for candidate in strongest_candidates
+                if candidate.get("id")
+            }
 
             strongest_candidates = list(unique_candidates.values())
             selection = _select_search_candidate(strongest_candidates)
 
+            # A strong release-group title match with conflicting
+            # years is real ambiguity. Do not let a looser release
+            # lookup override it.
             if selection is None:
-                continue
+                return None
 
             matched, used_consensus = selection
             first_release_date = matched.get("first-release-date") or None
             is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
 
-            resolution_method = "release_title_search_artist_mbid"
+            resolution_method = "release_group_search_artist_mbid"
 
             if is_variant:
                 resolution_method += "_variant"
@@ -446,7 +496,255 @@ class MusicBrainzClient:
                 },
             )
 
-        return None
+        release_titles = [album]
+
+        if _normalize_search_title(base_title) != _normalize_search_title(album):
+            # A concrete edition/remaster title is useful evidence at
+            # release level, so try it before the stripped base title.
+            release_titles.append(base_title)
+
+        for search_title in release_titles:
+            release_payload = self._search_album_releases_by_artist_mbid(
+                artist_mbid=artist_mbid,
+                album=search_title,
+            )
+
+            release_candidates = release_payload.get("releases", [])
+            release_matches = []
+
+            for candidate in release_candidates:
+                if not candidate.get("id"):
+                    continue
+
+                if int(candidate.get("score", 0)) != 100:
+                    continue
+
+                release_group_info = candidate.get("release-group") or {}
+
+                if not release_group_info.get("id"):
+                    continue
+
+                match_level = _artist_mbid_search_title_match_level(
+                    candidate.get("title") or "",
+                    artist=artist,
+                    album=search_title,
+                )
+
+                if match_level == 0:
+                    continue
+
+                release_matches.append((match_level, candidate))
+
+            search_attempts.append(
+                {
+                    "album": search_title,
+                    "search_field": "release",
+                    "response": release_payload,
+                }
+            )
+
+            if not release_matches:
+                continue
+
+            best_match_level = max(match_level for match_level, _ in release_matches)
+
+            strongest_releases = [
+                candidate
+                for match_level, candidate in release_matches
+                if match_level == best_match_level
+            ]
+
+            unique_releases = {
+                candidate["id"]: candidate
+                for candidate in strongest_releases
+                if candidate.get("id")
+            }
+
+            strongest_releases = list(unique_releases.values())
+
+            release_groups = {}
+            matched_release_by_group = {}
+
+            for release in strongest_releases:
+                release_group_info = release.get("release-group") or {}
+                release_group_mbid = release_group_info.get("id")
+
+                if not release_group_mbid or release_group_mbid in release_groups:
+                    continue
+
+                release_group = self.get_release_group(release_group_mbid)
+
+                if release_group is None:
+                    continue
+
+                release_group_candidate = dict(release_group)
+                release_group_candidate["score"] = int(release.get("score", 0))
+
+                release_groups[release_group_mbid] = release_group_candidate
+                matched_release_by_group[release_group_mbid] = release
+
+            strongest_candidates = list(release_groups.values())
+            selection = _select_search_candidate(strongest_candidates)
+
+            if selection is None:
+                return None
+
+            matched, used_consensus = selection
+            matched_release = matched_release_by_group[matched["id"]]
+            first_release_date = matched.get("first-release-date") or None
+            is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
+
+            resolution_method = "release_title_search_artist_mbid"
+
+            if is_variant:
+                resolution_method += "_variant"
+
+            if used_consensus:
+                resolution_method += "_consensus"
+
+            return AlbumReleaseDateResult(
+                input_entity_type="search",
+                input_mbid=None,
+                resolution_method=resolution_method,
+                release_group_mbid=matched["id"],
+                first_release_date=first_release_date,
+                first_release_year=_extract_year(first_release_date),
+                matched_title=matched.get("title"),
+                matched_primary_type=matched.get("primary-type"),
+                match_score=int(matched_release.get("score", 0)),
+                response={
+                    "artist_mbid": artist_mbid,
+                    "search_attempts": search_attempts,
+                    "strongest_releases": strongest_releases,
+                    "strongest_candidates": strongest_candidates,
+                    "matched_release": matched_release,
+                    "matched_release_group": matched,
+                },
+            )
+
+        # The release-group search index can find a release title even
+        # when the release endpoint search misses it. Use that index only
+        # for discovery, then verify the title against the concrete
+        # releases that actually belong to each candidate release group.
+        discovery_title = album
+        discovery_payload = self._search_release_groups_by_release_title_artist_mbid(
+            artist_mbid=artist_mbid,
+            album=discovery_title,
+        )
+        discovery_candidates = [
+            candidate
+            for candidate in discovery_payload.get("release-groups", [])
+            if candidate.get("id") and int(candidate.get("score", 0)) == 100
+        ]
+
+        search_attempts.append(
+            {
+                "album": discovery_title,
+                "search_field": "release_index",
+                "response": discovery_payload,
+            }
+        )
+
+        validated_matches = []
+
+        for candidate in discovery_candidates:
+            release_group_mbid = candidate["id"]
+            releases = self._browse_release_group_releases(release_group_mbid=release_group_mbid)
+
+            release_matches = []
+
+            for release in releases:
+                match_level = _release_evidence_title_match_level(
+                    release.get("title") or "",
+                    artist=artist,
+                    album=discovery_title,
+                )
+
+                if match_level == 0:
+                    continue
+
+                release_matches.append((match_level, release))
+
+            if not release_matches:
+                continue
+
+            best_match_level = max(match_level for match_level, _ in release_matches)
+            strongest_releases = [
+                release
+                for match_level, release in release_matches
+                if match_level == best_match_level
+            ]
+
+            release_group = self.get_release_group(release_group_mbid)
+
+            if release_group is None:
+                continue
+
+            release_group_candidate = dict(release_group)
+            release_group_candidate["score"] = int(candidate.get("score", 0))
+
+            validated_matches.append(
+                (
+                    best_match_level,
+                    release_group_candidate,
+                    strongest_releases[0],
+                )
+            )
+
+        if not validated_matches:
+            return None
+
+        best_validation_level = max(match_level for match_level, _, _ in validated_matches)
+        strongest_validated = [
+            (candidate, release)
+            for match_level, candidate, release in validated_matches
+            if match_level == best_validation_level
+        ]
+
+        unique_candidates = {}
+        matched_release_by_group = {}
+
+        for candidate, release in strongest_validated:
+            release_group_mbid = candidate.get("id")
+
+            if not release_group_mbid or release_group_mbid in unique_candidates:
+                continue
+
+            unique_candidates[release_group_mbid] = candidate
+            matched_release_by_group[release_group_mbid] = release
+
+        strongest_candidates = list(unique_candidates.values())
+        selection = _select_search_candidate(strongest_candidates)
+
+        if selection is None:
+            return None
+
+        matched, used_consensus = selection
+        matched_release = matched_release_by_group[matched["id"]]
+        first_release_date = matched.get("first-release-date") or None
+        resolution_method = "release_index_search_artist_mbid"
+
+        if used_consensus:
+            resolution_method += "_consensus"
+
+        return AlbumReleaseDateResult(
+            input_entity_type="search",
+            input_mbid=None,
+            resolution_method=resolution_method,
+            release_group_mbid=matched["id"],
+            first_release_date=first_release_date,
+            first_release_year=_extract_year(first_release_date),
+            matched_title=matched.get("title"),
+            matched_primary_type=matched.get("primary-type"),
+            match_score=int(matched.get("score", 0)),
+            response={
+                "artist_mbid": artist_mbid,
+                "search_attempts": search_attempts,
+                "validated_release_groups": strongest_candidates,
+                "matched_release": matched_release,
+                "matched_release_group": matched,
+            },
+        )
 
     def resolve_album_release_date(
         self, mbid: str, *, artist: str, album: str
@@ -488,7 +786,9 @@ class MusicBrainzClient:
                     if resolved_release_group is not None and _is_matching_album_group(
                         resolved_release_group, album=album
                     ):
-                        first_release_date = resolved_release_group.get("first-release-date") or None
+                        first_release_date = (
+                            resolved_release_group.get("first-release-date") or None
+                        )
 
                         return AlbumReleaseDateResult(
                             input_entity_type="release",
@@ -628,6 +928,65 @@ def _search_title_match_level(candidate_title: str, *, artist: str, album: str) 
     return 0
 
 
+def _artist_mbid_search_title_match_level(candidate_title: str, *, artist: str, album: str) -> int:
+    match_level = _search_title_match_level(candidate_title, artist=artist, album=album)
+
+    if match_level > 0:
+        return match_level
+
+    candidate = _normalize_artist_mbid_search_title(candidate_title)
+    requested = _normalize_artist_mbid_search_title(album)
+    requested_artist = _normalize_artist_mbid_search_title(artist)
+
+    if candidate == requested:
+        return 2
+
+    for separator in (": ", " / "):
+        if candidate.startswith(f"{requested}{separator}"):
+            return 1
+
+    # With an exact artist MBID, accept a release title that simply
+    # prefixes the requested album title with the artist name.
+    if candidate == f"{requested_artist} {requested}":
+        return 2
+
+    return 0
+
+
+def _normalize_artist_mbid_search_title(value: str) -> str:
+    normalized = _normalize_search_title(value)
+
+    # MusicBrainz commonly indexes dotted acronyms without the dots
+    # (for example H.A.A.R.P. -> HAARP).
+    return normalized.replace(".", "")
+
+
+def _normalize_release_evidence_title(value: str) -> str:
+    normalized = _normalize_artist_mbid_search_title(value)
+    normalized = re.sub(r"[^\w]+", " ", normalized, flags=re.UNICODE)
+
+    return " ".join(normalized.split())
+
+
+def _release_evidence_title_match_level(candidate_title: str, *, artist: str, album: str) -> int:
+    match_level = _artist_mbid_search_title_match_level(
+        candidate_title,
+        artist=artist,
+        album=album,
+    )
+
+    if match_level > 0:
+        return match_level + 1
+
+    candidate = _normalize_release_evidence_title(candidate_title)
+    requested = _normalize_release_evidence_title(album)
+
+    if candidate == requested:
+        return 1
+
+    return 0
+
+
 def _artist_credit_matches(release_group: dict[str, Any], *, artist: str) -> bool:
     requested_artist = _normalize_artist_name(artist)
 
@@ -653,9 +1012,18 @@ def _artist_credit_matches(release_group: dict[str, Any], *, artist: str) -> boo
 
 
 def _normalize_search_title(value: str) -> str:
+    value = value.strip()
+
+    if len(value) >= 2 and (
+        (value[0] == value[-1] == '"') or (value[0] == "“" and value[-1] == "”")
+    ):
+        value = value[1:-1].strip()
+
     normalized = unicodedata.normalize("NFKD", value)
 
-    normalized = "".join(character for character in normalized if not unicodedata.combining(character))
+    normalized = "".join(
+        character for character in normalized if not unicodedata.combining(character)
+    )
 
     normalized = (
         normalized.casefold()
@@ -671,7 +1039,9 @@ def _normalize_search_title(value: str) -> str:
     return " ".join(normalized.split())
 
 
-def _select_search_candidate(candidates: list[dict[str, Any]]) -> tuple[dict[str, Any], bool] | None:
+def _select_search_candidate(
+    candidates: list[dict[str, Any]],
+) -> tuple[dict[str, Any], bool] | None:
     if not candidates:
         return None
 
@@ -679,7 +1049,8 @@ def _select_search_candidate(candidates: list[dict[str, Any]]) -> tuple[dict[str
         return candidates[0], False
 
     candidates_with_year = [
-        (candidate, _extract_year(candidate.get("first-release-date") or None)) for candidate in candidates
+        (candidate, _extract_year(candidate.get("first-release-date") or None))
+        for candidate in candidates
     ]
 
     known_years = {year for _, year in candidates_with_year if year is not None}
@@ -692,7 +1063,9 @@ def _select_search_candidate(candidates: list[dict[str, Any]]) -> tuple[dict[str
 
     consensus_year = next(iter(known_years))
 
-    dated_candidates = [candidate for candidate, year in candidates_with_year if year == consensus_year]
+    dated_candidates = [
+        candidate for candidate, year in candidates_with_year if year == consensus_year
+    ]
 
     primary_type_rank = {"Album": 4, "EP": 3, "Single": 2, "Broadcast": 1, "Other": 0}
 
