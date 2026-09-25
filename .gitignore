@@ -36,6 +36,10 @@ dist/
 # Jupyter
 .ipynb_checkpoints/
 
+# Last.fm generated outputs
+figures/lastfm/
+reports/lastfm/
+
 # ============================================================
 # uv
 # ============================================================

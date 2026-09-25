@@ -24,11 +24,13 @@ session_flags AS (
 
         CASE
             WHEN previous_scrobble_at IS NULL THEN 1
-            WHEN DATE_DIFF(
-                'minute',
-                previous_scrobble_at,
+
+            WHEN
                 scrobbled_at_local
-            ) > 30 THEN 1
+                - previous_scrobble_at
+                > INTERVAL '30 minutes'
+                THEN 1
+
             ELSE 0
         END AS is_session_start
 
@@ -49,6 +51,28 @@ sessionized AS (
         ) AS session_number
 
     FROM session_flags
+),
+
+aggregated AS (
+    SELECT
+        session_number,
+
+        MIN(scrobbled_at_local) AS session_start_at,
+
+        MAX(scrobbled_at_local) AS session_end_at,
+
+        COUNT(*) AS scrobble_count,
+
+        COUNT(DISTINCT artist_id) AS distinct_artists,
+
+        COUNT(DISTINCT track_id) AS distinct_tracks,
+
+        COUNT(DISTINCT album_id) AS distinct_albums
+
+    FROM sessionized
+
+    GROUP BY
+        session_number
 )
 
 SELECT
@@ -56,43 +80,34 @@ SELECT
         CAST(session_number AS VARCHAR)
         || '|'
         || CAST(
-            MIN(scrobbled_at_local)
+            session_start_at
             AS VARCHAR
         )
     ) AS session_id,
 
     session_number,
-
-    MIN(scrobbled_at_local)
-        AS session_start_at,
-
-    MAX(scrobbled_at_local)
-        AS session_end_at,
+    session_start_at,
+    session_end_at,
 
     DATE_DIFF(
-        'minute',
-        MIN(scrobbled_at_local),
-        MAX(scrobbled_at_local)
-    ) AS session_span_minutes,
+        'second',
+        session_start_at,
+        session_end_at
+    ) AS session_span_seconds,
 
-    COUNT(*) AS scrobble_count,
+    DATE_DIFF(
+        'second',
+        session_start_at,
+        session_end_at
+    ) / 60.0
+        AS session_span_minutes,
 
-    COUNT(
-        DISTINCT artist_id
-    ) AS distinct_artists,
+    scrobble_count,
+    distinct_artists,
+    distinct_tracks,
+    distinct_albums
 
-    COUNT(
-        DISTINCT track_id
-    ) AS distinct_tracks,
-
-    COUNT(
-        DISTINCT album_id
-    ) AS distinct_albums
-
-FROM sessionized
-
-GROUP BY
-    session_number
+FROM aggregated
 
 ORDER BY
     session_start_at;
