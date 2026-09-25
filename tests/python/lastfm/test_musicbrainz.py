@@ -961,7 +961,32 @@ def test_artist_mbid_search_resolves_concrete_release_to_canonical_group() -> No
             return httpx.Response(200, json={"release-groups": []})
 
         if path.rstrip("/").endswith("/release"):
-            query = request.url.params["query"]
+            params = request.url.params
+
+            if "release-group" in params:
+                assert params["release-group"] == group_mbid
+
+                return httpx.Response(
+                    200,
+                    json={
+                        "release-count": 2,
+                        "release-offset": 0,
+                        "releases": [
+                            {
+                                "id": "abababab-aaaa-bbbb-cccc-cdcdcdcdcdcd",
+                                "title": "The Art of War",
+                                "date": "2008-05-30",
+                            },
+                            {
+                                "id": release_mbid,
+                                "title": "The Art Of War Re-armed",
+                                "date": "2010-01-01",
+                            },
+                        ],
+                    },
+                )
+
+            query = params["query"]
             assert f"arid:{artist_mbid}" in query
             assert query.startswith('release:"The Art Of War Re-armed"')
             assert "alias:" not in query
@@ -1010,6 +1035,9 @@ def test_artist_mbid_search_resolves_concrete_release_to_canonical_group() -> No
     assert result.matched_title == "The Art of War"
     assert result.match_score == 100
     assert result.resolution_method == "release_title_search_artist_mbid"
+    assert result.response["date_resolution_method"] == "release_family_first_release"
+    assert result.response["musicbrainz_group_first_release_date"] == "2008-05-30"
+    assert result.response["release_family_first_release_date"] == "2008-05-30"
 
 
 def test_artist_mbid_search_uses_canonical_group_year_for_remaster() -> None:
@@ -1074,6 +1102,103 @@ def test_artist_mbid_search_uses_canonical_group_year_for_remaster() -> None:
     assert result.resolution_method == "release_title_search_artist_mbid"
     assert len(release_queries) == 1
     assert "2009 Remaster" in release_queries[0]
+    assert result.response["date_resolution_method"] == "release_group_first_release"
+    assert result.response["release_family_first_release_date"] is None
+
+
+def test_artist_mbid_search_uses_first_release_from_matching_title_family() -> None:
+    artist_mbid = "bcbcbcbc-1111-2222-3333-cdcdcdcdcdcd"
+    release_mbid = "31313131-aaaa-bbbb-cccc-414141414141"
+    group_mbid = "32323232-aaaa-bbbb-cccc-424242424242"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        path = request.url.path
+        params = request.url.params
+
+        if path.rstrip("/").endswith("/release-group"):
+            return httpx.Response(200, json={"release-groups": []})
+
+        if path.rstrip("/").endswith("/release"):
+            if "release-group" in params:
+                assert params["release-group"] == group_mbid
+
+                return httpx.Response(
+                    200,
+                    json={
+                        "release-count": 3,
+                        "release-offset": 0,
+                        "releases": [
+                            {
+                                "id": "33333333-aaaa-bbbb-cccc-434343434343",
+                                "title": "We Will Rock You (commemorative release)",
+                                "date": "1997-12-16",
+                            },
+                            {
+                                "id": "34343434-aaaa-bbbb-cccc-444444444444",
+                                "title": "Rock Montreal",
+                                "date": "2007-10-29",
+                            },
+                            {
+                                "id": release_mbid,
+                                "title": "Queen Rock Montreal",
+                                "date": "2020-07-17",
+                            },
+                        ],
+                    },
+                )
+
+            query = params["query"]
+            assert f"arid:{artist_mbid}" in query
+            assert query.startswith('release:"Queen Rock Montreal"')
+
+            return httpx.Response(
+                200,
+                json={
+                    "releases": [
+                        {
+                            "id": release_mbid,
+                            "title": "Queen Rock Montreal",
+                            "score": 100,
+                            "release-group": {"id": group_mbid},
+                            "date": "2020-07-17",
+                        }
+                    ]
+                },
+            )
+
+        if path.endswith(f"/release-group/{group_mbid}"):
+            return httpx.Response(
+                200,
+                json={
+                    "id": group_mbid,
+                    "title": "Rock Montreal",
+                    "primary-type": "Album",
+                    "first-release-date": "1997-12-16",
+                },
+            )
+
+        raise AssertionError(f"Unexpected request: {request.url}")
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Queen",
+            artist_mbid=artist_mbid,
+            album="Queen Rock Montreal",
+        )
+
+    assert result is not None
+    assert result.release_group_mbid == group_mbid
+    assert result.first_release_date == "2007-10-29"
+    assert result.first_release_year == 2007
+    assert result.matched_title == "Rock Montreal"
+    assert result.resolution_method == "release_title_search_artist_mbid"
+    assert result.response["date_resolution_method"] == "release_family_first_release"
+    assert result.response["musicbrainz_group_first_release_date"] == "1997-12-16"
+    assert result.response["release_family_first_release_date"] == "2007-10-29"
+    assert result.response["release_family_release_count"] == 2
+    assert result.response["release_family_first_release"]["title"] == "Rock Montreal"
 
 
 def test_artist_mbid_release_search_deduplicates_same_group() -> None:
@@ -1921,3 +2046,95 @@ def test_artist_mbid_release_index_normalizes_punctuation_only_differences() -> 
     assert result.first_release_year == 1974
     assert result.release_group_mbid == group_mbid
     assert result.resolution_method == "release_index_search_artist_mbid"
+
+
+def test_artist_mbid_release_index_uses_first_release_from_matching_title_family() -> None:
+    artist_mbid = "a1a1a1a1-1111-2222-3333-b2b2b2b2b2b2"
+    group_mbid = "17171717-aaaa-bbbb-cccc-272727272727"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        path = request.url.path
+        params = request.url.params
+
+        if path.rstrip("/").endswith("/release-group"):
+            query = params["query"]
+
+            if query.startswith("releasegroup:"):
+                return httpx.Response(200, json={"release-groups": []})
+
+            return httpx.Response(
+                200,
+                json={
+                    "release-groups": [
+                        {
+                            "id": group_mbid,
+                            "title": "Rock Montreal",
+                            "primary-type": "Album",
+                            "first-release-date": "1997-12-16",
+                            "score": 100,
+                        }
+                    ]
+                },
+            )
+
+        if path.rstrip("/").endswith("/release") and "query" in params:
+            return httpx.Response(200, json={"releases": []})
+
+        if path.rstrip("/").endswith("/release") and "release-group" in params:
+            assert params["release-group"] == group_mbid
+
+            return httpx.Response(
+                200,
+                json={
+                    "release-count": 3,
+                    "release-offset": 0,
+                    "releases": [
+                        {
+                            "id": "18181818-aaaa-bbbb-cccc-282828282828",
+                            "title": "We Will Rock You (commemorative release)",
+                            "date": "1997-12-16",
+                        },
+                        {
+                            "id": "19191919-aaaa-bbbb-cccc-292929292929",
+                            "title": "Rock Montreal",
+                            "date": "2007-10-29",
+                        },
+                        {
+                            "id": "20202020-aaaa-bbbb-cccc-303030303030",
+                            "title": "Queen Rock Montreal",
+                            "date": "2020-07-17",
+                        },
+                    ],
+                },
+            )
+
+        if path.endswith(f"/release-group/{group_mbid}"):
+            return httpx.Response(
+                200,
+                json={
+                    "id": group_mbid,
+                    "title": "Rock Montreal",
+                    "primary-type": "Album",
+                    "first-release-date": "1997-12-16",
+                },
+            )
+
+        raise AssertionError(f"Unexpected request: {request.url}")
+
+    transport = httpx.MockTransport(handler)
+
+    with MusicBrainzClient(transport=transport, request_interval_seconds=0) as client:
+        result = client.search_album_release_date_by_artist_mbid(
+            artist="Queen",
+            artist_mbid=artist_mbid,
+            album="Queen Rock Montreal",
+        )
+
+    assert result is not None
+    assert result.first_release_date == "2007-10-29"
+    assert result.first_release_year == 2007
+    assert result.release_group_mbid == group_mbid
+    assert result.resolution_method == "release_index_search_artist_mbid"
+    assert result.response["date_resolution_method"] == "release_family_first_release"
+    assert result.response["musicbrainz_group_first_release_date"] == "1997-12-16"
+    assert result.response["release_family_first_release_date"] == "2007-10-29"

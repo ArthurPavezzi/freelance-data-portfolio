@@ -302,6 +302,56 @@ class MusicBrainzClient:
 
         return releases
 
+    def _release_family_first_date(
+        self,
+        releases: list[dict[str, Any]],
+        *,
+        artist: str,
+        album: str,
+        release_group_title: str,
+    ) -> tuple[str | None, dict[str, Any] | None, int]:
+        family_releases = []
+
+        for release in releases:
+            title = release.get("title") or ""
+
+            matches_requested = (
+                _release_evidence_title_match_level(
+                    title,
+                    artist=artist,
+                    album=album,
+                )
+                > 0
+            )
+            matches_group = (
+                _release_evidence_title_match_level(
+                    title,
+                    artist=artist,
+                    album=release_group_title,
+                )
+                > 0
+            )
+
+            if not (matches_requested or matches_group):
+                continue
+
+            release_date = release.get("date") or None
+
+            if _extract_year(release_date) is None:
+                continue
+
+            family_releases.append(release)
+
+        if not family_releases:
+            return None, None, 0
+
+        earliest_release = min(
+            family_releases,
+            key=lambda release: _release_date_sort_key(release.get("date") or ""),
+        )
+
+        return earliest_release.get("date") or None, earliest_release, len(family_releases)
+
     def search_album_release_date(
         self, *, artist: str, album: str
     ) -> AlbumReleaseDateResult | None:
@@ -564,6 +614,7 @@ class MusicBrainzClient:
 
             release_groups = {}
             matched_release_by_group = {}
+            date_resolution_by_group = {}
 
             for release in strongest_releases:
                 release_group_info = release.get("release-group") or {}
@@ -580,8 +631,45 @@ class MusicBrainzClient:
                 release_group_candidate = dict(release_group)
                 release_group_candidate["score"] = int(release.get("score", 0))
 
+                group_first_release_date = release_group.get("first-release-date") or None
+                release_family_first_date = None
+                release_family_first_release = None
+                release_family_release_count = 0
+
+                if _release_title_needs_family_date(
+                    release.get("title") or "",
+                    release_group.get("title") or "",
+                ):
+                    releases = self._browse_release_group_releases(
+                        release_group_mbid=release_group_mbid
+                    )
+                    (
+                        release_family_first_date,
+                        release_family_first_release,
+                        release_family_release_count,
+                    ) = self._release_family_first_date(
+                        releases,
+                        artist=artist,
+                        album=album,
+                        release_group_title=release_group.get("title") or "",
+                    )
+
+                    if release_family_first_date is not None:
+                        release_group_candidate["first-release-date"] = release_family_first_date
+
                 release_groups[release_group_mbid] = release_group_candidate
                 matched_release_by_group[release_group_mbid] = release
+                date_resolution_by_group[release_group_mbid] = {
+                    "date_resolution_method": (
+                        "release_family_first_release"
+                        if release_family_first_date is not None
+                        else "release_group_first_release"
+                    ),
+                    "musicbrainz_group_first_release_date": group_first_release_date,
+                    "release_family_first_release_date": release_family_first_date,
+                    "release_family_first_release": release_family_first_release,
+                    "release_family_release_count": release_family_release_count,
+                }
 
             strongest_candidates = list(release_groups.values())
             selection = _select_search_candidate(strongest_candidates)
@@ -591,6 +679,7 @@ class MusicBrainzClient:
 
             matched, used_consensus = selection
             matched_release = matched_release_by_group[matched["id"]]
+            date_resolution = date_resolution_by_group[matched["id"]]
             first_release_date = matched.get("first-release-date") or None
             is_variant = _normalize_search_title(search_title) != _normalize_search_title(album)
 
@@ -619,6 +708,7 @@ class MusicBrainzClient:
                     "strongest_candidates": strongest_candidates,
                     "matched_release": matched_release,
                     "matched_release_group": matched,
+                    **date_resolution,
                 },
             )
 
@@ -683,28 +773,55 @@ class MusicBrainzClient:
             release_group_candidate = dict(release_group)
             release_group_candidate["score"] = int(candidate.get("score", 0))
 
+            group_first_release_date = release_group.get("first-release-date") or None
+            (
+                release_family_first_date,
+                release_family_first_release,
+                release_family_release_count,
+            ) = self._release_family_first_date(
+                releases,
+                artist=artist,
+                album=discovery_title,
+                release_group_title=release_group.get("title") or "",
+            )
+
+            if release_family_first_date is not None:
+                release_group_candidate["first-release-date"] = release_family_first_date
+
             validated_matches.append(
                 (
                     best_match_level,
                     release_group_candidate,
                     strongest_releases[0],
+                    {
+                        "date_resolution_method": (
+                            "release_family_first_release"
+                            if release_family_first_date is not None
+                            else "release_group_first_release"
+                        ),
+                        "musicbrainz_group_first_release_date": group_first_release_date,
+                        "release_family_first_release_date": release_family_first_date,
+                        "release_family_first_release": release_family_first_release,
+                        "release_family_release_count": release_family_release_count,
+                    },
                 )
             )
 
         if not validated_matches:
             return None
 
-        best_validation_level = max(match_level for match_level, _, _ in validated_matches)
+        best_validation_level = max(match_level for match_level, _, _, _ in validated_matches)
         strongest_validated = [
-            (candidate, release)
-            for match_level, candidate, release in validated_matches
+            (candidate, release, date_resolution)
+            for match_level, candidate, release, date_resolution in validated_matches
             if match_level == best_validation_level
         ]
 
         unique_candidates = {}
         matched_release_by_group = {}
+        date_resolution_by_group = {}
 
-        for candidate, release in strongest_validated:
+        for candidate, release, date_resolution in strongest_validated:
             release_group_mbid = candidate.get("id")
 
             if not release_group_mbid or release_group_mbid in unique_candidates:
@@ -712,6 +829,7 @@ class MusicBrainzClient:
 
             unique_candidates[release_group_mbid] = candidate
             matched_release_by_group[release_group_mbid] = release
+            date_resolution_by_group[release_group_mbid] = date_resolution
 
         strongest_candidates = list(unique_candidates.values())
         selection = _select_search_candidate(strongest_candidates)
@@ -721,6 +839,7 @@ class MusicBrainzClient:
 
         matched, used_consensus = selection
         matched_release = matched_release_by_group[matched["id"]]
+        date_resolution = date_resolution_by_group[matched["id"]]
         first_release_date = matched.get("first-release-date") or None
         resolution_method = "release_index_search_artist_mbid"
 
@@ -743,6 +862,7 @@ class MusicBrainzClient:
                 "validated_release_groups": strongest_candidates,
                 "matched_release": matched_release,
                 "matched_release_group": matched,
+                **date_resolution,
             },
         )
 
@@ -985,6 +1105,23 @@ def _release_evidence_title_match_level(candidate_title: str, *, artist: str, al
         return 1
 
     return 0
+
+
+def _release_title_needs_family_date(release_title: str, release_group_title: str) -> bool:
+    stripped_release_title = _strip_release_variant(release_title)
+
+    return _normalize_release_evidence_title(
+        stripped_release_title
+    ) != _normalize_release_evidence_title(release_group_title)
+
+
+def _release_date_sort_key(value: str) -> tuple[int, str]:
+    year = _extract_year(value)
+
+    if year is None:
+        return (9999, value)
+
+    return (year, value)
 
 
 def _artist_credit_matches(release_group: dict[str, Any], *, artist: str) -> bool:
